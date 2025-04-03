@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             try {
                 // Send the organizer code to the server for verification
-                const response = await fetch("http://localhost:3000/verify-code", {
+                const response = await fetch("https://Livestock-Lineup.onrender.com/verify-code", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ code: organizerCode }),
