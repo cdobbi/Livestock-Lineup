@@ -41,7 +41,7 @@ app.post("/verify-code", (req, res) => {
 });
 
 // API Notificatios Endpoint
-app.post("api/notifications", (req, res) => {
+app.post("/api/notifications", (req, res) => {
     const { breed } = req.body;
     if (!breed) {
         return res.status(400).send("Breed is required.");
@@ -85,4 +85,3 @@ app.get("/pusher-config", (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-
