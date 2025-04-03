@@ -40,20 +40,27 @@ app.post("/verify-code", (req, res) => {
     }
 });
 
-// API Notificatios Endpoint
 app.post("/api/notifications", (req, res) => {
-    const { breed } = req.body;
-    if (!breed) {
-        return res.status(400).send("Breed is required.");
+    const { breed, category, show, table } = req.body; // Include category, show, and table in the request body
+
+    // Validate all required fields
+    if (!breed || !category || !show || !table) {
+        return res.status(400).send("Missing required fields: breed, category, show, or table.");
     }
+
     try {
-        pusher.trigger("table-time", "breed-notification", { breed });
+        // Trigger Pusher event with the detailed message
+        const message = `Category ${category}, take your ${breed} to table ${show} for judging. Good luck!`;
+
+        pusher.trigger("table-time", "breed-notification", { message });
+
         res.status(200).send("Notification sent!");
     } catch (error) {
         console.error("Error triggering Pusher event:", error);
         res.status(500).send("Internal Server Error");
     }
 });
+
 
 // API Route: Notifications
 app.get("/api/notifications", (req, res) => {
