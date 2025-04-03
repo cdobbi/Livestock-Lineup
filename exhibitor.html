@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Exhibitor Lineup - Table Time</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/exhibitor.css">
+    <link rel="stylesheet" href="styles/base.css">
+
+</head>
+
+<body>
+    <div class="rabbit-ticker">
+        🐇🐇🐇🐇🐇🐇🐇
+    </div>
+
+    <div class="container">
+        <h1 class="text-center my-4">Exhibitor Entries</h1>
+        <form id="exhibitor-form">
+            <div id="breed-options" class="row justify-content-center">
+                <!-- Breed options will be displayed here -->
+
+
+            </div>
+            <div class="text-center my-4 d-flex justify-content-center">
+                <button type="button" id="save-entries" class="btn btn-info btn-lg mx-2">Start Application</button>
+                <button type="button" onclick="window.location.href='index.html'" class="btn btn-info btn-lg mx-2">Return to Login</button>
+            </div>
+        </form>
+
+        <div id="notificationModal"
+            style="display: none; position: fixed; top: 20%; left: 50%; transform: translate(-50%, -20%); z-index: 1000; background: #fff; padding: 20px; border: 2px solid #ccc; border-radius: 8px;">
+            <p id="modalMessage" style="font-size: 22px; margin-bottom: 15px;"></p>
+        </div>
+
+        <footer class="text-center my-4 border-top pt-3 small">
+            <div class="col-md-4">
+                <p>&copy; 3/2025 Christi Dobbins
+                    <br>https://www.rhinelander-rabbitry.com
+                    <br>Contact: <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="/scripts/exhibitor.js"></script>
+        <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+        <script src="scripts/alert.js"></script>
+    </div>
+</body>
+
+</html>

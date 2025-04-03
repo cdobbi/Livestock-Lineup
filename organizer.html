@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <title>Rabbit Show Lineup Organizer - Table Time</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Use the same exhibitor CSS for consistent styling -->
+    <link rel="stylesheet" href="styles/exhibitor.css">
+    <link rel="stylesheet" href="styles/base.css">
+</head>
+
+<body>
+    <div class="rabbit-ticker">
+        🐇🐇🐇🐇🐇🐇🐇
+    </div>
+
+    <div class="container">
+        <h1 class="text-center my-4">Rabbit Show Lineup</h1>
+
+        <!-- Category Selection -->
+        <div class="form-group text-center">
+            <label for="category">Choose a Category:</label>
+            <select id="category" name="category" class="form-control d-inline-block w-auto mx-2">
+                <option value="Youth">Youth</option>
+                <option value="Open">Open</option>
+            </select>
+        </div>
+
+        <!-- Show Selection -->
+        <div class="form-group text-center">
+            <label for="show">Choose a Show:</label>
+            <select id="show" name="show" class="form-control d-inline-block w-auto mx-2">
+                <option value="A">Show A</option>
+                <option value="B">Show B</option>
+                <option value="C">Show C</option>
+                <option value="D">Show D</option>
+                <option value="Meat Pen">Meat Pen</option>
+                <option value="Fur">Fur</option>
+            </select>
+        </div>
+
+        <!-- Lineup / Breed Options Styled as in Exhibitor -->
+        <div id="breed-options" class="row justify-content-center">
+            <div id="rabbit-list" class="text-center">
+                <!-- This static example shows a placeholder.
+             When populating dynamically, create a <button> element with class "breed-button" for each lineup item. -->
+                <button type="button" class="breed-button">Loading breeds...</button>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="text-center my-4">
+            <button id="save-lineup" class="btn btn-warning mx-2">Save Lineup</button>
+            <button id="print-lineup" class="btn btn-info mx-2">Print Lineup</button>
+            <button id="clear-lineup" class="btn btn-secondary mx-2">Clear Lineup</button>
+            <button id="finished" class="btn btn-danger mx-2">Finished</button>
+        </div>
+    </div>
+
+    <footer class="text-center my-4 border-top pt-3 small">
+        <div class="col-md-4">
+            <p>&copy; 3/2025 Christi Dobbins
+                <br>
+                <a href="https://www.rhinelander-rabbitry.com" class="text-info">https://www.rhinelander-rabbitry.com</a>
+                <br>
+                Contact: <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="scripts/organizer.js"></script>
+    <script src="scripts/lineup.js"></script>
+    <script src="scripts/displayLineup.js"></script>
+</body>
+
+</html>
