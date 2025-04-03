@@ -40,12 +40,21 @@ document.addEventListener("DOMContentLoaded", function () {
       checkbox.classList.add("form-check-input");
       checkbox.style.width = "44px";
       checkbox.style.height = "44px";
-      checkbox.style.marginRight = "15px";
+      checkbox.style.marginRight = "25px";
 
-      // Add checkbox click functionality for notifications
       checkbox.addEventListener("click", async () => {
         if (checkbox.checked) {
           try {
+            // Retrieve exhibitor entries from localStorage
+            const exhibitorEntries = JSON.parse(localStorage.getItem("exhibitorEntries"));
+      
+            // Validate exhibitorEntries and check if the breed matches
+            if (!exhibitorEntries || !Array.isArray(exhibitorEntries.breeds) || !exhibitorEntries.breeds.includes(breed)) {
+              console.warn(`Breed ${breed} is not selected by the exhibitor.`);
+              return; // Exit if the breed is not selected by the exhibitor
+            }
+      
+            // If the breed matches, send the notification
             const payload = {
               breed,
               category: lineup.category,
@@ -86,15 +95,23 @@ document.addEventListener("DOMContentLoaded", function () {
   // Example check for notifications (using a hard-coded list) – update as necessary
   async function checkForNotifications() {
     try {
+      // Example notifications (replace with actual logic if needed)
       const notifications = [
         { breed: "Holland Lop" },
-        { breed: "Netherland Dwarf" }
+        { breed: "Netherland Dwarf" },
       ];
-
+  
+      // Retrieve exhibitor entries from localStorage
       const exhibitorEntries = JSON.parse(localStorage.getItem("exhibitorEntries"));
-
+  
+      if (!exhibitorEntries || !exhibitorEntries.breeds || exhibitorEntries.breeds.length === 0) {
+        console.warn("No exhibitor entries found.");
+        return; // Exit if no entries are found
+      }
+  
+      // Check if any notification breed matches the exhibitor's selected breeds
       notifications.forEach((notification) => {
-        if (exhibitorEntries && exhibitorEntries.breeds.includes(notification.breed)) {
+        if (exhibitorEntries.breeds.includes(notification.breed)) {
           // Use the custom notification function from alert.js
           if (typeof notifyUser === "function") {
             notifyUser(notification.breed);

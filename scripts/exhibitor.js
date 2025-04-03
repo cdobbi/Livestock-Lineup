@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   
       if (selectedBreeds.length === 0) {
         alert("Please select at least one breed to start the application.");
+        localStorage.removeItem("exhibitorEntries"); // Clear stale data
       } else {
         const entries = { breeds: selectedBreeds };
         localStorage.setItem("exhibitorEntries", JSON.stringify(entries));
@@ -68,27 +69,33 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   
     async function checkForNotifications() {
-      try {
-        const notifications = [
-          { breed: "Holland Lop" },
-          { breed: "Netherland Dwarf" }
-        ];
+        try {
+          const notifications = [
+            { breed: "Holland Lop" },
+            { breed: "Netherland Dwarf" }
+          ];
   
-        const exhibitorEntries = JSON.parse(localStorage.getItem("exhibitorEntries"));
+          const exhibitorEntries = JSON.parse(localStorage.getItem("exhibitorEntries"));
   
-        notifications.forEach((notification) => {
-          if (exhibitorEntries && exhibitorEntries.breeds.includes(notification.breed)) {
-            if (typeof notifyUser === "function") {
-              notifyUser(notification.breed);
-            } else {
-              console.warn("notifyUser is not defined.");
-            }
+          // Check if exhibitorEntries is valid
+          if (!exhibitorEntries || !Array.isArray(exhibitorEntries.breeds) || exhibitorEntries.breeds.length === 0) {
+            // Exit silently if no valid entries are found
+            return;
           }
-        });
-      } catch (error) {
-        console.error("Error fetching notifications:", error);
+  
+          notifications.forEach((notification) => {
+            if (exhibitorEntries.breeds.includes(notification.breed)) {
+              if (typeof notifyUser === "function") {
+                notifyUser(notification.breed);
+              } else {
+                console.warn("notifyUser is not defined.");
+              }
+            }
+          });
+        } catch (error) {
+          console.error("Error fetching notifications:", error);
+        }
       }
-    }
   
     setInterval(checkForNotifications, 5000);
   });
