@@ -25,10 +25,31 @@
 
 
             </div>
-            <div class="text-center my-4 d-flex justify-content-center">
-                <button type="button" id="save-entries" class="btn btn-info btn-lg mx-2">Start Application</button>
-                <button type="button" onclick="window.location.href='index.html'" class="btn btn-info btn-lg mx-2">Return to Login</button>
-            </div>
+
+            <div id="exhibitor-container" class="container">
+                <h2>Exhibitor Registration</h2>
+
+                <!-- Dropdown for Category -->
+                <label for="category">Select Category:</label>
+                <select id="category" class="form-select">
+                    <option value="Youth">Youth</option>
+                    <option value="Open">Open</option>
+                </select>
+
+                <!-- Dropdown for Show -->
+                <label for="show">Select Show:</label>
+                <select id="show" class="form-select">
+                    <option value="Table A">Table A</option>
+                    <option value="Table B">Table B</option>
+                    <option value="Table C">Table C</option>
+                    <option value="Meat Pen">Meat Pen</option>
+                </select>
+
+                <div class="text-center my-4 d-flex justify-content-center">
+                    <button type="button" id="save-entries" class="btn btn-info btn-lg mx-2">Save Entries</button>
+                    <button type="button" onclick="window.location.href='index.html'" class="btn btn-info btn-lg mx-2">Return to
+                        Login</button>
+                </div>
         </form>
 
         <div id="notificationModal"
