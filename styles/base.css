@@ -74,39 +74,10 @@ h1.bg-secondary {
     }
 }
 
-.rabbit-ticker {
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    white-space: nowrap;
-    animation: ticker 10s linear infinite;
-}
-
-.rabbit-ticker span {
-    display: inline-block;
-}
-
-@keyframes ticker {
-    0% {
-        transform: translateX(100%);
-    }
-
-    100% {
-        transform: translateX(-100%);
-    }
-}
-
 .container {
     max-width: 50%;
     margin: 0 auto;
     padding: 20px;
-}
-
-@media (max-width: 768px) {
-    .container {
-        max-width: 100%;
-        padding: 10px;
-    }
 }
 
 .breed-button {
