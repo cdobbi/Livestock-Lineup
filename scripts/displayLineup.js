@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("Retrieved lineups from localStorage:", showLineups);
 
   if (showLineups.length === 0) {
-    lineupContainer.innerHTML = "<p class='text-muted'>No lineups saved.</p>";
+    lineupContainer.innerHTML = "<p>No lineups saved.</p>";
     console.warn("No lineups found in localStorage.");
     return;
   }
@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Render the lineups
   showLineups.forEach((lineup, index) => {
     const showDiv = document.createElement("div");
-    showDiv.classList.add("col-12", "mb-4");
 
     const showTitle = document.createElement("h3");
     showTitle.textContent = `Lineup ${index + 1}: Category: ${lineup.category} - Show: ${lineup.show}`;
@@ -29,31 +28,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Create a breed list
     const breedList = document.createElement("ul");
-    breedList.style.listStyleType = "none";
 
-    lineup.breeds.forEach((breed, breedIndex) => {
+    lineup.breeds.forEach((breed) => {
       const breedItem = document.createElement("li");
-      breedItem.classList.add("form-check", "d-flex", "align-items-center", "mb-2");
 
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.classList.add("form-check-input");
-      checkbox.style.width = "44px";
-      checkbox.style.height = "44px";
-      checkbox.style.marginRight = "25px";
 
       checkbox.addEventListener("click", async () => {
         if (checkbox.checked) {
           try {
             // Retrieve exhibitor entries from localStorage
             const exhibitorEntries = JSON.parse(localStorage.getItem("exhibitorEntries"));
-      
+
             // Validate exhibitorEntries and check if the breed matches
             if (!exhibitorEntries || !Array.isArray(exhibitorEntries.breeds) || !exhibitorEntries.breeds.includes(breed)) {
               console.warn(`Breed ${breed} is not selected by the exhibitor.`);
               return; // Exit if the breed is not selected by the exhibitor
             }
-      
+
             // If the breed matches, send the notification
             const payload = {
               breed,
@@ -79,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const label = document.createElement("label");
       label.textContent = breed;
-      label.style.fontSize = "20px";
 
       breedItem.appendChild(checkbox);
       breedItem.appendChild(label);
@@ -100,15 +92,15 @@ document.addEventListener("DOMContentLoaded", function () {
         { breed: "Holland Lop" },
         { breed: "Netherland Dwarf" },
       ];
-  
+
       // Retrieve exhibitor entries from localStorage
       const exhibitorEntries = JSON.parse(localStorage.getItem("exhibitorEntries"));
-  
+
       if (!exhibitorEntries || !exhibitorEntries.breeds || exhibitorEntries.breeds.length === 0) {
         console.warn("No exhibitor entries found.");
         return; // Exit if no entries are found
       }
-  
+
       // Check if any notification breed matches the exhibitor's selected breeds
       notifications.forEach((notification) => {
         if (exhibitorEntries.breeds.includes(notification.breed)) {

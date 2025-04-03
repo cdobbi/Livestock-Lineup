@@ -55,7 +55,7 @@ h1.bg-secondary {
     padding: 10px;
     border-radius: 5px;
 }
-
+/* 
 @media (max-width: 768px) {
     h1 {
         font-size: 1.5rem;
@@ -69,7 +69,7 @@ h1.bg-secondary {
     .form-check-label {
         font-size: 1rem;
     }
-}
+} */
 
 .breed-button {
     /* display: inline-block; */
@@ -118,15 +118,14 @@ h1.bg-secondary {
     margin-top: -10px;
     margin-bottom: 10px;
 }
-
-#breed-options {
+/* #breed-options {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 3fr));
     gap: 15px;
     justify-content: center;
     align-items: start;
     margin: 20px 0;
-}
+} */
 
 .container {
     max-width: 50%;
