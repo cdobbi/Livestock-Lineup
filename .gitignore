@@ -15,8 +15,16 @@ build/
 # Ignore VS Code settings
 .vscode/
 
-# Ignore specific files
-
-
 # Ignore environment files
 .env
+
+# Ignore system files
+.bash_history
+.gitconfig
+.node_repl_history
+.viminfo
+.lesshst
+argv.json
+*.vsixmanifest
+LICENSE.txt
+NOTICE.md
