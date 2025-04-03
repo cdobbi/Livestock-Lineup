@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return;
     }
   
-    const pusher = new Pusher(pusherConfig.key, {
+    const pusher = new pusher(pusherConfig.key, {
       cluster: pusherConfig.cluster,
     });
   
@@ -48,8 +48,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           breedOptionsContainer.appendChild(breedButton);
         });
       })
-        .catch((error) => console.error("Error fetching data:", error));
-    
+        .catch((error) => console.error("Error fetching data:", error));    
     
   
     saveEntriesButton.addEventListener("click", function () {
@@ -71,9 +70,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         localStorage.removeItem("exhibitorEntries"); // Clear stale data
       } else {
           const entries = {
-            category: selectedCategory,  // Add category
+            category: selectedCategory, 
               breeds: selectedBreeds,
-                show: selectedShow, // Add show
+                show: selectedShow, 
           };
           localStorage.setItem("exhibitorEntries", JSON.stringify(entries));
           alert(`${selectedCategory}, ${selectedShow}, ${selectedBreeds.join(", ")} saved. You will be notified when your breed is called.`);
