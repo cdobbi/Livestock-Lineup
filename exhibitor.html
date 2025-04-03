@@ -13,68 +13,66 @@
 </head>
 
 <body>
-    <div class="rabbit-ticker">
+    <div id="exhibitor-container" class="container">
+        <h2>Exhibitor Registration</h2>
+
+        <!-- Dropdown for Category -->
+        <label for="category">Select Category:</label>
+        <select id="category" class="form-select">
+            <option value="Youth">Youth</option>
+            <option value="Open">Open</option>
+        </select>
+
+        <!-- Dropdown for Show -->
+        <label for="show">Select Show:</label>
+        <select id="show" class="form-select">
+            <option value="Table A">Table A</option>
+            <option value="Table B">Table B</option>
+            <option value="Table C">Table C</option>
+            <option value="Meat Pen">Meat Pen</option>
+        </select>
+        <!-- <div class="rabbit-ticker">
         🐇🐇🐇🐇🐇🐇🐇
-    </div>
+    </div> -->
 
-    <div class="container">
-        <h1 class="text-center my-4">Exhibitor Entries</h1>
-        <form id="exhibitor-form">
-            <div id="breed-options" class="row justify-content-center">
-                <!-- Breed options will be displayed here -->
+        <div class="container">
+            <h1 class="text-center my-4">Exhibitor Entries</h1>
+            <form id="exhibitor-form">
+                <div id="breed-options" class="row justify-content-center">
+                    <!-- Breed options will be displayed here -->
 
 
-            </div>
-
-            <div id="exhibitor-container" class="container">
-                <h2>Exhibitor Registration</h2>
-
-                <!-- Dropdown for Category -->
-                <label for="category">Select Category:</label>
-                <select id="category" class="form-select">
-                    <option value="Youth">Youth</option>
-                    <option value="Open">Open</option>
-                </select>
-
-                <!-- Dropdown for Show -->
-                <label for="show">Select Show:</label>
-                <select id="show" class="form-select">
-                    <option value="Table A">Table A</option>
-                    <option value="Table B">Table B</option>
-                    <option value="Table C">Table C</option>
-                    <option value="Meat Pen">Meat Pen</option>
-                </select>
-
+                </div>
                 <div class="text-center my-4 d-flex justify-content-center">
                     <button type="button" id="save-entries" class="btn btn-info btn-lg mx-2">Save Entries</button>
                     <button type="button" onclick="window.location.href='index.html'" class="btn btn-info btn-lg mx-2">Return to
                         Login</button>
                 </div>
-        </form>
+            </form>
 
-        <div id="notificationModal"
-            style="display: none; position: fixed; top: 20%; left: 50%; transform: translate(-50%, -20%); z-index: 1000; background: #fff; padding: 20px; border: 2px solid #ccc; border-radius: 8px;">
-            <p id="modalMessage" style="font-size: 22px; margin-bottom: 15px;"></p>
-        </div>
-
-        <footer class="text-center my-4 border-top pt-3 small">
-            <div class="col-md-4">
-                <p>&copy; All rights reserved 3/2025 Christina Dobbins
-                    <br>
-                    <a href="https://www.rhinelander-rabbitry.com" class="text-info">https://www.rhinelander-rabbitry.com</a>
-                    <br>
-                    Contact: <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
-                </p>
+            <div id="notificationModal"
+                style="display: none; position: fixed; top: 20%; left: 50%; transform: translate(-50%, -20%); z-index: 1000; background: #fff; padding: 20px; border: 2px solid #ccc; border-radius: 8px;">
+                <p id="modalMessage" style="font-size: 22px; margin-bottom: 15px;"></p>
             </div>
-        </footer>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="/scripts/exhibitor.js"></script>
-        <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-        <script src="scripts/alert.js"></script>
-    </div>
+            <footer class="text-center my-4 border-top pt-3 small">
+                <div class="col-md-4">
+                    <p>&copy; All rights reserved 3/2025 Christina Dobbins
+                        <br>
+                        <a href="https://www.rhinelander-rabbitry.com" class="text-info">https://www.rhinelander-rabbitry.com</a>
+                        <br>
+                        Contact: <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
+                    </p>
+                </div>
+            </footer>
+
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script src="/scripts/exhibitor.js"></script>
+            <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+            <script src="scripts/alert.js"></script>
+        </div>
 </body>
 
 </html>
