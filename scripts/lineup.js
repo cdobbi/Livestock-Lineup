@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         const confirmMessage = `Send notification for breed: ${breed}?`;
                         if (confirm(confirmMessage)) {
                             try {
-                                const response = await fetch("https://wdd330-owtb.onrender.com/api/notifications", {
+                                const response = await fetch("https://Livestock-Lineup.onrender.com/api/notifications", {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify({ breed }),
