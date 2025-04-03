@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
   
       try {
-        const response = await fetch("https://wdd330-owtb.onrender.com/api/notifications");
+        const response = await fetch("https://livestock-lineup.onrender.com/api/notifications");
         if (!response.ok) {
           throw new Error("Failed to fetch notifications.");
         }

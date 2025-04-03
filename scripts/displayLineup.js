@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
               category: lineup.category,
               show: lineup.show,
             };
-            const response = await fetch("https://Livestock-Lineup.onrender.com/notify", {
+            const response = await fetch("https://Livestock-Lineup.onrender.com/api/notifications", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(payload),

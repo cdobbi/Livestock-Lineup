@@ -40,8 +40,8 @@ app.post("/verify-code", (req, res) => {
     }
 });
 
-// Notify Endpoint
-app.post("/notify", (req, res) => {
+// API Notificatios Endpoint
+app.post("api/notifications", (req, res) => {
     const { breed } = req.body;
     if (!breed) {
         return res.status(400).send("Breed is required.");
