@@ -10,7 +10,7 @@ async function initializePusher() {
         const pusherConfig = await response.json();
 
         // Initialize Pusher using the fetched configuration
-        const pusher = new Pusher(pusherConfig.key, {
+        const pusher = new pusher(pusherConfig.key, {
             cluster: pusherConfig.cluster,
         });
 
