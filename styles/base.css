@@ -18,7 +18,7 @@ h1 {
 
 button {
     display: block;
-    margin: 10px auto;
+    margin: 0.8rem;
     padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
@@ -66,20 +66,15 @@ h1.bg-secondary {
         align-items: flex-start;
     }
 
-    button {
-        width: 90%;
-        font-size: 0.9rem;
-    }
-
     .form-check-label {
         font-size: 1rem;
     }
 }
 
 .breed-button {
-    display: inline-block;
+    /* display: inline-block; */
     padding: 10px 20px;
-    margin: 10px;
+    margin: 5px;
     background-color: #f0f8ff;
     color: #333;
     border: 2px solid #add8e6;
@@ -117,10 +112,6 @@ h1.bg-secondary {
     text-align: center;
 }
 
-.btn-primary {
-    width: 100%;
-}
-
 .error-message {
     color: red;
     font-size: 14px;
@@ -130,7 +121,7 @@ h1.bg-secondary {
 
 #breed-options {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 3fr));
     gap: 15px;
     justify-content: center;
     align-items: start;
@@ -139,6 +130,7 @@ h1.bg-secondary {
 
 .container {
     max-width: 50%;
+    height: auto;
     margin: 0 auto;
     padding: 20px;
 }
