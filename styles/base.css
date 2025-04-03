@@ -55,6 +55,7 @@ h1.bg-secondary {
     padding: 10px;
     border-radius: 5px;
 }
+
 /* 
 @media (max-width: 768px) {
     h1 {
@@ -118,18 +119,56 @@ h1.bg-secondary {
     margin-top: -10px;
     margin-bottom: 10px;
 }
-/* #breed-options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 3fr));
-    gap: 15px;
-    justify-content: center;
-    align-items: start;
-    margin: 20px 0;
-} */
 
 .container {
-    max-width: 50%;
+    max-width: 80%;
     height: auto;
     margin: 0 auto;
     padding: 20px;
+}
+
+#rabbit-list .breed-button {
+    flex: 0 0 calc(30% - 1rem);
+    max-width: calc(30% - 1rem);
+    text-align: center;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    padding: 10px;
+    font-size: 1rem;
+    height: auto;
+    line-height: 1.2;
+    font-size: 1.2rem;
+}
+
+#rabbit-list .breed-button {
+    flex: 0 0 calc(30% - 1rem);
+    max-width: calc(20% - 1rem);
+    text-align: center;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    #rabbit-list .breed-button {
+        flex: 0 0 calc(45% - 1rem);
+        max-width: calc(45% - 1rem);
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    #rabbit-list .breed-button {
+        flex: 0 0 calc(100% - 1rem);
+        max-width: calc(100% - 1rem);
+        font-size: 0.7rem;
+    }
+}
+
+.breed-button {
+    font-size: 1rem !important;
+}
+
+#breed-options {
+    font-size: 1rem !important;
 }
