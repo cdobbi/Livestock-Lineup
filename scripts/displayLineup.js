@@ -56,8 +56,8 @@ document.addEventListener("DOMContentLoaded", function () {
       
             // If the breed matches, send the notification
             const payload = {
-              breed,
               category: lineup.category,
+              breed,
               show: lineup.show,
             };
             const response = await fetch("https://Livestock-Lineup.onrender.com/api/notifications", {
