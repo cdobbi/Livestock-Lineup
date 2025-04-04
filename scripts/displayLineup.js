@@ -1,103 +1,107 @@
 console.log("Starting displayLineup.js...");
 
 document.addEventListener("DOMContentLoaded", async function () {
-  // Verify lineup-container exists
-  const lineupContainer = document.getElementById("lineup-container");
+    // Verify lineup-container exists
+    const lineupContainer = document.getElementById("lineup-container");
 
-  if (!lineupContainer) {
-    console.error("lineup-container element not found in the DOM.");
-    return; // Stop execution if lineup-container is missing
-  }
-
-  try {
-    // Fetch lineup data from the backend
-    const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
-    if (!response.ok) {
-        throw new Error(`Failed to fetch lineups: ${response.statusText}`);
+    if (!lineupContainer) {
+        console.error("lineup-container element not found in the DOM.");
+        return; // Stop execution if lineup-container is missing
     }
 
-    const showLineups = await response.json();
-    console.log("Retrieved lineups from backend:", showLineups);
+    try {
+        // Fetch lineup data from the backend
+        const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
+        if (!response.ok) {
+            throw new Error(`Failed to fetch lineups: ${response.statusText}`);
+        }
 
-    if (showLineups.length === 0) {
-        lineupContainer.innerHTML = "<p>No lineups saved.</p>";
-        console.warn("No lineups found in the backend.");
-        return;
-    }
+        const showLineups = await response.json();
+        console.log("Retrieved lineups from backend:", showLineups);
 
-  // Render the lineups
-  showLineups.forEach((lineup, index) => {
-    const showDiv = document.createElement("div");
+        if (showLineups.length === 0) {
+            lineupContainer.innerHTML = "<p>No lineups saved.</p>";
+            console.warn("No lineups found in the backend.");
+            return;
+        }
 
-    const showTitle = document.createElement("h3");
-    showTitle.textContent = `Lineup ${index + 1}: Category: ${lineup.category} - Show: ${lineup.show}`;
-    showDiv.appendChild(showTitle);
+        // Render the lineups
+        showLineups.forEach((lineup, index) => {
+            const showDiv = document.createElement("div");
 
-    // Create a breed list
-    const breedList = document.createElement("ul");
+            const showTitle = document.createElement("h3");
+            showTitle.textContent = `Lineup ${index + 1}: Category: ${lineup.category} - Show: ${lineup.show}`;
+            showDiv.appendChild(showTitle);
 
-    lineup.breeds.forEach((breed) => {
-      const breedItem = document.createElement("li");
+            // Create a breed list
+            const breedList = document.createElement("ul");
 
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
+            lineup.breeds.forEach((breed) => {
+                const breedItem = document.createElement("li");
 
-      checkbox.addEventListener("click", async () => {
-        if (checkbox.checked) {
-          try {
-            // Fetch exhibitor entries from the backend
-            const exhibitorResponse = await fetch("https://livestock-lineup.onreder.com/api/all-exhibitors");
-            const exhibitorEntries = await exhibitorResponse.json();
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
 
-            // Validate exhibitorEntries and check if the breed matches
-            const isBreedSelectedByExhibitor = exhibitorEntries.some((exhibitor) =>
-              exhibitor.submissions.some((submission) =>
-                submission.breeds.includes(breed)
-              )
-            );
+                checkbox.addEventListener("click", async () => {
+                    if (checkbox.checked) {
+                        try {
+                            // Fetch exhibitor entries from the backend
+                            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
+                            const exhibitorEntries = await exhibitorResponse.json();
 
-            if (!isBreedSelectedByExhibitor) {
-              console.warn(`Breed ${breed} is not selected by the exhibitor.`);
-              return; // Exit if the breed is not selected by any exhibitor
-            }
+                            // Validate exhibitorEntries and check if the breed matches
+                            const isBreedSelectedByExhibitor = exhibitorEntries.some((exhibitor) =>
+                                exhibitor.submissions.some((submission) =>
+                                    submission.breeds.includes(breed)
+                                )
+                            );
 
-            // If the breed matches, send the notification
-            const payload = {
-              breed,
-              category: lineup.category,
-              show: lineup.show,
-            };
-            const response = await fetch("https://livestock-lineup.onrender.com/api/notifications", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
+                            if (!isBreedSelectedByExhibitor) {
+                                console.warn(`Breed ${breed} is not selected by the exhibitor.`);
+                                return; // Exit if the breed is not selected by any exhibitor
+                            }
+
+                            // If the breed matches, send the notification
+                            const payload = {
+                                breed,
+                                category: lineup.category,
+                                show: lineup.show,
+                            };
+                            const response = await fetch("https://livestock-lineup.onrender.com/api/notifications", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify(payload),
+                            });
+
+                            if (response.ok) {
+                                console.log(`Notification sent for breed: ${breed}`);
+                            } else {
+                                console.error(`Failed to send notification: ${response.statusText}`);
+                            }
+                        } catch (error) {
+                            console.error(`Error sending notification for breed: ${breed}`, error);
+                        }
+                    }
+                });
+
+                const label = document.createElement("label");
+                label.textContent = breed;
+
+                breedItem.appendChild(checkbox);
+                breedItem.appendChild(label);
+                breedList.appendChild(breedItem);
             });
 
-            if (response.ok) {
-              console.log(`Notification sent for breed: ${breed}`);
-            } else {
-              console.error(`Failed to send notification: ${response.statusText}`);
-            }
-          } catch (error) {
-            console.error(`Error sending notification for breed: ${breed}`, error);
-          }
-        }
-      });
+            showDiv.appendChild(breedList);
+            lineupContainer.appendChild(showDiv);
+        });
 
-      const label = document.createElement("label");
-      label.textContent = breed;
-
-      breedItem.appendChild(checkbox);
-      breedItem.appendChild(label);
-      breedList.appendChild(breedItem);
-    });
-
-    showDiv.appendChild(breedList);
-    lineupContainer.appendChild(showDiv);
-  });
-
-  console.log("Lineups rendered successfully!");
-
+        console.log("Lineups rendered successfully!");
+    } catch (error) {
+        console.error("Error fetching or rendering lineups:", error);
+        lineupContainer.innerHTML = "<p>Failed to load lineups. Please try again later.</p>";
+    }
+});
   // Check for notifications
   async function checkForNotifications() {
     try {
@@ -139,4 +143,3 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   setInterval(checkForNotifications, 5000);
-});
