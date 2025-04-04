@@ -16,13 +16,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 5000);
       }
       
-  
-    // Core function that plays sound and then shows the modal after a brief delay
-    function notifyUser(breed) {
+      function notifyUser(breed) {
       notificationSound.play();
       setTimeout(() => {
         showModal(`Your breed (${breed}) is up next!`);
-      }, 500); // Delay can be adjusted as needed
+      }, 500);
     }
   
     async function checkForNotifications() {
@@ -53,9 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   
-    // Poll the backend every 30 seconds (adjust interval as needed)
-    setInterval(checkForNotifications, 30000);
-  
+    setInterval(checkForNotifications, 30000);  
     // Expose notifyUser globally so other files (like exhibitor.js and displayLineup.js) can use it
     window.notifyUser = notifyUser;
   });

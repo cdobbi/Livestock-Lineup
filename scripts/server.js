@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-console.log("Pusher Key:", process.env.key); // Matches your .env variable
+console.log("Pusher Key:", process.env.key);
 
 import express, { json } from "express";
 import Pusher from "pusher";
@@ -65,8 +65,6 @@ app.get("/api/notifications", (req, res) => {
     res.json(notifications);
 });
 
-// Serve Static Files from the Project Root
-// Because server.js is in /scripts, we serve files from one level up.
 app.use(express.static(path.join(__dirname, '..')));
 
 // GET "/" Route: Explicitly serve index.html

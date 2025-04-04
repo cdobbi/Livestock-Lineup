@@ -2,7 +2,7 @@
 async function initializePusher() {
     try {
         // Fetch Pusher configuration from the server
-        const response = await fetch("/pusher-config");
+        const response = await fetch("https://livestock.lineup.onrender.com/pusher-config");
         if (!response.ok) {
             throw new Error("Failed to fetch Pusher configuration.");
         }
