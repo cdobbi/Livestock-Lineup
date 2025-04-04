@@ -105,43 +105,44 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Get selected category and show
         const selectedCategory = categorySelect.value;
         const selectedShow = showSelect.value;
-
+    
         // Check that both category and show are selected
         if (!selectedCategory || !selectedShow) {
             alert("Please select both a category and a show.");
             return;
         }
-
+    
         // Collect selected breeds
         const selectedBreeds = [];
         const selectedButtons = breedOptionsContainer.querySelectorAll(".breed-button.selected");
-
+    
         selectedButtons.forEach((button) => {
             selectedBreeds.push(button.textContent);
         });
-
+    
         if (selectedBreeds.length === 0) {
             alert("Please select at least one breed to start the application.");
             return;
         }
-
+    
         // Create the entry object to send to the backend
         const entries = {
             category: selectedCategory,
             show: selectedShow,
             breeds: selectedBreeds,
         };
-
+    
         try {
-            const response = await fetch("https://livestock.lineup.onrender.com/api/save-entries", {
+            const response = await fetch("/api/save-entries", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(entries),
             });
-
+    
             if (response.ok) {
                 alert("Your entries have been saved. You will be notified when your breed is called.");
             } else {
+                console.error("Failed to save entries:", await response.text());
                 alert("Failed to save entries. Please try again.");
             }
         } catch (error) {
@@ -149,6 +150,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             alert("An error occurred while saving your entries.");
         }
     });
+    
 
     async function checkForNotifications() {
         try {
