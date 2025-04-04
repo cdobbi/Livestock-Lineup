@@ -10,9 +10,8 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 
 // Import modularized routes
-import routeEx from '../routes/route-ex.js'; // Correct relative path to route-ex.js
-import routeOr from '../routes/route-or.js'; // Correct relative path to route-or.js
-
+import routeEx from '../routes/route-ex.js'; // Handles exhibitor logic
+import routeOr from '../routes/route-or.js'; // Handles organizer logic
 
 // Create __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
