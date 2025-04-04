@@ -2,7 +2,7 @@
 async function initializePusher() {
     try {
         // Fetch Pusher configuration from the server
-        const response = await fetch("https://livestock.lineup.onrender.com/pusher-config");
+        const response = await fetch("https://livestock-lineup.onrender.com/pusher-config");
         if (!response.ok) {
             throw new Error("Failed to fetch Pusher configuration.");
         }
@@ -14,14 +14,14 @@ async function initializePusher() {
             cluster: pusherConfig.cluster,
         });
 
+        const channel = pusher.subscribe("table-time");
+
+        // Bind to the "breed-notification" event
         channel.bind("breed-notification", (data) => {
             const { breed, category, show } = data; // Extract all relevant fields
-            
-            // Ensure notification logic includes category and show validation
             console.log(`Notification received for Category: ${category}, Show: ${show}, Breed: ${breed}`);
-            handleNotification(breed);
+            handleNotification(breed, category, show);
         });
-        
 
         return { pusher, channel };
     } catch (error) {
@@ -31,7 +31,7 @@ async function initializePusher() {
 }
 
 // Handle incoming notifications with sound and polished notifications
-function handleNotification(breed) {
+function handleNotification(breed, category, show) {
     // Play notification sound
     const notificationSound = new Audio("/sounds/alert.mp3");
     notificationSound.play();
@@ -51,10 +51,11 @@ function handleNotification(breed) {
         });
     } else {
         // Fall back to updating the UI if browser notifications are unsupported
-        updateNotificationArea(breed);
+        updateNotificationArea(breed, category, show);
     }
 }
 
+// Update the notification area in the UI
 function updateNotificationArea(breed, category, show) {
     const notificationArea = document.getElementById("notification-area");
 

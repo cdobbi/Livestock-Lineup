@@ -1,38 +1,16 @@
+import { initializePusher } from "./pusherNotifications.js";
+
 document.addEventListener("DOMContentLoaded", async function () {
     const breedOptionsContainer = document.getElementById("breed-options");
     const saveEntriesButton = document.getElementById("save-entries");
     const categorySelect = document.getElementById("category-select"); // Added for category
     const showSelect = document.getElementById("show-select"); // Added for show
 
-
-    // Existing code for Pusher configuration
-    const pusherConfig = await fetch("https://livestock-lineup.onrender.com/pusher-config")
-    .then((response) => response.json())
-        .catch((error) => {
-            console.error("Error fetching Pusher configuration:", error);
-            return null;
-        });
-
-    if (!pusherConfig) {
-        alert("Failed to load Pusher configuration. Notifications will not work.");
-        return;
-    }
-
-    const pusher = new Pusher(pusherConfig.key, {
-        cluster: pusherConfig.cluster,
-    });
-
-    const channel = pusher.subscribe("table-time");
-
-    // Use custom notification on Pusher events
-    channel.bind("breed-notification", (data) => {
-        if (typeof notifyUser === "function") {
-            notifyUser(data.breed);
-        } else {
-            // Fallback if notifyUser is not defined
-            alert(`Your breed (${data.breed}) is up next!`);
-            const notificationSound = new Audio("sounds/alert.mp3");
-            notificationSound.play();
+    document.addEventListener("DOMContentLoaded", async function () {
+        // Initialize Pusher for notifications
+        const pusherInstance = await initializePusher();
+        if (!pusherInstance) {
+            console.error("Failed to initialize Pusher. Notifications will not work.");
         }
     });
 
