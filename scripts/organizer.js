@@ -44,23 +44,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const clearLineupButton = document.getElementById("clear-lineup");
     const finishedButton = document.getElementById("finished");
 
-    // and store them into localStorage.
     if (saveLineupButton) {
         saveLineupButton.addEventListener("click", () => {
             const categoryEl = document.getElementById("category");
             const showEl = document.getElementById("show");
             const category = categoryEl ? categoryEl.value : "";
             const show = showEl ? showEl.value : "";
-
+    
             const selectedBreeds = Array.from(document.querySelectorAll(".breed-button.active")).map(
                 (btn) => btn.dataset.breed
             );
-
+    
             if (!category || !show || selectedBreeds.length === 0) {
                 alert("Please select a category, show, and at least one breed.");
                 return;
             }
-
+    
             let savedLineups = JSON.parse(localStorage.getItem("showLineups")) || [];
             const newLineup = {
                 category: category,
@@ -69,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
             };
             savedLineups.push(newLineup);
             localStorage.setItem("showLineups", JSON.stringify(savedLineups));
-
+    
             alert(
                 `Lineup saved!\nCategory: ${category}\nShow: ${show}\nBreeds: ${selectedBreeds.join(
                     ", "
@@ -77,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
             );
         });
     }
+    
 
     // Print Lineup: Instead of printing the full HTML page with buttons,
     if (printLineupButton) {
