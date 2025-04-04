@@ -110,53 +110,77 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
      
-    // Print Lineup: Instead of printing the full HTML page with buttons,
     if (printLineupButton) {
-        printLineupButton.addEventListener("click", () => {
-            let savedLineups = JSON.parse(localStorage.getItem("showLineups")) || [];
+        printLineupButton.addEventListener("click", async () => {
             let printContent = "";
-
-            if (savedLineups.length === 0) {
-                printContent = "No lineups saved.";
-            } else {
-                savedLineups.forEach((lineup, index) => {
-                    printContent += `Lineup ${index + 1}\n`;
-                    printContent += `Category: ${lineup.category}\n`;
-                    printContent += `Show: ${lineup.show}\n`;
-                    printContent += `Breeds: ${lineup.breeds.join(", ")}\n\n`;
-                });
+    
+            try {
+                // Fetch saved lineups from the backend
+                const response = await fetch("https://livestock-lineup.onrender.com/api/get-lineups");
+                if (!response.ok) {
+                    throw new Error("Failed to fetch saved lineups.");
+                }
+    
+                const savedLineups = await response.json();
+    
+                if (savedLineups.length === 0) {
+                    printContent = "No lineups saved.";
+                } else {
+                    savedLineups.forEach((lineup, index) => {
+                        printContent += `Lineup ${index + 1}\n`;
+                        printContent += `Category: ${lineup.category}\n`;
+                        printContent += `Show: ${lineup.show}\n`;
+                        printContent += `Breeds: ${lineup.breeds.join(", ")}\n\n`;
+                    });
+                }
+    
+                let previewWindow = window.open("", "_blank", "width=800,height=600");
+                previewWindow.document.write("<html><head><title>Print Preview</title>");
+                previewWindow.document.write("<style>body { font-family: Arial, sans-serif; white-space: pre-wrap; margin: 20px; }</style>");
+                previewWindow.document.write("</head><body>");
+                previewWindow.document.write("<h2>Print Preview</h2>");
+                previewWindow.document.write("<pre>" + printContent + "</pre>");
+                previewWindow.document.write("<button class='btn btn-primary' onclick='window.print();'>Print Now</button>");
+                previewWindow.document.write("<script>window.onafterprint = function(){ window.close(); }<\/script>");
+                previewWindow.document.write("</body></html>");
+                previewWindow.document.close();
+                previewWindow.focus();
+            } catch (error) {
+                console.error("Error fetching saved lineups:", error);
+                alert("Failed to load saved lineups. Please try again later.");
             }
-
-            let previewWindow = window.open("", "_blank", "width=800,height=600");
-            previewWindow.document.write("<html><head><title>Print Preview</title>");
-            previewWindow.document.write("<style>body { font-family: Arial, sans-serif; white-space: pre-wrap; margin: 20px; }</style>");
-            previewWindow.document.write("</head><body>");
-            previewWindow.document.write("<h2>Print Preview</h2>");
-            previewWindow.document.write("<pre>" + printContent + "</pre>");
-            // Display a button to trigger printing.
-            previewWindow.document.write("<button class='btn btn-primary' onclick='window.print();'>Print Now</button>");
-            previewWindow.document.write("<script>window.onafterprint = function(){ window.close(); }<\/script>");
-            previewWindow.document.write("</body></html>");
-            previewWindow.document.close();
-            previewWindow.focus();
         });
     }
 
     if (clearLineupButton) {
-        clearLineupButton.addEventListener("click", () => {
-            document.querySelectorAll(".breed-button.active").forEach((btn) => btn.classList.remove("active"));
-
-            const categoryEl = document.getElementById("category");
-            const showEl = document.getElementById("show");
-            if (categoryEl) categoryEl.selectedIndex = 0;
-            if (showEl) showEl.selectedIndex = 0;
-
-            localStorage.setItem("showLineups", JSON.stringify([]));
-
-            alert("All saved lineups and current selections have been cleared. You can start over.");
+        clearLineupButton.addEventListener("click", async () => {
+            try {
+                // Send a request to the backend to clear all saved lineups
+                const response = await fetch("https://livestock-lineup.onrender.com/api/clear-lineups", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                });
+    
+                if (response.ok) {
+                    document.querySelectorAll(".breed-button.active").forEach((btn) => btn.classList.remove("active"));
+    
+                    const categoryEl = document.getElementById("category");
+                    const showEl = document.getElementById("show");
+                    if (categoryEl) categoryEl.selectedIndex = 0;
+                    if (showEl) showEl.selectedIndex = 0;
+    
+                    alert("All saved lineups and current selections have been cleared. You can start over.");
+                } else {
+                    console.error("Failed to clear lineups:", response.statusText);
+                    alert("Failed to clear lineups. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error clearing lineups:", error);
+                alert("An error occurred while clearing the lineups.");
+            }
         });
     }
-
+    
     if (finishedButton) {
         finishedButton.addEventListener("click", () => {
             window.location.href = "lineup.html";
