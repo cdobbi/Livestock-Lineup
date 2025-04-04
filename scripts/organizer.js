@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
             try {
                 // Fetch exhibitor data for validation
-                const response = await fetch("/api/all-exhibitors");
+                const response = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
                 if (!response.ok) {
                     throw new Error("Failed to fetch exhibitor data.");
                 }
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Save the lineup to the backend
                 const organizerId = "Organizer123"; // Replace with dynamic ID
                 const lineup = { category, show, breeds: selectedBreeds };
-                const saveResponse = await fetch("/api/save-organizer-lineups", {
+                const saveResponse = await fetch("https://livestock-lineup.onrender.com/api/save-organizer-lineups", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ organizerId, lineups: [lineup] }),
