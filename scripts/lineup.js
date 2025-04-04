@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function fetchExhibitorEntries() {
         try {
-            const response = await fetch("/api/all-exhibitors");
+            const response = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
             const exhibitors = await response.json();
             console.log("Exhibitors data fetched:", exhibitors);
     
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function fetchShowLineups() {
         try {
-            const response = await fetch("/api/all-organizer-lineups");
+            const response = await fetch("https://livestock-lineup.onrender.com/api/all-organizer-lineups");
             if (!response.ok) {
                 throw new Error("Failed to fetch organizer lineups.");
             }
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (confirm(confirmMessage)) {
                             try {
                                 // Fetch exhibitor entries to validate against the breed
-                                const exhibitorResponse = await fetch("/api/all-exhibitors");
+                                const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
                                 if (!exhibitorResponse.ok) {
                                     throw new Error("Failed to fetch exhibitor data.");
                                 }
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 }
                     
                                 // If a match is found, send the notification
-                                const response = await fetch("https://Livestock-Lineup.onrender.com/api/notifications", {
+                                const response = await fetch("https://livestock-lineup.onrender.com/api/notifications", {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify({ breed }),
