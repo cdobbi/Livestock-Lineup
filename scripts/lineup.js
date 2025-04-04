@@ -25,9 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     
-    fetchExhibitorEntries();
-    
-    
+    fetchExhibitorEntries();     
 
     const showLineups = JSON.parse(localStorage.getItem("showLineups")) || {};
 
@@ -64,20 +62,47 @@ document.addEventListener("DOMContentLoaded", function () {
                         const confirmMessage = `Send notification for breed: ${breed}?`;
                         if (confirm(confirmMessage)) {
                             try {
+                                // Fetch exhibitor entries to validate against the breed
+                                const exhibitorResponse = await fetch("/api/all-exhibitors");
+                                if (!exhibitorResponse.ok) {
+                                    throw new Error("Failed to fetch exhibitor data.");
+                                }
+                    
+                                const exhibitorEntries = await exhibitorResponse.json();
+                                console.log("Fetched exhibitor entries for validation:", exhibitorEntries);
+                    
+                                // Check if any exhibitor matches the selected category, show, and breed
+                                const isBreedMatched = exhibitorEntries.some((exhibitor) =>
+                                    exhibitor.submissions.some((submission) =>
+                                        submission.breeds.includes(breed)
+                                    )
+                                );
+                    
+                                if (!isBreedMatched) {
+                                    alert(`No exhibitors have selected the breed "${breed}".`);
+                                    return; // Exit if no match is found
+                                }
+                    
+                                // If a match is found, send the notification
                                 const response = await fetch("https://Livestock-Lineup.onrender.com/api/notifications", {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify({ breed }),
                                 });
-
-                                const data = await response.json();
-                                alert(`Notification sent for breed: ${breed}`);
+                    
+                                if (response.ok) {
+                                    alert(`Notification sent for breed: ${breed}`);
+                                } else {
+                                    console.error("Failed to send notification:", response.statusText);
+                                    alert("Failed to send notification. Please try again.");
+                                }
                             } catch (error) {
                                 console.error("Error sending notification:", error);
-                                alert("Failed to send notification. Please try again.");
+                                alert("An error occurred while sending the notification.");
                             }
                         }
                     });
+                    
 
                     breedList.appendChild(breedItem);
                 });
