@@ -26,7 +26,7 @@ const pusher = new Pusher({
 });
 
 // Middleware
-app.use(json());
+app.use(express.json());
 app.use(cors());
 
 // Delegate exhibitor and organizer routes to their respective files
@@ -36,7 +36,6 @@ app.use("/", routeOr);
 // Verify Code Endpoint
 app.post("/verify-code", (req, res) => {
     const { code } = req.body;
-    // Replace "12345" with your actual verification logic
     if (code === "12345") {
         res.json({ valid: true });
     } else {
@@ -65,8 +64,8 @@ app.get("/", (req, res) => {
 // Pusher Configuration Endpoint
 app.get("/pusher-config", (req, res) => {
     res.json({
-        key: process.env.key,        // Matches your .env variable
-        cluster: process.env.cluster, // Matches your .env variable
+        key: process.env.key,
+        cluster: process.env.cluster,
     });
 });
 
