@@ -3,7 +3,7 @@ const router = express.Router();
 const fs = require("fs");
 const path = require("path");
 
-const exhibitorFilePath = path.join(__dirname, "../data/exhibitors.json");
+const exhibitorFilePath = path.join(__dirname, "data/exhibitors.json");
 
 // Fetch all exhibitor data
 router.get("https://livestock-lineup.onrender.com/api/all-exhibitors", (req, res) => {
