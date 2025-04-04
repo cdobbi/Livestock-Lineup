@@ -6,7 +6,7 @@ const path = require("path");
 const exhibitorFilePath = path.join(__dirname, "../data/exhibitors.json");
 
 // Fetch all exhibitor data
-router.get("/api/all-exhibitors", (req, res) => {
+router.get("https://livestock.lineup.onrender.com/api/all-exhibitors", (req, res) => {
     if (fs.existsSync(exhibitorFilePath)) {
         try {
             const exhibitorData = JSON.parse(fs.readFileSync(exhibitorFilePath, "utf8"));
@@ -20,7 +20,7 @@ router.get("/api/all-exhibitors", (req, res) => {
 });
 
 // Save exhibitor data
-router.post("/api/save-entries", (req, res) => {
+router.post("https://livestock.lineup.onrender.com/api/save-entries", (req, res) => {
     const { category, show, breeds } = req.body;
 
     // Validate the request body
