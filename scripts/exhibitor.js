@@ -54,25 +54,55 @@ document.addEventListener("DOMContentLoaded", async function () {
         notificationSound.play();
       }
     });
-  
-    fetch("/data/data.json")
-      .then((response) => response.json())
-      .then((data) => {
+// Fetch breed data from data.json
+fetch("/data/data.json")
+    .then((response) => {
+        // Check if the response status is okay (status code 200-299)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Parse the JSON response
+    })
+    .then((data) => {
+        // Verify that 'entries' exists and is an array in the fetched data
+        if (!data.entries || !Array.isArray(data.entries)) {
+            console.error("Error: 'entries' is missing or is not an array in the fetched data.");
+            return; // Exit if the data structure is invalid
+        }
+
+        const breedOptionsContainer = document.getElementById("breed-options");
+
+        // Ensure the breed-options container exists in the DOM
+        if (!breedOptionsContainer) {
+            console.error("Error: 'breed-options' container not found in the DOM.");
+            return; // Exit if the container is not available
+        }
+
+        // Iterate over the breed entries to dynamically create buttons
         data.entries.forEach((entry) => {
-          const breedButton = document.createElement("button");
-          breedButton.className = "breed-button";
-          breedButton.textContent = entry.breed;
-  
-          breedButton.addEventListener("click", function (event) {
-            event.preventDefault(); // Prevent page reload
-            breedButton.classList.toggle("selected"); // Toggle the selected class
-          });
-  
-          breedOptionsContainer.appendChild(breedButton);
+            const breedButton = document.createElement("button");
+            breedButton.className = "breed-button"; // Add the class for styling
+            breedButton.textContent = entry.breed; // Set the button text as the breed name
+
+            // Add a click event listener to toggle the selected class
+            breedButton.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent default browser behavior
+                breedButton.classList.toggle("selected"); // Toggle the 'selected' class
+                console.log(`Button clicked for breed: ${entry.breed}`);
+            });
+
+            // Append the dynamically created button to the breed-options container
+            breedOptionsContainer.appendChild(breedButton);
         });
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  
+
+        console.log("Breed options successfully fetched and rendered."); // Log a success message
+    })
+    .catch((error) => {
+        // Log errors encountered during the fetch or processing stage
+        console.error("Error fetching or processing breed data:", error);
+    });
+
+
     saveEntriesButton.addEventListener("click", async function () {
       const selectedBreeds = [];
       const selectedButtons = breedOptionsContainer.querySelectorAll(".breed-button.selected");

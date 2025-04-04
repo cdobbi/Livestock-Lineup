@@ -5,23 +5,28 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error: lineup-container element not found.");
         return;
     }
-    
+
     async function fetchExhibitorEntries() {
         try {
             const response = await fetch("/api/all-exhibitors");
-            const data = await response.json();
-            console.log("Exhibitor entries fetched:", data);
+            const exhibitors = await response.json();
+            console.log("Exhibitors data fetched:", exhibitors);
     
-            // Use this data to render lineups or send notifications
-            return data;
+            exhibitors.forEach((exhibitor) => {
+                exhibitor.submissions.forEach((submission) => {
+                    console.log(
+                        `Exhibitor ID: ${exhibitor.id}, Category: ${submission.category}, Show: ${submission.show}, Breeds: ${submission.breeds.join(", ")}`
+                    );
+                    // Process and display the submissions as needed
+                });
+            });
         } catch (error) {
             console.error("Error fetching exhibitor entries:", error);
         }
     }
     
-    fetchExhibitorEntries().then((data) => {
-        // Process and display the data as needed
-    });
+    fetchExhibitorEntries();
+    
     
 
     const showLineups = JSON.parse(localStorage.getItem("showLineups")) || {};
