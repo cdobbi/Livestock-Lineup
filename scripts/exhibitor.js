@@ -150,33 +150,49 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
-    // Check for notifications
     async function checkForNotifications() {
         try {
-            const notifications = [
-                { breed: "Holland Lop" },
-                { breed: "Netherland Dwarf" },
-            ];
-
-            const exhibitorEntries = JSON.parse(localStorage.getItem("exhibitorEntries"));
-
-            if (!exhibitorEntries || !Array.isArray(exhibitorEntries.breeds) || exhibitorEntries.breeds.length === 0) {
-                return;
+            // Fetch exhibitor entries from the backend
+            const exhibitorResponse = await fetch("/api/all-exhibitors");
+            if (!exhibitorResponse.ok) {
+                throw new Error("Failed to fetch exhibitor data.");
             }
-
+    
+            const exhibitorEntries = await exhibitorResponse.json();
+            console.log("Exhibitor entries fetched for validation:", exhibitorEntries);
+    
+            // Notification examples (you can fetch these dynamically if required)
+            const notifications = [
+                { breed: "Holland Lop", category: "Youth", show: "A" },
+                { breed: "Netherland Dwarf", category: "Youth", show: "A" },
+            ];
+    
+            // Check if any exhibitor matches the notifications
             notifications.forEach((notification) => {
-                if (exhibitorEntries.breeds.includes(notification.breed)) {
+                const { breed, category, show } = notification;
+    
+                const isMatchFound = exhibitorEntries.some((exhibitor) =>
+                    exhibitor.submissions.some((submission) =>
+                        submission.category === category &&
+                        submission.show === show &&
+                        submission.breeds.includes(breed)
+                    )
+                );
+    
+                if (isMatchFound) {
                     if (typeof notifyUser === "function") {
-                        notifyUser(notification.breed);
+                        notifyUser(breed, category, show);
                     } else {
                         console.warn("notifyUser is not defined.");
+                        alert(`Notification sent for Category: ${category}, Show: ${show}, Breed: ${breed}`);
                     }
                 }
             });
         } catch (error) {
-            console.error("Error fetching notifications:", error);
+            console.error("Error fetching or processing notifications:", error);
         }
     }
+    
 
     setInterval(checkForNotifications, 5000);
 });
