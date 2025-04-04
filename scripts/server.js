@@ -1,18 +1,16 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 dotenv.config();
 console.log("Pusher Key:", process.env.key);
 
-import express, { json } from "express";
-import Pusher from "pusher";
-import cors from "cors";
-import path from 'path';
-import { fileURLToPath } from 'url';
-import fs from 'fs';
+const express = require("express");
+const cors = require("cors");
+const Pusher = require("pusher");
+const path = require("path");
+const fs = require("fs");
 
 // Import modularized routes
-import routeEx from '../routes/route-ex.js'; // Handles exhibitor logic
-import routeOr from '../routes/route-or.js'; // Handles organizer logic
-
+const routeEx = require('../routes/route-ex.js'); // Handles exhibitor logic
+const routeOr = require('../routes/route-or.js'); // Handles organizer logic
 // Create __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
