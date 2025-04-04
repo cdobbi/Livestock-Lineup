@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Fetch saved entries from the backend
     try {
-        const response = await fetch("https://livestock.lineup.onrender.com/get-entries");
+        const response = await fetch("https://livestock.lineup.onrender.com/api/get-entries");
         if (response.ok) {
             const data = await response.json();
             const savedBreeds = data.breeds || [];
@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     // Existing code for Pusher configuration
-    const pusherConfig = await fetch("/pusher-config")
-        .then((response) => response.json())
+    const pusherConfig = await fetch("https://livestock-lineup.onrender.com/pusher-config")
+    .then((response) => response.json())
         .catch((error) => {
             console.error("Error fetching Pusher configuration:", error);
             return null;
@@ -58,47 +58,47 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     // Fetch breed data from data.json
-    fetch("/data/data.json")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then((data) => {
-            if (!data.entries || !Array.isArray(data.entries)) {
-                console.error("Error: 'entries' is missing or is not an array in the fetched data.");
-                return;
-            }
+    fetch("https://livestock-lineup.onrender.com/data/data.json")
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then((data) => {
+        if (!data.entries || !Array.isArray(data.entries)) {
+            console.error("Error: 'entries' is missing or is not an array in the fetched data.");
+            return;
+        }
 
-            // Ensure the breed-options container exists in the DOM
-            if (!breedOptionsContainer) {
-                console.error("Error: 'breed-options' container not found in the DOM.");
-                return;
-            }
+        // Ensure the breed-options container exists in the DOM
+        if (!breedOptionsContainer) {
+            console.error("Error: 'breed-options' container not found in the DOM.");
+            return;
+        }
 
-            // Iterate over the breed entries to dynamically create buttons
-            data.entries.forEach((entry) => {
-                const breedButton = document.createElement("button");
-                breedButton.className = "breed-button";
-                breedButton.textContent = entry.breed;
+        // Iterate over the breed entries to dynamically create buttons
+        data.entries.forEach((entry) => {
+            const breedButton = document.createElement("button");
+            breedButton.className = "breed-button";
+            breedButton.textContent = entry.breed;
 
-                // Add a click event listener to toggle the selected class
-                breedButton.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    breedButton.classList.toggle("selected");
-                    console.log(`Button clicked for breed: ${entry.breed}`);
-                });
-
-                // Append the dynamically created button to the breed-options container
-                breedOptionsContainer.appendChild(breedButton);
+            // Add a click event listener to toggle the selected class
+            breedButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                breedButton.classList.toggle("selected");
+                console.log(`Button clicked for breed: ${entry.breed}`);
             });
 
-            console.log("Breed options successfully fetched and rendered.");
-        })
-        .catch((error) => {
-            console.error("Error fetching or processing breed data:", error);
+            // Append the dynamically created button to the breed-options container
+            breedOptionsContainer.appendChild(breedButton);
         });
+
+        console.log("Breed options successfully fetched and rendered.");
+    })
+    .catch((error) => {
+        console.error("Error fetching or processing breed data:", error);
+    });
 
     // Save entries when the button is clicked
     saveEntriesButton.addEventListener("click", async function () {
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         };
     
         try {
-            const response = await fetch("/api/save-entries", {
+            const response = await fetch("https://livestock-lineup.onrender.com/api/save-entries", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(entries),
@@ -155,8 +155,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     async function checkForNotifications() {
         try {
             // Fetch exhibitor entries from the backend
-            const exhibitorResponse = await fetch("/api/all-exhibitors");
-            if (!exhibitorResponse.ok) {
+            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");            if (!exhibitorResponse.ok) {
                 throw new Error("Failed to fetch exhibitor data.");
             }
     
