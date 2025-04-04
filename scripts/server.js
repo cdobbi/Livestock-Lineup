@@ -11,9 +11,6 @@ const fs = require("fs");
 // Import modularized routes
 const routeEx = require('../routes/route-ex.js'); // Handles exhibitor logic
 const routeOr = require('../routes/route-or.js'); // Handles organizer logic
-// Create __dirname equivalent in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Initialize the Express app and set the port
 const app = express();
