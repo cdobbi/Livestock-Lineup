@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Fetch saved entries from the backend
     try {
-        const response = await fetch("/api/get-entries");
+        const response = await fetch("https://livestock.lineup.onrender.com/get-entries");
         if (response.ok) {
             const data = await response.json();
             const savedBreeds = data.breeds || [];
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const entries = { breeds: selectedBreeds };
 
       try {
-        const response = await fetch("/api/save-entries", {
+        const response = await fetch("https://livestock.lineup.onrender.com/api/save-entries", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(entries),
