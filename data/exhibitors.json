@@ -1,1 +1,57 @@
-[]
+[
+    {
+      "id": "Exhibitor1",
+      "categories": [
+        {
+          "category": "Youth",
+          "shows": [
+            {
+              "show": "A",
+              "breeds": ["AMERICAN", "AMERICAN CHINCHILLA"]
+            },
+            {
+              "show": "B",
+              "breeds": ["AMERICAN FUZZY LOP", "AMERICAN SABLE"]
+            }
+          ]
+        },
+        {
+          "category": "Open",
+          "shows": [
+            {
+              "show": "C",
+              "breeds": ["ANGORA", "ARGENTE BRUN"]
+            },
+            {
+              "show": "D",
+              "breeds": ["FLEMISH GIANT"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Exhibitor2",
+      "categories": [
+        {
+          "category": "Youth",
+          "shows": [
+            {
+              "show": "Meat Pen",
+              "breeds": ["FLEMISH GIANT", "HOLLAND LOP"]
+            }
+          ]
+        },
+        {
+          "category": "Open",
+          "shows": [
+            {
+              "show": "Fur",
+              "breeds": ["NETHERLAND DWARF", "MINI REX"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  
