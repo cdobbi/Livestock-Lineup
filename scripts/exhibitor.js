@@ -180,15 +180,14 @@ document.addEventListener("DOMContentLoaded", async function () {
                         submission.breeds.includes(breed)
                     )
                 );
-    
-                if (isMatchFound) {
-                    if (typeof notifyUser === "function") {
-                        notifyUser(breed, category, show);
-                    } else {
-                        console.warn("notifyUser is not defined.");
-                        alert(`Notification sent for Category: ${category}, Show: ${show}, Breed: ${breed}`);
-                    }
-                }
+
+                if (typeof notifyUser === "function") {
+                    notifyUser(breed, category, show);
+                } else {
+                    alert(`Notification for Category: ${category}, Show: ${show}, Breed: ${breed}`);
+                    const notificationSound = new Audio("/sounds/alert.mp3");
+                    notificationSound.play();
+                }                          
             });
         } catch (error) {
             console.error("Error fetching or processing notifications:", error);
