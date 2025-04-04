@@ -24,31 +24,42 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   
     async function checkForNotifications() {
-      const exhibitorEntries = JSON.parse(localStorage.getItem("exhibitorEntries"));
-      if (!exhibitorEntries || !exhibitorEntries.breeds) {
-        console.warn("No exhibitor entries found.");
-        return;
-      }
-  
-      try {
-        const response = await fetch("https://livestock-lineup.onrender.com/api/notifications");
-        if (!response.ok) {
-          throw new Error("Failed to fetch notifications.");
+        try {
+            // Fetch exhibitor entries from the backend
+            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
+            if (!exhibitorResponse.ok) {
+                throw new Error("Failed to fetch exhibitor entries.");
+            }
+            const exhibitorEntries = await exhibitorResponse.json();
+    
+            if (!exhibitorEntries || exhibitorEntries.length === 0) {
+                console.warn("No exhibitor entries found.");
+                return;
+            }
+    
+            // Fetch notifications from the backend
+            const response = await fetch("https://livestock-lineup.onrender.com/api/notifications");
+            if (!response.ok) {
+                throw new Error("Failed to fetch notifications.");
+            }
+            const notifications = await response.json();
+    
+            // Check for matching notifications
+            notifications.forEach((notification) => {
+                const isBreedSelectedByExhibitor = exhibitorEntries.some((exhibitor) =>
+                    exhibitor.submissions.some((submission) =>
+                        submission.breeds.includes(notification.breed)
+                    )
+                );
+    
+                if (isBreedSelectedByExhibitor && !displayedNotifications.has(notification.breed)) {
+                    displayedNotifications.add(notification.breed);
+                    notifyUser(notification.breed);
+                }
+            });
+        } catch (error) {
+            console.error("Error fetching notifications:", error);
         }
-        const notifications = await response.json();
-        notifications.forEach((notification) => {
-          if (
-            !displayedNotifications.has(notification.breed) &&
-            exhibitorEntries.breeds.includes(notification.breed)
-          ) {
-            displayedNotifications.add(notification.breed);
-            // Instead of showing a native alert, we use our custom function
-            notifyUser(notification.breed);
-          }
-        });
-      } catch (error) {
-        console.error("Error fetching notifications:", error);
-      }
     }
   
     setInterval(checkForNotifications, 30000);  
