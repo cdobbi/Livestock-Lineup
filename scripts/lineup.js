@@ -5,6 +5,24 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error: lineup-container element not found.");
         return;
     }
+    
+    async function fetchExhibitorEntries() {
+        try {
+            const response = await fetch("/api/all-exhibitors");
+            const data = await response.json();
+            console.log("Exhibitor entries fetched:", data);
+    
+            // Use this data to render lineups or send notifications
+            return data;
+        } catch (error) {
+            console.error("Error fetching exhibitor entries:", error);
+        }
+    }
+    
+    fetchExhibitorEntries().then((data) => {
+        // Process and display the data as needed
+    });
+    
 
     const showLineups = JSON.parse(localStorage.getItem("showLineups")) || {};
 
@@ -23,6 +41,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 showDiv.appendChild(showTitle);
 
                 const breedList = document.createElement("ul");
+                
+                console.log("showLineups data:", showLineups);
+                if (!lineup.breeds || !Array.isArray(lineup.breeds)) {
+                    console.warn(`No breeds found for category: ${category}, show: ${show}`);
+                    return;
+                }
+                
 
                 lineup.breeds.forEach((breed) => {
                     const breedItem = document.createElement("li");
@@ -39,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     headers: { "Content-Type": "application/json" },
                                     body: JSON.stringify({ breed }),
                                 });
+
                                 const data = await response.json();
                                 alert(`Notification sent for breed: ${breed}`);
                             } catch (error) {
