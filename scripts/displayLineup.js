@@ -1,6 +1,6 @@
 console.log("Starting displayLineup.js...");
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   // Verify lineup-container exists
   const lineupContainer = document.getElementById("lineup-container");
 
@@ -9,14 +9,21 @@ document.addEventListener("DOMContentLoaded", function () {
     return; // Stop execution if lineup-container is missing
   }
 
-  const showLineups = JSON.parse(localStorage.getItem("showLineups")) || [];
-  console.log("Retrieved lineups from localStorage:", showLineups);
+  try {
+    // Fetch lineup data from the backend
+    const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
+    if (!response.ok) {
+        throw new Error(`Failed to fetch lineups: ${response.statusText}`);
+    }
 
-  if (showLineups.length === 0) {
-    lineupContainer.innerHTML = "<p>No lineups saved.</p>";
-    console.warn("No lineups found in localStorage.");
-    return;
-  }
+    const showLineups = await response.json();
+    console.log("Retrieved lineups from backend:", showLineups);
+
+    if (showLineups.length === 0) {
+        lineupContainer.innerHTML = "<p>No lineups saved.</p>";
+        console.warn("No lineups found in the backend.");
+        return;
+    }
 
   // Render the lineups
   showLineups.forEach((lineup, index) => {
