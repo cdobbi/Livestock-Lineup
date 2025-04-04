@@ -4,27 +4,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const categorySelect = document.getElementById("category-select"); // Added for category
     const showSelect = document.getElementById("show-select"); // Added for show
 
-    // Fetch saved entries from the backend
-    try {
-        const response = await fetch("https://livestock.lineup.onrender.com/api/get-entries");
-        if (response.ok) {
-            const data = await response.json();
-            const savedBreeds = data.breeds || [];
-
-            savedBreeds.forEach((breed) => {
-                const button = Array.from(breedOptionsContainer.querySelectorAll(".breed-button"))
-                    .find((btn) => btn.textContent === breed);
-
-                if (button) {
-                    button.classList.add("selected");
-                }
-            });
-        } else {
-            console.error("Failed to fetch saved entries.");
-        }
-    } catch (error) {
-        console.error("Error fetching saved entries:", error);
-    }
 
     // Existing code for Pusher configuration
     const pusherConfig = await fetch("https://livestock-lineup.onrender.com/pusher-config")
@@ -149,8 +128,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.error("Error saving entries:", error);
             alert("An error occurred while saving your entries.");
         }
-    });
-    
+    });    
 
     async function checkForNotifications() {
         try {
@@ -191,8 +169,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         } catch (error) {
             console.error("Error fetching or processing notifications:", error);
         }
-    }
-    
+    }    
 
     setInterval(checkForNotifications, 5000);
 });
