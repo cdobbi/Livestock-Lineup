@@ -10,18 +10,18 @@ async function initializePusher() {
         const pusherConfig = await response.json();
 
         // Initialize Pusher using the fetched configuration
-        const pusher = new pusher(pusherConfig.key, {
+        const pusher = new Pusher(pusherConfig.key, {
             cluster: pusherConfig.cluster,
         });
 
-        // Subscribe to the "table-time" channel
-        const channel = pusher.subscribe("table-time");
-
-        // Listen for "breed-notification" events
         channel.bind("breed-notification", (data) => {
-            // Trigger mobile-friendly notifications
-            handleNotification(data.breed);
+            const { breed, category, show } = data; // Extract all relevant fields
+            
+            // Ensure notification logic includes category and show validation
+            console.log(`Notification received for Category: ${category}, Show: ${show}, Breed: ${breed}`);
+            handleNotification(breed);
         });
+        
 
         return { pusher, channel };
     } catch (error) {
@@ -46,7 +46,7 @@ function handleNotification(breed) {
                 });
             } else {
                 console.warn("Notifications permission denied. Falling back to UI alert.");
-                updateNotificationArea(breed);
+                updateNotificationArea(breed, category, show);
             }
         });
     } else {
@@ -55,8 +55,7 @@ function handleNotification(breed) {
     }
 }
 
-// Dynamically update the UI to display the notification
-function updateNotificationArea(breed) {
+function updateNotificationArea(breed, category, show) {
     const notificationArea = document.getElementById("notification-area");
 
     if (!notificationArea) {
@@ -64,8 +63,7 @@ function updateNotificationArea(breed) {
         return;
     }
 
-    // Display the notification message in the UI
-    notificationArea.textContent = `Your breed (${breed}) is up next!`;
+    notificationArea.textContent = `Category: ${category}, Show: ${show}\nYour breed (${breed}) is up next!`;
     notificationArea.style.display = "block";
 
     // Auto-hide the notification after 10 seconds

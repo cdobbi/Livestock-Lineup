@@ -1,10 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
+    
     // --- Top-level elements ---
+
     const saveShowButton = document.getElementById("save-show");
     const beginShowButton = document.getElementById("begin-show");
     const rabbitList = document.getElementById("rabbit-list");
 
     // --- Fetch and Render Rabbit Breed Buttons ---
+
     fetch("data/data.json")
         .then((response) => {
             if (!response.ok) {
@@ -45,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const finishedButton = document.getElementById("finished");
 
     if (saveLineupButton) {
-        saveLineupButton.addEventListener("click", () => {
+        saveLineupButton.addEventListener("click", async () => {
             const categoryEl = document.getElementById("category");
             const showEl = document.getElementById("show");
             const category = categoryEl ? categoryEl.value : "";
@@ -60,24 +63,53 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
     
-            let savedLineups = JSON.parse(localStorage.getItem("showLineups")) || [];
-            const newLineup = {
-                category: category,
-                show: show,
-                breeds: selectedBreeds
-            };
-            savedLineups.push(newLineup);
-            localStorage.setItem("showLineups", JSON.stringify(savedLineups));
+            try {
+                // Fetch exhibitor data for validation
+                const response = await fetch("/api/all-exhibitors");
+                if (!response.ok) {
+                    throw new Error("Failed to fetch exhibitor data.");
+                }
     
-            alert(
-                `Lineup saved!\nCategory: ${category}\nShow: ${show}\nBreeds: ${selectedBreeds.join(
-                    ", "
-                )}\n\nPress Finished when done or save another lineup.`
-            );
+                const exhibitorEntries = await response.json();
+    
+                console.log("Fetched exhibitor data:", exhibitorEntries);
+    
+                // Validate if any exhibitor matches the lineup
+                const isMatchFound = exhibitorEntries.some((exhibitor) =>
+                    exhibitor.submissions.some((submission) =>
+                        submission.category === category &&
+                        submission.show === show &&
+                        submission.breeds.some((breed) => selectedBreeds.includes(breed))
+                    )
+                );
+    
+                if (!isMatchFound) {
+                    alert("No exhibitor matches this lineup. Please check your selections.");
+                    return; // Stop saving the lineup
+                }
+    
+                // Save the lineup to the backend
+                const organizerId = "Organizer123"; // Replace with dynamic ID
+                const lineup = { category, show, breeds: selectedBreeds };
+                const saveResponse = await fetch("/api/save-organizer-lineups", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ organizerId, lineups: [lineup] }),
+                });
+    
+                if (saveResponse.ok) {
+                    alert("Lineup saved successfully!");
+                } else {
+                    console.error("Failed to save lineup:", saveResponse.statusText);
+                    alert("Failed to save lineup. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error saving lineup:", error);
+                alert("An error occurred while saving the lineup.");
+            }
         });
     }
-    
-
+     
     // Print Lineup: Instead of printing the full HTML page with buttons,
     if (printLineupButton) {
         printLineupButton.addEventListener("click", () => {
