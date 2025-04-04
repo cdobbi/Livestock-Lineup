@@ -20,17 +20,19 @@
 
         <!-- Category Selection -->
         <div class="form-group text-center">
-            <label for="category">Choose a Category:</label>
+            <label for="category" class="h5">Choose a Category:</label>
             <select id="category" name="category" class="form-control d-inline-block w-auto mx-2">
+                <option value="" disabled selected>Select a Category</option>
                 <option value="Youth">Youth</option>
                 <option value="Open">Open</option>
             </select>
         </div>
 
         <!-- Show Selection -->
-        <div class="form-group text-center">
-            <label for="show">Choose a Show:</label>
+        <div class="form-group text-center my-4">
+            <label for="show" class="h5">Choose a Show:</label>
             <select id="show" name="show" class="form-control d-inline-block w-auto mx-2">
+                <option value="" disabled selected>Select a Show</option>
                 <option value="A">Show A</option>
                 <option value="B">Show B</option>
                 <option value="C">Show C</option>
@@ -40,14 +42,15 @@
             </select>
         </div>
 
+        <!-- Breed Options Section -->
         <div id="breed-options" class="row justify-content-center">
             <div id="rabbit-list" class="d-flex flex-wrap justify-content-center">
                 <!-- Buttons will be dynamically added here -->
-
                 <button type="button" class="breed-button btn btn-outline-secondary m-2">Loading breeds...</button>
             </div>
         </div>
 
+        <!-- Action Buttons -->
         <div class="text-center my-4">
             <button type="button" id="save-lineup" class="btn btn-info btn-lg mx-2">Save Lineup</button>
             <button type="button" id="print-lineup" class="btn btn-info btn-lg mx-2">Print Preview</button>
