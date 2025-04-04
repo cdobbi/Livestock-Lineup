@@ -7,6 +7,11 @@ import Pusher from "pusher";
 import cors from "cors";
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fs from 'fs';
+
+// Import modularized routes
+import routeEx from './routes/route-ex.js'; // Handles exhibitor logic
+import routeOr from './routes/route-or.js'; // Handles organizer logic
 
 // Create __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -29,6 +34,10 @@ const pusher = new Pusher({
 app.use(json());
 app.use(cors());
 
+// Delegate exhibitor and organizer routes to their respective files
+app.use("/", routeEx);
+app.use("/", routeOr);
+
 // Verify Code Endpoint
 app.post("/verify-code", (req, res) => {
     const { code } = req.body;
@@ -40,60 +49,6 @@ app.post("/verify-code", (req, res) => {
     }
 });
 
-app.get("/api/all-exhibitors", (req, res) => {
-    if (fs.existsSync(dataFilePath)) {
-        const exhibitorsData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
-        res.json(exhibitorsData);
-    } else {
-        res.status(404).send("No exhibitor data found.");
-    }
-});
-
-import fs from 'fs';
-import path from 'path';
-
-const dataFilePath = path.join(__dirname, 'data', 'exhibitors.json');
-
-// Save Entries Endpoint
-app.post("/api/save-entries", (req, res) => {
-    const { breeds } = req.body;
-    const exhibitorId = req.ip; // Example unique identifier for exhibitors
-
-    console.log("Received request to save entries."); // Log the request
-    console.log("Request body:", req.body); // Log the request data
-
-    if (!breeds || breeds.length === 0) {
-        console.warn("No breeds provided in the request.");
-        return res.status(400).send("No breeds provided.");
-    }
-
-    // Read existing data
-    let exhibitorsData = [];
-    if (fs.existsSync(dataFilePath)) {
-        exhibitorsData = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
-        console.log("Existing exhibitors data:", exhibitorsData); // Log existing data
-    } else {
-        console.warn("No existing data file found. Creating a new one.");
-    }
-
-    // Update or add the exhibitor's data
-    const existingExhibitor = exhibitorsData.find((entry) => entry.id === exhibitorId);
-    if (existingExhibitor) {
-        console.log(`Updating data for exhibitor with ID: ${exhibitorId}`);
-        existingExhibitor.breeds = breeds;
-    } else {
-        console.log(`Adding new exhibitor with ID: ${exhibitorId}`);
-        exhibitorsData.push({ id: exhibitorId, breeds });
-    }
-
-    // Write updated data back to the file
-    fs.writeFileSync(dataFilePath, JSON.stringify(exhibitorsData, null, 2), 'utf8');
-    console.log("Updated exhibitors data:", exhibitorsData); // Log updated data
-
-    res.status(200).send("Entries saved successfully.");
-});
-
-
 // API Route: Notifications
 app.get("/api/notifications", (req, res) => {
     const notifications = [
@@ -104,6 +59,7 @@ app.get("/api/notifications", (req, res) => {
     res.json(notifications);
 });
 
+// Serve static files
 app.use(express.static(path.join(__dirname, '..')));
 
 // GET "/" Route: Explicitly serve index.html
@@ -122,5 +78,3 @@ app.get("/pusher-config", (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-
-

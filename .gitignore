@@ -28,3 +28,5 @@ argv.json
 *.vsixmanifest
 LICENSE.txt
 NOTICE.md
+
+ok. does anything in this file need to be adjusted. ONLY neccessary to work with your neew suggestions. do not change file paths or classes or id 's and dont forget the end goal of retrieving the data input by the exhibitor that is equivalent to the shows the organizer has created so that when the organizer clicks on the breed in the lineups theyve created the alert is sent out to the exhibitors that have that same data chosen of catergory, show, entries (breeds).

@@ -38,13 +38,20 @@ document.addEventListener("DOMContentLoaded", function () {
       checkbox.addEventListener("click", async () => {
         if (checkbox.checked) {
           try {
-            // Retrieve exhibitor entries from localStorage
-            const exhibitorEntries = JSON.parse(localStorage.getItem("exhibitorEntries"));
+            // Fetch exhibitor entries from the backend
+            const exhibitorResponse = await fetch("/api/all-exhibitors");
+            const exhibitorEntries = await exhibitorResponse.json();
 
             // Validate exhibitorEntries and check if the breed matches
-            if (!exhibitorEntries || !Array.isArray(exhibitorEntries.breeds) || !exhibitorEntries.breeds.includes(breed)) {
+            const isBreedSelectedByExhibitor = exhibitorEntries.some((exhibitor) =>
+              exhibitor.submissions.some((submission) =>
+                submission.breeds.includes(breed)
+              )
+            );
+
+            if (!isBreedSelectedByExhibitor) {
               console.warn(`Breed ${breed} is not selected by the exhibitor.`);
-              return; // Exit if the breed is not selected by the exhibitor
+              return; // Exit if the breed is not selected by any exhibitor
             }
 
             // If the breed matches, send the notification
@@ -84,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   console.log("Lineups rendered successfully!");
 
-  // Example check for notifications (using a hard-coded list) – update as necessary
+  // Check for notifications
   async function checkForNotifications() {
     try {
       // Example notifications (replace with actual logic if needed)
@@ -93,17 +100,24 @@ document.addEventListener("DOMContentLoaded", function () {
         { breed: "Netherland Dwarf" },
       ];
 
-      // Retrieve exhibitor entries from localStorage
-      const exhibitorEntries = JSON.parse(localStorage.getItem("exhibitorEntries"));
+      // Fetch exhibitor entries from the backend
+      const exhibitorResponse = await fetch("/api/all-exhibitors");
+      const exhibitorEntries = await exhibitorResponse.json();
 
-      if (!exhibitorEntries || !exhibitorEntries.breeds || exhibitorEntries.breeds.length === 0) {
+      if (!exhibitorEntries || exhibitorEntries.length === 0) {
         console.warn("No exhibitor entries found.");
         return; // Exit if no entries are found
       }
 
       // Check if any notification breed matches the exhibitor's selected breeds
       notifications.forEach((notification) => {
-        if (exhibitorEntries.breeds.includes(notification.breed)) {
+        const isBreedSelectedByExhibitor = exhibitorEntries.some((exhibitor) =>
+          exhibitor.submissions.some((submission) =>
+            submission.breeds.includes(notification.breed)
+          )
+        );
+
+        if (isBreedSelectedByExhibitor) {
           // Use the custom notification function from alert.js
           if (typeof notifyUser === "function") {
             notifyUser(notification.breed);
