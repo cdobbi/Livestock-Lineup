@@ -27,8 +27,41 @@ document.addEventListener("DOMContentLoaded", function () {
     
     fetchExhibitorEntries();     
 
-    const showLineups = JSON.parse(localStorage.getItem("showLineups")) || {};
+    let showLineups = {};
 
+    async function fetchShowLineups() {
+        try {
+            const response = await fetch("/api/all-organizer-lineups");
+            if (!response.ok) {
+                throw new Error("Failed to fetch organizer lineups.");
+            }
+    
+            const organizerData = await response.json();
+            console.log("Fetched organizer lineups:", organizerData);
+    
+            // Aggregate lineups from all organizers
+            organizerData.forEach((organizer) => {
+                organizer.lineups.forEach((lineup) => {
+                    const { category, show, breeds } = lineup;
+    
+                    if (!showLineups[category]) showLineups[category] = {};
+                    if (!showLineups[category][show]) showLineups[category][show] = { breeds: [] };
+    
+                    showLineups[category][show].breeds.push(...breeds);
+                });
+            });
+    
+            // Display updated lineups
+            displayLineups();
+        } catch (error) {
+            console.error("Error fetching show lineups:", error);
+            lineupContainer.innerHTML = "<p class='text-danger'>Failed to load show lineups.</p>";
+        }
+    }
+    
+    // Fetch show lineups from backend
+    fetchShowLineups();
+    
     // Display the lineups
     function displayLineups() {
         lineupContainer.innerHTML = ""; // Clear the container
@@ -102,6 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                         }
                     });
+                    
                     
 
                     breedList.appendChild(breedItem);
