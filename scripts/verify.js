@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const organizerCode = document.getElementById("organizer-code").value;
 
             try {
-                const response = await fetch("https://Livestock-Lineup.onrender.com/verify-code", {
+                const response = await fetch("https://livestock-lineup.onrender.com/verify-code", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ code: organizerCode }),
