@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (checkbox.checked) {
           try {
             // Fetch exhibitor entries from the backend
-            const exhibitorResponse = await fetch("/api/all-exhibitors");
+            const exhibitorResponse = await fetch("https://livestock-lineup.onreder.com/api/all-exhibitors");
             const exhibitorEntries = await exhibitorResponse.json();
 
             // Validate exhibitorEntries and check if the breed matches
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
               category: lineup.category,
               show: lineup.show,
             };
-            const response = await fetch("https://Livestock-Lineup.onrender.com/api/notifications", {
+            const response = await fetch("https://livestock-lineup.onrender.com/api/notifications", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(payload),
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ];
 
       // Fetch exhibitor entries from the backend
-      const exhibitorResponse = await fetch("/api/all-exhibitors");
+      const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
       const exhibitorEntries = await exhibitorResponse.json();
 
       if (!exhibitorEntries || exhibitorEntries.length === 0) {
