@@ -51,14 +51,6 @@ app.get("/api/notifications", (req, res) => {
     res.json(notifications);
 });
 
-// Serve static files
-app.use(express.static(path.join(__dirname, '..', 'public')));
-
-// GET "/" Route: Explicitly serve index.html
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'index.html'));
-});
-
 // Pusher Configuration Endpoint
 app.get("/pusher-config", (req, res) => {
     res.json({
