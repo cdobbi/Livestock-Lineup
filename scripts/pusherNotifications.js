@@ -16,7 +16,7 @@ async function initializePusher() {
 
         const channel = pusher.subscribe("table-time");
 
-        // Bind to the "breed-notification" event
+        // Bind to the "breed-notification" event~
         channel.bind("breed-notification", (data) => {
             const { breed, category, show } = data; // Extract all relevant fields
             console.log(`Notification received for Category: ${category}, Show: ${show}, Breed: ${breed}`);
