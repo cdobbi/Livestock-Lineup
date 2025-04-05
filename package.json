@@ -1,9 +1,9 @@
 {
     "name": "livestock-lineup",
     "version": "1.0.0",
-    "main": "scripts/server.js",
+    "main": "scripts/server.cjs",
     "scripts": {
-        "start": "node scripts/server.js",
+        "start": "node scripts/server.cjs",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
