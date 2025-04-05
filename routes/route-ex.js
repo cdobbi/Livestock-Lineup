@@ -1,51 +1,77 @@
-const express = require("express");
-const router = express.Router();
-const fs = require("fs");
-const path = require("path");
-
-const exhibitorFilePath = path.join(__dirname, "data/exhibitors.json");
-
-// Fetch all exhibitor data
-router.get("https://livestock-lineup.onrender.com/api/all-exhibitors", (req, res) => {
-    if (fs.existsSync(exhibitorFilePath)) {
-        try {
-            const exhibitorData = JSON.parse(fs.readFileSync(exhibitorFilePath, "utf8"));
-            res.json(exhibitorData);
-        } catch (error) {
-            res.status(500).send("Error reading exhibitor data.");
+// Fetch Pusher configuration from the server and initialize Pusher
+async function initializePusher() {
+    try {
+        // Fetch Pusher configuration from the server
+        const response = await fetch("https://livestock-lineup.onrender.com/pusher-config");
+        if (!response.ok) {
+            throw new Error("Failed to fetch Pusher configuration.");
         }
+
+        const pusherConfig = await response.json();
+
+        // Initialize Pusher using the fetched configuration
+        const pusher = new Pusher(pusherConfig.key, {
+            cluster: pusherConfig.cluster,
+        });
+
+        const channel = pusher.subscribe("table-time");
+
+        // Bind to the "breed-notification" event
+        channel.bind("breed-notification", (data) => {
+            const { breed, category, show } = data; // Extract all relevant fields
+            console.log(`Notification received for Category: ${category}, Show: ${show}, Breed: ${breed}`);
+            handleNotification(breed, category, show);
+        });
+
+        return { pusher, channel };
+    } catch (error) {
+        console.error("Error initializing Pusher:", error);
+        return null;
+    }
+}
+
+// Handle incoming notifications with sound and polished notifications
+function handleNotification(breed, category, show) {
+    // Play notification sound
+    const notificationSound = new Audio("/sounds/alert.mp3");
+    notificationSound.play();
+
+    // Use Browser Notification API if supported
+    if ("Notification" in window) {
+        Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+                new Notification("Table-Time Alert", {
+                    body: `Your breed (${breed}) is up next!`,
+                    icon: "/images/notification-icon.png", // Optional: add an icon for a polished look
+                });
+            } else {
+                console.warn("Notifications permission denied. Falling back to UI alert.");
+                updateNotificationArea(breed, category, show);
+            }
+        });
     } else {
-        res.status(404).send("No exhibitor data found.");
+        // Fall back to updating the UI if browser notifications are unsupported
+        updateNotificationArea(breed, category, show);
     }
-});
+}
 
-// Save exhibitor data
-router.post("https://livestock-lineup.onrender.com/api/save-entries", (req, res) => {
-    const { category, show, breeds } = req.body;
+// Update the notification area in the UI
+function updateNotificationArea(breed, category, show) {
+    const notificationArea = document.getElementById("notification-area");
 
-    // Validate the request body
-    if (!category || !show || !breeds) {
-        return res.status(400).send("Invalid exhibitor data. 'category', 'show', and 'breeds' are required.");
-    }
-
-    // Ensure breeds is an array
-    if (!Array.isArray(breeds)) {
-        return res.status(400).send("Invalid exhibitor data. 'breeds' must be an array.");
+    if (!notificationArea) {
+        console.error("Notification area element not found in the DOM.");
+        return;
     }
 
-    // Read existing exhibitor data
-    let exhibitorData = [];
-    if (fs.existsSync(exhibitorFilePath)) {
-        exhibitorData = JSON.parse(fs.readFileSync(exhibitorFilePath, "utf8"));
-    }
+    notificationArea.textContent = `Category: ${category}, Show: ${show}\nYour breed (${breed}) is up next!`;
+    notificationArea.style.display = "block";
 
-    // Add the new entry
-    exhibitorData.push({ category, show, breeds });
+    // Auto-hide the notification after 10 seconds
+    setTimeout(() => {
+        notificationArea.style.display = "none";
+    }, 10000);
+}
 
-    // Save the updated data back to the file
-    fs.writeFileSync(exhibitorFilePath, JSON.stringify(exhibitorData, null, 2), "utf8");
-
-    res.status(200).send("Exhibitor data saved successfully.");
-});
-
-module.exports = router;
+// the initialization function
+module.exports = { initializePusher };
