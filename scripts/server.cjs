@@ -1,6 +1,5 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
-console.log("Pusher Key:", process.env.key);
 
 const express = require("express");
 const cors = require("cors");
@@ -8,7 +7,14 @@ const Pusher = require("pusher");
 const path = require("path");
 const fs = require("fs");
 
-// Import modularized routes
+// Initialize the Express app and set the port
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Middleware
+app.use(express.json());
+app.use(cors());
+
 // Import modularized routes
 const routeEx = require("./routes/route-ex.js"); // Handles exhibitor logic
 const routeOr = require("./routes/route-or.js"); // Handles organizer logic
@@ -17,26 +23,14 @@ const routeOr = require("./routes/route-or.js"); // Handles organizer logic
 app.use("/", routeEx);
 app.use("/", routeOr);
 
-// Initialize the Express app and set the port
-const app = express();
-const port = process.env.PORT || 3000;
-
 // Configure Pusher
 const pusher = new Pusher({
-    appId: process.env.app_id, 
-    key: process.env.key,      
-    secret: process.env.secret, 
-    cluster: process.env.cluster, 
+    appId: process.env.app_id,
+    key: process.env.key,
+    secret: process.env.secret,
+    cluster: process.env.cluster,
     useTLS: true,
 });
-
-// Middleware
-app.use(express.json());
-app.use(cors());
-
-// Delegate exhibitor and organizer routes to their respective files
-app.use("/", routeEx);
-app.use("/", routeOr);
 
 // Verify Code Endpoint
 app.post("/verify-code", (req, res) => {
@@ -49,7 +43,7 @@ app.post("/verify-code", (req, res) => {
 });
 
 // API Route: Notifications
-app.get("https://livestock-lineup.onrender.com/api/notifications", (req, res) => {
+app.get("/api/notifications", (req, res) => {
     const notifications = [
         { breed: "Holland Lop" },
         { breed: "Netherland Dwarf" },
@@ -59,7 +53,7 @@ app.get("https://livestock-lineup.onrender.com/api/notifications", (req, res) =>
 });
 
 // Serve static files
-app.use(express.static(path.join(__dirname, '..')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // GET "/" Route: Explicitly serve index.html
 app.get("/", (req, res) => {
@@ -74,6 +68,7 @@ app.get("/pusher-config", (req, res) => {
     });
 });
 
+// Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
