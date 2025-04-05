@@ -16,8 +16,8 @@ app.use(express.json());
 app.use(cors());
 
 // Import modularized routes
-const routeEx = require("./routes/route-ex.js"); // Handles exhibitor logic
-const routeOr = require("./routes/route-or.js"); // Handles organizer logic
+const routeEx = require("https://livestock-lineup.onrender.com/routes/route-ex.js"); // Handles exhibitor logic
+const routeOr = require("https://livestock-lineup.onrender.com/routes/route-or.js"); // Handles organizer logic
 
 // Delegate exhibitor and organizer routes to their respective paths
 app.use("/exhibitors", routeEx);
