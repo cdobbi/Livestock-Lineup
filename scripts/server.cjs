@@ -16,11 +16,12 @@ app.use(express.json());
 app.use(cors());
 
 // Import modularized routes
+const routeEx = require("./routes/route-ex.js"); // Handles exhibitor logic
+const routeOr = require("./routes/route-or.js"); // Handles organizer logic
+
+// Delegate exhibitor and organizer routes to their respective paths
 app.use("/exhibitors", routeEx);
 app.use("/organizers", routeOr);
-// Delegate exhibitor and organizer routes to their respective files
-app.use("/", routeEx);
-app.use("/", routeOr);
 
 // Configure Pusher
 const pusher = new Pusher({
@@ -51,12 +52,26 @@ app.get("/api/notifications", (req, res) => {
     res.json(notifications);
 });
 
+// Serve static files
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
 // Pusher Configuration Endpoint
 app.get("/pusher-config", (req, res) => {
     res.json({
         key: process.env.key,
         cluster: process.env.cluster,
     });
+});
+
+// Catch-all error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send("Something went wrong!");
+});
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).send("Route not found");
 });
 
 // Start the server
