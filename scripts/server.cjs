@@ -9,8 +9,13 @@ const path = require("path");
 const fs = require("fs");
 
 // Import modularized routes
-const routeEx = require('routes/route-ex.js'); // Handles exhibitor logic
-const routeOr = require('routes/route-or.js'); // Handles organizer logic
+// Import modularized routes
+const routeEx = require("./routes/route-ex.js"); // Handles exhibitor logic
+const routeOr = require("./routes/route-or.js"); // Handles organizer logic
+
+// Delegate exhibitor and organizer routes to their respective files
+app.use("/", routeEx);
+app.use("/", routeOr);
 
 // Initialize the Express app and set the port
 const app = express();
