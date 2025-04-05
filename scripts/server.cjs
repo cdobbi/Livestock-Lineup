@@ -42,7 +42,7 @@ app.post("/verify-code", (req, res) => {
 });
 
 // API Route: Notifications
-app.get("https://livestock-lineup.onrender.com/api/notifications", (req, res) => {
+app.get("/api/notifications", (req, res) => {
     const notifications = [
         { breed: "Holland Lop" },
         { breed: "Netherland Dwarf" },
