@@ -41,5 +41,5 @@ function showInitialAlert() {
       });
   }
   
-  // Export the functions defined in this file
+  //  the functions defined in this file
   module.exports = { showInitialAlert, showSecondAlert };

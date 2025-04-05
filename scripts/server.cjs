@@ -16,9 +16,8 @@ app.use(express.json());
 app.use(cors());
 
 // Import modularized routes
-const routeEx = require("./routes/route-ex.js"); // Handles exhibitor logic
-const routeOr = require("./routes/route-or.js"); // Handles organizer logic
-
+app.use("/exhibitors", routeEx);
+app.use("/organizers", routeOr);
 // Delegate exhibitor and organizer routes to their respective files
 app.use("/", routeEx);
 app.use("/", routeOr);
@@ -43,7 +42,7 @@ app.post("/verify-code", (req, res) => {
 });
 
 // API Route: Notifications
-app.get("/api/notifications", (req, res) => {
+app.get("https://livestock-lineup.onrender.com/api/notifications", (req, res) => {
     const notifications = [
         { breed: "Holland Lop" },
         { breed: "Netherland Dwarf" },
