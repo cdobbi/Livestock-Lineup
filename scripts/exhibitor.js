@@ -1,5 +1,4 @@
-import { initializePusher } from "./pusherNotifications.js";
-
+const { initializePusher } = require("./pusherNotifications.js");
 document.addEventListener("DOMContentLoaded", async function () {
     const breedOptionsContainer = document.getElementById("breed-options");
     const saveEntriesButton = document.getElementById("save-entries");
