@@ -74,4 +74,4 @@ function updateNotificationArea(breed, category, show) {
 }
 
 // Export the initialization function
-export { initializePusher };
+module.exports = { initializePusher };
