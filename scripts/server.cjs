@@ -5,6 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const Pusher = require("pusher");
 const path = require("path");
+const routeEx = require("../routes/route-ex.js");
 const fs = require("fs");
 
 // Initialize the Express app and set the port
