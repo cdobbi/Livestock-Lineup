@@ -1,3 +1,5 @@
+// This file handles the organizer's operations.
+
 document.addEventListener("DOMContentLoaded", function () {
     const lineupContainer = document.getElementById("lineup-container");
 

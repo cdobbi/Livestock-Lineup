@@ -1,7 +1,18 @@
+// This file handles organizer logic. 
+
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 const path = require("path");
+const Pusher = require("pusher");
+
+const pusher = new Pusher({
+    appId: process.env.app_id,
+    key: process.env.key,
+    secret: process.env.secret,
+    cluster: process.env.cluster,
+    useTLS: true,
+});
 
 const organizerFilePath = path.join(__dirname, "../data/organizers.json");
 
@@ -29,14 +40,22 @@ router.post("/api/save-organizer-lineups", (req, res) => {
     res.status(200).send("Organizer lineups saved successfully.");
 });
 
-// Fetch all organizer lineups
-router.get("/api/all-organizer-lineups", (req, res) => {
-    if (fs.existsSync(organizerFilePath)) {
-        const organizerData = JSON.parse(fs.readFileSync(organizerFilePath, "utf8"));
-        res.json(organizerData);
-    } else {
-        res.status(404).send("No organizer lineups found.");
+// Trigger a notification for a specific breed in the lineup
+router.post("/api/notify", (req, res) => {
+    const { category, show, breed } = req.body;
+
+    if (!category || !show || !breed) {
+        return res.status(400).json({ error: "Missing fields" });
     }
+
+    pusher.trigger("table-time", "breed-notification", {
+        category,
+        show,
+        breed,
+    });
+
+    console.log(`Notification sent for Category: ${category}, Show: ${show}, Breed: ${breed}`);
+    res.status(200).send("Notification sent successfully.");
 });
 
 module.exports = router;
