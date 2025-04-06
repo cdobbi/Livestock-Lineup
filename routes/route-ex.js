@@ -1,3 +1,11 @@
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+
+const router = express.Router(); // Initialize the router
+
+const exhibitorFilePath = path.join(__dirname, "../data/exhibitors.json");
+
 // Fetch all exhibitors
 router.get("/all-exhibitors", (req, res) => {
     try {
@@ -42,3 +50,5 @@ router.post("/save-exhibitor", (req, res) => {
         res.status(500).json({ error: "Failed to save exhibitor data." });
     }
 });
+
+module.exports = router; // Export the router
