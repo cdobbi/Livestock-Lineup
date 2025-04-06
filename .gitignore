@@ -18,6 +18,26 @@ build/
 # Ignore environment files
 .env
 
+# Ignore Pusher debug files (if any)
+pusher-debug.log
 
+# Ignore SweetAlert2 (if added via CDN)
+sweetalert2/
 
-# ok. does anything in this file need to be adjusted. ONLY neccessary to work with your neew suggestions. do not change file paths or classes or id 's and dont forget the end goal of retrieving the data input by the exhibitor that is equivalent to the shows the organizer has created so that when the organizer clicks on the breed in the lineups theyve created the alert is sent out to the exhibitors that have that same data chosen of catergory, show, entries (breeds).
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore cache files
+*.cache
+.cache/
+
+# Ignore JSON data files (if they are dynamically generated)
+data/*.json
+!data/exhibitors.json
+!data/organizers.json
+
+# Ignore public assets (if dynamically generated)
+public/assets/
+
+# ok. does anything in this file need to be adjusted. ONLY neccessary to work with your neew suggestions. dont forget the end goal of retrieving the backend data input by the exhibitor that is equivalent to the shows the organizer has created, also stored in the backend,so that when the organizer clicks on the breed in the lineups theyve created the alert is sent out to the exhibitors that have that same data chosen of catergory, show,breeds.
