@@ -3,13 +3,13 @@ const router = express.Router();
 const fs = require("fs");
 const path = require("path");
 
-const organizerFilePath = path.join(__dirname, "../data/organizer.json");
+const organizerFilePath = path.join(__dirname, "../data/organizers.json");
 
 // Save organizer lineups
 router.post("/api/save-organizer-lineups", (req, res) => {
-    const { organizerId, lineups } = req.body;
+    const { show, lineup } = req.body;
 
-    if (!organizerId || !lineups || !Array.isArray(lineups)) {
+    if (!show || !lineup || !Array.isArray(lineup)) {
         return res.status(400).send("Invalid organizer data.");
     }
 
@@ -18,11 +18,11 @@ router.post("/api/save-organizer-lineups", (req, res) => {
         organizerData = JSON.parse(fs.readFileSync(organizerFilePath, "utf8"));
     }
 
-    const existingOrganizer = organizerData.find((org) => org.organizerId === organizerId);
-    if (existingOrganizer) {
-        existingOrganizer.lineups = lineups;
+    const existingShow = organizerData.find((org) => org.show === show);
+    if (existingShow) {
+        existingShow.lineup = lineup;
     } else {
-        organizerData.push({ organizerId, lineups });
+        organizerData.push({ show, lineup });
     }
 
     fs.writeFileSync(organizerFilePath, JSON.stringify(organizerData, null, 2), "utf8");

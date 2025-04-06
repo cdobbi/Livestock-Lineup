@@ -1,1 +1,18 @@
-[]
+[
+    {
+      "id": 1,
+      "name": "John Doe",
+      "submissions": [
+        { "category": "Youth", "show": "A", "breeds": ["Rhinelander"] },
+        { "category": "Youth", "show": "B", "breeds": ["Mini Lop"] }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "submissions": [
+        { "category": "Open", "show": "A", "breeds": ["Harlequin"] },
+        { "category": "Open", "show": "Meat Pen", "breeds": ["Mini Lop"] }
+      ]
+    }
+  ]

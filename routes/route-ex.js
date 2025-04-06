@@ -1,49 +1,43 @@
 const express = require("express");
 const router = express.Router();
+const fs = require("fs");
+const path = require("path");
 
-// Example route: Fetch all exhibitors
+const exhibitorFilePath = path.join(__dirname, "../data/exhibitors.json");
+
+// Fetch all exhibitors
 router.get("/api/all-exhibitors", (req, res) => {
-    res.json({ message: "Exhibitor data goes here." });
+    if (fs.existsSync(exhibitorFilePath)) {
+        const exhibitorData = JSON.parse(fs.readFileSync(exhibitorFilePath, "utf8"));
+        res.json(exhibitorData);
+    } else {
+        res.status(404).send("No exhibitor data found.");
+    }
 });
 
-// Example route: Save exhibitor data
+// Save exhibitor data
 router.post("/api/save-exhibitor", (req, res) => {
-    const { name, category, breed } = req.body;
+    const { name, category, show, breeds } = req.body;
 
-    if (!name || !category || !breed) {
-        return res.status(400).json({ error: "Missing required fields" });
+    if (!name || !category || !show || !breeds || !Array.isArray(breeds)) {
+        return res.status(400).json({ error: "Missing or invalid fields" });
     }
 
-    // Simulate saving data
+    let exhibitorData = [];
+    if (fs.existsSync(exhibitorFilePath)) {
+        exhibitorData = JSON.parse(fs.readFileSync(exhibitorFilePath, "utf8"));
+    }
+
+    const newEntry = {
+        id: exhibitorData.length + 1, // Generate a simple ID
+        name,
+        submissions: [{ category, show, breeds }]
+    };
+
+    exhibitorData.push(newEntry);
+
+    fs.writeFileSync(exhibitorFilePath, JSON.stringify(exhibitorData, null, 2), "utf8");
     res.status(201).json({ message: "Exhibitor saved successfully!" });
 });
 
-// Pusher initialization function
-async function initializePusher() {
-    try {
-        const response = await fetch("https://livestock-lineup.onrender.com/pusher-config");
-        if (!response.ok) {
-            throw new Error("Failed to fetch Pusher configuration.");
-        }
-
-        const pusherConfig = await response.json();
-
-        const pusher = new Pusher(pusherConfig.key, {
-            cluster: pusherConfig.cluster,
-        });
-
-        const channel = pusher.subscribe("table-time");
-
-        channel.bind("breed-notification", (data) => {
-            const { breed, category, show } = data;
-            console.log(`Notification received for Category: ${category}, Show: ${show}, Breed: ${breed}`);
-        });
-
-        return { pusher, channel };
-    } catch (error) {
-        console.error("Error initializing Pusher:", error);
-        return null;
-    }
-}
-
-module.exports = { router, initializePusher };
+module.exports = router;

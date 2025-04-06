@@ -1,17 +1,18 @@
 [
     {
-        "organizerId": "Organizer1",
-        "lineups": [
-            {
-                "category": "Youth",
-                "show": "A",
-                "breeds": ["Holland Lop", "Netherland Dwarf"]
-            },
-            {
-                "category": "Open",
-                "show": "B",
-                "breeds": ["Mini Rex", "Mini Lop"]
-            }
-        ]
+      "show": "A",
+      "lineup": [
+        { "category": "Youth", "breed": "Rhinelander" },
+        { "category": "Open", "breed": "Rhinelander" },
+        { "category": "Youth", "breed": "Mini Lop" },
+        { "category": "Open", "breed": "Mini Lop" }
+      ]
+    },
+    {
+      "show": "B",
+      "lineup": [
+        { "category": "Youth", "breed": "Harlequin" },
+        { "category": "Open", "breed": "Harlequin" }
+      ]
     }
-]
+  ]
