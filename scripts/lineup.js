@@ -11,21 +11,20 @@ document.addEventListener("DOMContentLoaded", function () {
             const response = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
             const exhibitors = await response.json();
             console.log("Exhibitors data fetched:", exhibitors);
-    
+
             exhibitors.forEach((exhibitor) => {
                 exhibitor.submissions.forEach((submission) => {
                     console.log(
                         `Exhibitor ID: ${exhibitor.id}, Category: ${submission.category}, Show: ${submission.show}, Breeds: ${submission.breeds.join(", ")}`
                     );
-                    // Process and display the submissions as needed
                 });
             });
         } catch (error) {
             console.error("Error fetching exhibitor entries:", error);
         }
     }
-    
-    fetchExhibitorEntries();     
+
+    fetchExhibitorEntries();
 
     let showLineups = {};
 
@@ -35,22 +34,22 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!response.ok) {
                 throw new Error("Failed to fetch organizer lineups.");
             }
-    
+
             const organizerData = await response.json();
             console.log("Fetched organizer lineups:", organizerData);
-    
+
             // Aggregate lineups from all organizers
             organizerData.forEach((organizer) => {
                 organizer.lineups.forEach((lineup) => {
                     const { category, show, breeds } = lineup;
-    
+
                     if (!showLineups[category]) showLineups[category] = {};
                     if (!showLineups[category][show]) showLineups[category][show] = { breeds: [] };
-    
+
                     showLineups[category][show].breeds.push(...breeds);
                 });
             });
-    
+
             // Display updated lineups
             displayLineups();
         } catch (error) {
@@ -58,10 +57,10 @@ document.addEventListener("DOMContentLoaded", function () {
             lineupContainer.innerHTML = "<p class='text-danger'>Failed to load show lineups.</p>";
         }
     }
-    
+
     // Fetch show lineups from backend
     fetchShowLineups();
-    
+
     // Display the lineups
     function displayLineups() {
         lineupContainer.innerHTML = ""; // Clear the container
@@ -77,13 +76,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 showDiv.appendChild(showTitle);
 
                 const breedList = document.createElement("ul");
-                
-                console.log("showLineups data:", showLineups);
+
                 if (!lineup.breeds || !Array.isArray(lineup.breeds)) {
                     console.warn(`No breeds found for category: ${category}, show: ${show}`);
                     return;
                 }
-                
 
                 lineup.breeds.forEach((breed) => {
                     const breedItem = document.createElement("li");
@@ -100,31 +97,33 @@ document.addEventListener("DOMContentLoaded", function () {
                                 if (!exhibitorResponse.ok) {
                                     throw new Error("Failed to fetch exhibitor data.");
                                 }
-                    
+
                                 const exhibitorEntries = await exhibitorResponse.json();
                                 console.log("Fetched exhibitor entries for validation:", exhibitorEntries);
-                    
+
                                 // Check if any exhibitor matches the selected category, show, and breed
                                 const isBreedMatched = exhibitorEntries.some((exhibitor) =>
                                     exhibitor.submissions.some((submission) =>
+                                        submission.category === category &&
+                                        submission.show === show &&
                                         submission.breeds.includes(breed)
                                     )
                                 );
-                    
+
                                 if (!isBreedMatched) {
-                                    alert(`No exhibitors have selected the breed "${breed}".`);
+                                    alert(`No exhibitors have selected the breed "${breed}" for Category: ${category}, Show: ${show}.`);
                                     return; // Exit if no match is found
                                 }
-                    
+
                                 // If a match is found, send the notification
                                 const response = await fetch("https://livestock-lineup.onrender.com/api/notifications", {
                                     method: "POST",
                                     headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify({ breed }),
+                                    body: JSON.stringify({ category, show, breed }),
                                 });
-                    
+
                                 if (response.ok) {
-                                    alert(`Notification sent for breed: ${breed}`);
+                                    alert(`Notification sent for Category: ${category}, Show: ${show}, Breed: ${breed}`);
                                 } else {
                                     console.error("Failed to send notification:", response.statusText);
                                     alert("Failed to send notification. Please try again.");
@@ -135,8 +134,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                         }
                     });
-                    
-                    
 
                     breedList.appendChild(breedItem);
                 });
