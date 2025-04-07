@@ -1,13 +1,15 @@
+/**
+ * This file handles user authentication, including registration and login.
+ * It uses bcrypt for password hashing and PostgreSQL for database operations.
+ * The routes defined here are used for user-related actions such as creating accounts
+ * and logging in. It relies on the centralized database connection from db.js.
+ */
+
 const express = require("express");
 const bcrypt = require("bcrypt");
-const { Pool } = require("pg");
+const pool = require("../db"); // Import the centralized database connection
 
 const router = express.Router();
-
-// PostgreSQL connection
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL || "your_database_url_here",
-});
 
 // Handle user registration
 router.post("/register", async (req, res) => {
@@ -65,6 +67,10 @@ router.post("/login", async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid credentials." });
         }
+
+        // Temporarily store user session data (if applicable)
+        // This can be replaced with a proper session or JWT implementation later
+        req.session = { userId: user.id, email: user.email };
 
         res.status(200).json({ message: "Login successful!", userId: user.id });
     } catch (error) {

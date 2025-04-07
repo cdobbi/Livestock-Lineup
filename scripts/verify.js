@@ -1,3 +1,11 @@
+/**
+ * This script handles the verification of organizer codes.
+ * It sends the entered code to the backend `/codes/verify` endpoint for validation.
+ * If the code is valid, the user is redirected to the organizer page.
+ * If the code is invalid, an error message is displayed, and the input field is highlighted.
+ * This script is designed to work with the frontend and backend integration.
+ */
+
 document.addEventListener("DOMContentLoaded", function () {
     const verifyButton = document.getElementById("verify-code");
 
@@ -6,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const organizerCode = document.getElementById("organizer-code").value;
 
             try {
-                // Send code to the new /codes/verify endpoint
+                // Send code to the /codes/verify endpoint
                 const response = await fetch("/codes/verify", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -20,7 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     window.location.href = "organizer.html";
                 } else {
                     // Highlight the input field with an error style
-                    document.getElementById("organizer-code").classList.add("error");
+                    const codeInput = document.getElementById("organizer-code");
+                    codeInput.classList.add("error");
                     alert("Invalid code. Please try again.");
                 }
             } catch (error) {

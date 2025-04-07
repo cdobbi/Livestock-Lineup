@@ -1,19 +1,20 @@
+/**
+ * This file handles all operations related to exhibitors.
+ * It provides routes to fetch all exhibitors and save new exhibitor data to the database.
+ * The routes defined here are used to manage exhibitor-related data in the frontend.
+ * It relies on the centralized database connection from db.js.
+ */
+
 const express = require("express");
-const { Pool } = require("pg"); // PostgreSQL client setup
+const pool = require("../db"); // Import the centralized database connection
 
 const router = express.Router(); // Initialize the router
-
-// Use the existing pool object from your server configuration
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }, // Required for Render-hosted PostgreSQL
-});
 
 // Fetch all exhibitors
 router.get("/all-exhibitors", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM Exhibitors"); // Fetch all exhibitors
-        res.json(result.rows); // Send the fetched data as JSON
+        const result = await pool.query("SELECT * FROM Exhibitors ORDER BY id"); // Fetch all exhibitors
+        res.status(200).json(result.rows); // Send the fetched data as JSON
     } catch (error) {
         console.error("Error fetching exhibitor data:", error);
         res.status(500).json({ error: "Failed to fetch exhibitor data." });

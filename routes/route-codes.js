@@ -1,11 +1,14 @@
-const express = require("express");
-const { Pool } = require("pg"); // PostgreSQL connection
-const router = express.Router();
+/**
+ * This file handles all operations related to organizer codes.
+ * It provides routes to verify codes stored in the database.
+ * The routes defined here are used to validate organizer codes in the frontend.
+ * It relies on the centralized database connection from db.js.
+ */
 
-// PostgreSQL connection
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL || "your_external_database_url_here",
-});
+const express = require("express");
+const pool = require("../db"); // Import the centralized database connection
+
+const router = express.Router();
 
 // Endpoint for verifying codes
 router.post("/verify", async (req, res) => {

@@ -1,18 +1,21 @@
+/**
+ * This file handles all operations related to submissions.
+ * It provides routes to retrieve all submissions, match exhibitors based on category, show, and breed,
+ * and add new submissions to the database.
+ * The routes defined here are used to manage submission-related data in the frontend.
+ * It relies on the centralized database connection from db.js.
+ */
+
 const express = require("express");
-const { Pool } = require("pg");
+const pool = require("../db"); // Import the centralized database connection
 
-const router = express.Router();
-
-// PostgreSQL connection
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL || "your_database_url_here",
-});
+const router = express.Router(); // Initialize the router
 
 // Retrieve all submissions
 router.get("/", async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM Submissions");
-        res.status(200).json(result.rows);
+        res.status(200).json(result.rows); // Send the fetched data as JSON
     } catch (error) {
         console.error("Error retrieving submissions:", error);
         res.status(500).json({ message: "An error occurred. Please try again." });
@@ -38,13 +41,13 @@ router.get("/match", async (req, res) => {
             return res.status(404).json({ message: "No matching exhibitors found." });
         }
 
-        res.status(200).json(result.rows);
+        res.status(200).json(result.rows); // Send the fetched data as JSON
     } catch (error) {
         console.error("Error retrieving matching exhibitors:", error);
         res.status(500).json({ message: "An error occurred. Please try again." });
     }
 });
- 
+
 // Add a new submission
 router.post("/", async (req, res) => {
     const { exhibitor_id, category_id, show_id, breed_id } = req.body;
@@ -67,5 +70,4 @@ router.post("/", async (req, res) => {
     }
 });
 
-// Export the router
-module.exports = router;
+module.exports = router; // Export the router

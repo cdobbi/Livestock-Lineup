@@ -1,13 +1,14 @@
+/**
+ * This file handles all operations related to categories.
+ * It provides routes to fetch all categories and add new categories to the database.
+ * The routes defined here are used to populate category-related data in the frontend.
+ * It relies on the centralized database connection from db.js.
+ */
+
 const express = require("express");
-const { Pool } = require("pg");
+const pool = require("../db"); // Import the centralized database connection
 
 const router = express.Router();
-
-// PostgreSQL connection
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }, // Required for hosted PostgreSQL
-});
 
 // Retrieve all categories
 router.get("/", async (req, res) => {
@@ -24,6 +25,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     const { name } = req.body;
 
+    // Validate input
     if (!name) {
         return res.status(400).json({ message: "Category name is required." });
     }

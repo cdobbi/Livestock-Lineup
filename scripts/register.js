@@ -1,4 +1,10 @@
-// Handle registration
+/**
+ * This script handles user registration for the Livestock Lineup application.
+ * It validates the registration form inputs, sends the data to the backend `/register` endpoint,
+ * and displays appropriate success or error messages based on the server's response.
+ * This script is designed to integrate with the backend server and frontend form validation.
+ */
+
 document.getElementById("register-form").addEventListener("submit", async function (event) {
     event.preventDefault(); // Prevent form submission
 
@@ -50,12 +56,14 @@ document.getElementById("register-form").addEventListener("submit", async functi
             const result = await response.json();
             if (response.ok) {
                 alert(result.message || "Registration successful!");
+                // Redirect to login page or dashboard
+                window.location.href = "/login.html";
             } else {
                 alert(result.message || "Registration failed. Please try again.");
             }
         } catch (error) {
             alert("An error occurred. Please try again later.");
-            console.error(error);
+            console.error("Error during registration:", error);
         }
     }
 });

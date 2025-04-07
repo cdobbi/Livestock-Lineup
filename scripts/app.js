@@ -28,6 +28,29 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false }, // Required for Render-hosted PostgreSQL
 });
 
+// Fetch categories from the backend and populate a dropdown
+async function fetchCategories() {
+    try {
+        const response = await fetch("/categories");
+        const categories = await response.json();
+
+        const dropdown = document.getElementById("categoryDropdown");
+        categories.forEach((category) => {
+            const option = document.createElement("option");
+            option.value = category.id;
+            option.textContent = category.name;
+            dropdown.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Error fetching categories:", error);
+    }
+}
+
+// Call this function when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+    fetchCategories();
+});
+
 // Middleware
 app.use(express.json());
 app.use(cors());

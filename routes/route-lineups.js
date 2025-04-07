@@ -1,15 +1,23 @@
-const express = require("express");
-const { Pool } = require("pg");
+/**
+ * This file handles all operations related to lineups.
+ * It provides routes to fetch lineups for a specific show from the database.
+ * The routes defined here are used to populate lineup-related data in the frontend.
+ * It relies on the centralized database connection from db.js.
+ */
 
-const router = express.Router();
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
-});
+const express = require("express");
+const pool = require("../db"); // Import the centralized database connection
+
+const router = express.Router(); // Initialize the router
 
 // Fetch lineups for a specific show
 router.get("/", async (req, res) => {
     const { showId } = req.query;
+
+    // Validate input
+    if (!showId) {
+        return res.status(400).json({ message: "Show ID is required." });
+    }
 
     try {
         const result = await pool.query(
@@ -24,11 +32,11 @@ router.get("/", async (req, res) => {
             [showId]
         );
 
-        res.json(result.rows);
+        res.status(200).json(result.rows); // Send the fetched data as JSON
     } catch (error) {
         console.error("Error fetching lineups:", error);
         res.status(500).json({ message: "Failed to fetch lineups." });
     }
 });
 
-module.exports = router;
+module.exports = router; // Export the router

@@ -1,8 +1,16 @@
+/**
+ * This file handles all operations related to organizers.
+ * It provides routes to validate organizer codes, save organizer lineups, retrieve lineups, 
+ * and trigger notifications for specific breeds in the lineup.
+ * The routes defined here are used to manage organizer-related data in the frontend.
+ * It relies on the centralized database connection from db.js and integrates with Pusher for notifications.
+ */
+
 const express = require("express");
-const { Pool } = require("pg"); // PostgreSQL client setup
+const pool = require("../db"); // Import the centralized database connection
 const Pusher = require("pusher");
 
-const router = express.Router();
+const router = express.Router(); // Initialize the router
 
 // Configure Pusher
 const pusher = new Pusher({
@@ -13,17 +21,12 @@ const pusher = new Pusher({
     useTLS: true,
 });
 
-// Use the existing pool object from your server configuration
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }, // Required for Render-hosted PostgreSQL
-});
-
 // Validate organizer code
 router.post("/api/validate-code", (req, res) => {
     const { code } = req.body;
 
-    if (code === "12345") { // Replace with your actual validation logic
+    // Replace with your actual validation logic
+    if (code === "12345") {
         res.status(200).json({ valid: true });
     } else {
         res.status(401).json({ valid: false, message: "Invalid code." });
@@ -36,7 +39,7 @@ router.post("/api/save-organizer-lineups", async (req, res) => {
 
     // Validate the input
     if (!show_name || !lineup || !Array.isArray(lineup)) {
-        return res.status(400).send("Invalid organizer data.");
+        return res.status(400).json({ error: "Invalid organizer data." });
     }
 
     try {
@@ -60,10 +63,10 @@ router.post("/api/save-organizer-lineups", async (req, res) => {
             );
         }
 
-        res.status(200).send("Organizer lineups saved successfully.");
+        res.status(200).json({ message: "Organizer lineups saved successfully." });
     } catch (error) {
         console.error("Error saving organizer lineups:", error);
-        res.status(500).send("Failed to save organizer lineups.");
+        res.status(500).json({ error: "Failed to save organizer lineups." });
     }
 });
 
@@ -71,10 +74,10 @@ router.post("/api/save-organizer-lineups", async (req, res) => {
 router.get("/api/get-organizer-lineups", async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM Organizers");
-        res.json(result.rows); // Send the fetched data as JSON
+        res.status(200).json(result.rows); // Send the fetched data as JSON
     } catch (error) {
         console.error("Error fetching organizer lineups:", error);
-        res.status(500).send("Failed to fetch organizer lineups.");
+        res.status(500).json({ error: "Failed to fetch organizer lineups." });
     }
 });
 
@@ -82,10 +85,12 @@ router.get("/api/get-organizer-lineups", async (req, res) => {
 router.post("/api/notify", (req, res) => {
     const { category, show, breed } = req.body;
 
+    // Validate input
     if (!category || !show || !breed) {
         return res.status(400).json({ error: "Missing fields" });
     }
 
+    // Trigger a notification using Pusher
     pusher.trigger("Livestock-Lineup", "breed-notification", {
         category,
         show,
@@ -93,7 +98,7 @@ router.post("/api/notify", (req, res) => {
     });
 
     console.log(`Notification sent for Category: ${category}, Show: ${show}, Breed: ${breed}`);
-    res.status(200).send("Notification sent successfully.");
+    res.status(200).json({ message: "Notification sent successfully." });
 });
 
-module.exports = router;
+module.exports = router; // Export the router

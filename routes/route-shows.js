@@ -1,19 +1,20 @@
+/**
+ * This file handles all operations related to shows.
+ * It provides routes to retrieve all shows and add new shows to the database.
+ * The routes defined here are used to manage show-related data in the frontend.
+ * It relies on the centralized database connection from db.js.
+ */
+
 const express = require("express");
-const { Pool } = require("pg");
+const pool = require("../db"); // Import the centralized database connection
 
-const router = express.Router();
-
-// PostgreSQL connection
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }, // Required for hosted PostgreSQL
-});
+const router = express.Router(); // Initialize the router
 
 // Retrieve all shows
 router.get("/", async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM Shows ORDER BY id");
-        res.status(200).json(result.rows);
+        res.status(200).json(result.rows); // Send the fetched data as JSON
     } catch (error) {
         console.error("Error retrieving shows:", error);
         res.status(500).json({ message: "An error occurred. Please try again." });
@@ -24,6 +25,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     const { name } = req.body;
 
+    // Validate input
     if (!name) {
         return res.status(400).json({ message: "Show name is required." });
     }
@@ -40,4 +42,4 @@ router.post("/", async (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports = router; // Export the router
