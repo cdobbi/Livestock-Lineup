@@ -1,12 +1,12 @@
 const express = require("express");
-const { Pool } = require("pg"); // Use PostgreSQL for data handling
+const { Pool } = require("pg"); // PostgreSQL client setup
 
 const router = express.Router(); // Initialize the router
 
 // Use the existing pool object from your server configuration
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: false }, // Required for Render-hosted PostgreSQL
 });
 
 // Fetch all exhibitors
