@@ -2,9 +2,23 @@
 document.getElementById("login-form").addEventListener("submit", async function (event) {
     event.preventDefault(); // Prevent form submission
 
-    // Clear previous error messages
-    document.getElementById("login-email-error").textContent = "";
-    document.getElementById("login-password-error").textContent = "";
+    // Function to clear all previous error messages
+    function clearErrors() {
+        const errorFields = ["login-email-error", "login-password-error"];
+        errorFields.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.textContent = "";
+        });
+    }
+
+    // Function to display error messages
+    function displayError(fieldId, message) {
+        const element = document.getElementById(fieldId);
+        if (element) element.textContent = message;
+    }
+
+    // Clear previous errors
+    clearErrors();
 
     // Get form values
     const email = document.getElementById("email").value.trim();
@@ -14,16 +28,16 @@ document.getElementById("login-form").addEventListener("submit", async function 
 
     // Validate email
     if (!email) {
-        document.getElementById("login-email-error").textContent = "Email is required.";
+        displayError("login-email-error", "Email is required.");
         isValid = false;
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-        document.getElementById("login-email-error").textContent = "Please enter a valid email address.";
+        displayError("login-email-error", "Please enter a valid email address.");
         isValid = false;
     }
 
     // Validate password
     if (!password) {
-        document.getElementById("login-password-error").textContent = "Password is required.";
+        displayError("login-password-error", "Password is required.");
         isValid = false;
     }
 
