@@ -19,6 +19,17 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false }, // Required for Render-hosted PostgreSQL
 });
 
+// Validate organizer code
+router.post("/api/validate-code", (req, res) => {
+    const { code } = req.body;
+
+    if (code === "12345") { // Replace with your actual validation logic
+        res.status(200).json({ valid: true });
+    } else {
+        res.status(401).json({ valid: false, message: "Invalid code." });
+    }
+});
+
 // Save organizer lineups
 router.post("/api/save-organizer-lineups", async (req, res) => {
     const { show_name, lineup } = req.body;
