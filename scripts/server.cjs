@@ -5,31 +5,31 @@ const express = require("express");
 const cors = require("cors");
 const Pusher = require("pusher");
 const path = require("path");
-const routeEx = require("../routes/route-ex.js");
-const routeOr = require("../routes/route-or.js");
-const authRoutes = require("../routes/route-auth.js"); // Handles authentication logic
-const codeRoutes = require("../routes/route-codes.js");
-
+const { Pool } = require("pg"); // PostgreSQL client setup
 const fs = require("fs");
 
-// Initialize the Express app and set the port
+const routeEx = require("../routes/route-ex.js"); // Handles exhibitor logic
+const routeOr = require("../routes/route-or.js"); // Handles organizer logic
+const authRoutes = require("../routes/route-auth.js"); // Handles authentication logic
+const codeRoutes = require("../routes/route-codes.js"); // Handles code verification
+
 const app = express();
 const port = process.env.PORT || 3000;
+
+// PostgreSQL Pool Configuration
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL || "your_database_url_here" // Ensure this matches your .env settings
+});
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 
-// Import modularized routes
-const routeEx = require("../routes/route-ex.js"); // Handles exhibitor logic
-const routeOr = require("../routes/route-or.js"); // Handles organizer logic
-const authRoutes = require("../routes/route-auth.js"); // Handles authentication logic
-
 // Delegate exhibitor, organizer, and authentication routes
 app.use("/exhibitors", routeEx);
 app.use("/organizers", routeOr);
 app.use("/auth", authRoutes);
-app.use("/codes", codeRoutes); // Handles verification of codes
+app.use("/codes", codeRoutes);
 
 // Configure Pusher
 const pusher = new Pusher({
@@ -47,6 +47,27 @@ app.post("/verify-code", (req, res) => {
         res.json({ valid: true });
     } else {
         res.json({ valid: false });
+    }
+});
+
+// API Route: Fetch Lineups
+app.get("/api/lineups", async (req, res) => {
+    const { showId } = req.query; // Get the show ID from the query string
+
+    try {
+        const result = await pool.query(`
+            SELECT l.id, s.name AS show_name, c.name AS category_name, b.name AS breed_name
+            FROM Lineups l
+            JOIN Shows s ON l.show_id = s.id
+            JOIN Categories c ON l.category_id = c.id
+            JOIN Breeds b ON l.breed_id = b.id
+            WHERE l.show_id = $1
+        `, [showId]);
+
+        res.json(result.rows); // Send the fetched data as JSON
+    } catch (error) {
+        console.error("Error fetching lineups:", error);
+        res.status(500).json({ message: "Failed to fetch lineups." });
     }
 });
 
