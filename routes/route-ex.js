@@ -12,7 +12,7 @@ const pool = new Pool({
 // Fetch all exhibitors
 router.get("/all-exhibitors", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM Exhibitors"); // Adjust table name if needed
+        const result = await pool.query("SELECT * FROM Exhibitors"); // Fetch all exhibitors
         res.json(result.rows); // Send the fetched data as JSON
     } catch (error) {
         console.error("Error fetching exhibitor data:", error);
@@ -23,16 +23,17 @@ router.get("/all-exhibitors", async (req, res) => {
 // Save exhibitor data
 router.post("/save-exhibitor", async (req, res) => {
     try {
-        const { name, category, show, breeds } = req.body;
+        const { name, submissions } = req.body;
 
-        if (!name || !category || !show || !breeds || !Array.isArray(breeds)) {
+        // Validate the input
+        if (!name || !submissions || !Array.isArray(submissions)) {
             return res.status(400).json({ error: "Missing or invalid fields" });
         }
 
         // Insert exhibitor data into the database
         const result = await pool.query(
-            "INSERT INTO Exhibitors (name, category, show, breeds) VALUES ($1, $2, $3, $4) RETURNING *",
-            [name, category, show, JSON.stringify(breeds)] // Store breeds as JSON
+            "INSERT INTO Exhibitors (name, submissions) VALUES ($1, $2) RETURNING *",
+            [name, JSON.stringify(submissions)] // Store submissions as JSON
         );
 
         res.status(201).json({ message: "Exhibitor saved successfully!", exhibitor: result.rows[0] });
