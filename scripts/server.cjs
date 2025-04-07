@@ -6,6 +6,10 @@ const cors = require("cors");
 const Pusher = require("pusher");
 const path = require("path");
 const routeEx = require("../routes/route-ex.js");
+const routeOr = require("../routes/route-or.js");
+const authRoutes = require("../routes/route-auth.js"); // Handles authentication logic
+const codeRoutes = require("../routes/route-codes.js");
+
 const fs = require("fs");
 
 // Initialize the Express app and set the port
@@ -19,10 +23,13 @@ app.use(cors());
 // Import modularized routes
 const routeEx = require("../routes/route-ex.js"); // Handles exhibitor logic
 const routeOr = require("../routes/route-or.js"); // Handles organizer logic
+const authRoutes = require("../routes/route-auth.js"); // Handles authentication logic
 
-// Delegate exhibitor and organizer routes to their respective paths
+// Delegate exhibitor, organizer, and authentication routes
 app.use("/exhibitors", routeEx);
 app.use("/organizers", routeOr);
+app.use("/auth", authRoutes);
+app.use("/codes", codeRoutes); // Handles verification of codes
 
 // Configure Pusher
 const pusher = new Pusher({
