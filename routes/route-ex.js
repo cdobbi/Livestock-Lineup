@@ -1,28 +1,27 @@
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
+const { Pool } = require("pg"); // Use PostgreSQL for data handling
 
 const router = express.Router(); // Initialize the router
 
-const exhibitorFilePath = path.join(__dirname, "../data/exhibitors.json");
+// Use the existing pool object from your server configuration
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
+});
 
 // Fetch all exhibitors
-router.get("/all-exhibitors", (req, res) => {
+router.get("/all-exhibitors", async (req, res) => {
     try {
-        if (fs.existsSync(exhibitorFilePath)) {
-            const exhibitorData = JSON.parse(fs.readFileSync(exhibitorFilePath, "utf8"));
-            res.json(exhibitorData);
-        } else {
-            res.status(404).send("No exhibitor data found.");
-        }
+        const result = await pool.query("SELECT * FROM Exhibitors"); // Adjust table name if needed
+        res.json(result.rows); // Send the fetched data as JSON
     } catch (error) {
-        console.error("Error reading exhibitor data:", error);
+        console.error("Error fetching exhibitor data:", error);
         res.status(500).json({ error: "Failed to fetch exhibitor data." });
     }
 });
 
 // Save exhibitor data
-router.post("/save-exhibitor", (req, res) => {
+router.post("/save-exhibitor", async (req, res) => {
     try {
         const { name, category, show, breeds } = req.body;
 
@@ -30,21 +29,13 @@ router.post("/save-exhibitor", (req, res) => {
             return res.status(400).json({ error: "Missing or invalid fields" });
         }
 
-        let exhibitorData = [];
-        if (fs.existsSync(exhibitorFilePath)) {
-            exhibitorData = JSON.parse(fs.readFileSync(exhibitorFilePath, "utf8"));
-        }
+        // Insert exhibitor data into the database
+        const result = await pool.query(
+            "INSERT INTO Exhibitors (name, category, show, breeds) VALUES ($1, $2, $3, $4) RETURNING *",
+            [name, category, show, JSON.stringify(breeds)] // Store breeds as JSON
+        );
 
-        const newEntry = {
-            id: exhibitorData.length > 0 ? exhibitorData[exhibitorData.length - 1].id + 1 : 1, // Generate unique ID
-            name,
-            submissions: [{ category, show, breeds }]
-        };
-
-        exhibitorData.push(newEntry);
-
-        fs.writeFileSync(exhibitorFilePath, JSON.stringify(exhibitorData, null, 2), "utf8");
-        res.status(201).json({ message: "Exhibitor saved successfully!" });
+        res.status(201).json({ message: "Exhibitor saved successfully!", exhibitor: result.rows[0] });
     } catch (error) {
         console.error("Error saving exhibitor data:", error);
         res.status(500).json({ error: "Failed to save exhibitor data." });
