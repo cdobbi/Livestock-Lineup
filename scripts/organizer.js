@@ -5,7 +5,6 @@
  * The script integrates with the backend server for data validation and storage
  * and uses Bootstrap for styling and UI components.
  */
-
 document.addEventListener("DOMContentLoaded", function () {
     // --- Top-level elements ---
     const saveShowButton = document.getElementById("save-show");
