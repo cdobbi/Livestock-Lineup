@@ -47,25 +47,33 @@ document.getElementById("login-form").addEventListener("submit", async function 
         isValid = false;
     }
 
-    if (isValid) {
-        try {
-            // Send login data to the server
-            const response = await fetch('https://livestock-lineup.onrender.com/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
+    if (!isValid) {
+        return; // Stop execution if validation fails
+    }
 
-            const result = await response.json();
-            if (response.ok && result.success) {
-                alert("Login successful!");
-                window.location.href = "index.html"; // Redirect to the main page
-            } else {
-                alert(result.message || "Login failed. Please check your credentials.");
-            }
-        } catch (error) {
-            alert("An error occurred. Please try again later.");
-            console.error("Error during login:", error);
+    try {
+        // Send login data to the server
+        const response = await fetch('https://livestock-lineup.onrender.com/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        // Log the raw response for debugging
+        const textResponse = await response.text();
+        console.log("Raw response from server:", textResponse);
+
+        // Attempt to parse the response as JSON
+        const result = JSON.parse(textResponse);
+
+        if (response.ok && result.success) {
+            alert("Login successful!");
+            window.location.href = "index.html"; // Redirect to the main page
+        } else {
+            alert(result.message || "Login failed. Please check your credentials.");
         }
+    } catch (error) {
+        console.error("Error during login:", error);
+        alert("An error occurred. Please try again later.");
     }
 });
