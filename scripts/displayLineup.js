@@ -109,50 +109,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("Error fetching or rendering lineups:", error);
         lineupContainer.innerHTML = "<p>Failed to load lineups. Please try again later.</p>";
     }
-});console.log("Starting displayLineup.js...");
-
-document.addEventListener("DOMContentLoaded", async function () {
-    // Your existing code here...
-
-    // Check for notifications
-    async function checkForNotifications() {
-        try {
-            const response = await fetch("/api/notifications"); // Fetch notifications dynamically from backend
-            if (!response.ok) {
-                throw new Error(`Failed to fetch notifications: ${response.statusText}`);
-            }
-            const notifications = await response.json();
-            
-            // Fetch exhibitor entries from the backend
-            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
-            const exhibitorEntries = await exhibitorResponse.json();
-
-            if (!exhibitorEntries || exhibitorEntries.length === 0) {
-                console.warn("No exhibitor entries found.");
-                return; // Exit if no entries are found
-            }
-
-            // Check if any notification breed matches the exhibitor's selected breeds
-            notifications.forEach((notification) => {
-                const isBreedSelectedByExhibitor = exhibitorEntries.some((exhibitor) =>
-                    exhibitor.submissions.some((submission) =>
-                        submission.breeds.includes(notification.breed)
-                    )
-                );
-
-                if (isBreedSelectedByExhibitor) {
-                    // Use the custom notification function from alert.js
-                    if (typeof notifyUser === "function") {
-                        notifyUser(notification.breed);
-                    } else {
-                        console.warn("notifyUser is not defined.");
-                    }
-                }
-            });
-        } catch (error) {
-            console.error("Error fetching notifications:", error);
-        }
-    }
-
     setInterval(checkForNotifications, 5000);
-});
+
+});console.log("Starting displayLineup.js...");
