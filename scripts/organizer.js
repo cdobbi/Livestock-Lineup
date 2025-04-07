@@ -1,33 +1,29 @@
 /**
  * This script handles the organizer functionality for the Livestock Lineup application.
- * It allows organizers to fetch rabbit breeds, create and save lineups, print saved lineups,
- * clear all saved lineups, and navigate to the lineup page when finished.
- * The script integrates with the backend server for data validation and storage
- * and uses Bootstrap for styling and UI components.
+ * It integrates with a PostgreSQL backend to fetch rabbit breeds, validate exhibitor entries,
+ * save and manage lineups, and navigate to other pages.
  */
+
 document.addEventListener("DOMContentLoaded", function () {
     // --- Top-level elements ---
-    const saveShowButton = document.getElementById("save-show");
-    const beginShowButton = document.getElementById("begin-show");
     const rabbitList = document.getElementById("rabbit-list");
 
     // --- Fetch and Render Rabbit Breed Buttons ---
-    fetch("data/data.json")
+    fetch("https://livestock-lineup.onrender.com/api/breeds") // Replace with your backend endpoint
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Failed to fetch rabbit breeds.");
             }
             return response.json();
         })
-        .then((data) => {
-            const entries = data.entries;
-            rabbitList.innerHTML = "";
+        .then((breeds) => {
+            rabbitList.innerHTML = ""; // Clear existing content
 
-            entries.forEach((entry) => {
+            breeds.forEach((breed) => {
                 const button = document.createElement("button");
                 button.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
-                button.dataset.breed = entry.breed;
-                button.textContent = entry.breed;
+                button.dataset.breed = breed.name; // Assuming 'name' is a column in your breeds table
+                button.textContent = breed.name;
 
                 button.addEventListener("click", function () {
                     this.classList.toggle("active");
@@ -43,12 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
             rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
         });
 
-    // --- Bottom Action Buttons Functionality ---
+    // --- Save Lineup Button Functionality ---
     const saveLineupButton = document.getElementById("save-lineup");
-    const printLineupButton = document.getElementById("print-lineup");
-    const clearLineupButton = document.getElementById("clear-lineup");
-    const finishedButton = document.getElementById("finished");
-
     if (saveLineupButton) {
         saveLineupButton.addEventListener("click", async () => {
             const categoryEl = document.getElementById("category");
@@ -66,43 +58,20 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             try {
-                // Fetch exhibitor data for validation
-                const response = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
-                if (!response.ok) {
-                    throw new Error("Failed to fetch exhibitor data.");
-                }
-
-                const exhibitorEntries = await response.json();
-
-                console.log("Fetched exhibitor data:", exhibitorEntries);
-
-                // Validate if any exhibitor matches the lineup
-                const isMatchFound = exhibitorEntries.some((exhibitor) =>
-                    exhibitor.submissions.some((submission) =>
-                        submission.category === category &&
-                        submission.show === show &&
-                        submission.breeds.some((breed) => selectedBreeds.includes(breed))
-                    )
-                );
-
-                if (!isMatchFound) {
-                    alert("No exhibitor matches this lineup. Please check your selections.");
-                    return; // Stop saving the lineup
-                }
-
-                // Save the lineup to the backend
                 const organizerId = "Organizer123"; // Replace with dynamic ID
                 const lineup = { category, show, breeds: selectedBreeds };
-                const saveResponse = await fetch("https://livestock-lineup.onrender.com/api/save-organizer-lineups", {
+
+                // Save the lineup to the PostgreSQL backend
+                const response = await fetch("https://livestock-lineup.onrender.com/api/save-organizer-lineups", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ organizerId, lineups: [lineup] }),
                 });
 
-                if (saveResponse.ok) {
+                if (response.ok) {
                     alert("Lineup saved successfully!");
                 } else {
-                    console.error("Failed to save lineup:", saveResponse.statusText);
+                    console.error("Failed to save lineup:", response.statusText);
                     alert("Failed to save lineup. Please try again.");
                 }
             } catch (error) {
@@ -112,6 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // --- Print Lineup Button Functionality ---
+    const printLineupButton = document.getElementById("print-lineup");
     if (printLineupButton) {
         printLineupButton.addEventListener("click", async () => {
             let printContent = "";
@@ -151,41 +122,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error("Error fetching saved lineups:", error);
                 alert("Failed to load saved lineups. Please try again later.");
             }
-        });
-    }
-
-    if (clearLineupButton) {
-        clearLineupButton.addEventListener("click", async () => {
-            try {
-                // Send a request to the backend to clear all saved lineups
-                const response = await fetch("https://livestock-lineup.onrender.com/api/clear-lineups", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                });
-
-                if (response.ok) {
-                    document.querySelectorAll(".breed-button.active").forEach((btn) => btn.classList.remove("active"));
-
-                    const categoryEl = document.getElementById("category");
-                    const showEl = document.getElementById("show");
-                    if (categoryEl) categoryEl.selectedIndex = 0;
-                    if (showEl) showEl.selectedIndex = 0;
-
-                    alert("All saved lineups and current selections have been cleared. You can start over.");
-                } else {
-                    console.error("Failed to clear lineups:", response.statusText);
-                    alert("Failed to clear lineups. Please try again.");
-                }
-            } catch (error) {
-                console.error("Error clearing lineups:", error);
-                alert("An error occurred while clearing the lineups.");
-            }
-        });
-    }
-
-    if (finishedButton) {
-        finishedButton.addEventListener("click", () => {
-            window.location.href = "lineup.html";
         });
     }
 });
