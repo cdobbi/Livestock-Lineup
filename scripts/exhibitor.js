@@ -13,8 +13,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
-    // Fetch breed data from data.json
-    fetch("https://livestock-lineup.onrender.com/data/data.json")
+    fetch("https://livestock-lineup.onrender.com/api/breed")
     .then((response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -89,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         };
     
         try {
-            const response = await fetch("https://livestock-lineup.onrender.com/api/save-entries", {
+            const response = await fetch("https://livestock-lineup.onrender.com/api/submissions", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(entries),

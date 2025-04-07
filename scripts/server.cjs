@@ -11,7 +11,8 @@ const fs = require("fs");
 const routeEx = require("../routes/route-ex.js"); // Handles exhibitor logic
 const routeOr = require("../routes/route-or.js"); // Handles organizer logic
 const authRoutes = require("../routes/route-auth.js"); // Handles authentication logic
-const codeRoutes = require("../routes/route-codes.js"); // Handles code verification
+const codeRoutes = require("../routes/route-codes.js");
+const
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -51,8 +52,19 @@ app.post("/verify-code", (req, res) => {
     }
 });
 
+// exhibitor Route: Fetch Breeds
+app.get("/api/breeds", async (req, res) => {
+    try {
+        const result = await pool.query("SELECT * FROM Breeds"); // Adjust the query to match your database schema
+        res.json(result.rows); // Send the fetched data as JSON
+    } catch (error) {
+        console.error("Error fetching breeds:", error);
+        res.status(500).json({ message: "Failed to fetch breeds." });
+    }
+});
+
 // exhibitor Route: Fetch Lineups
-app.get("/exhibitor/lineups", async (req, res) => {
+app.get("/api/lineups", async (req, res) => {
     const { showId } = req.query; // Get the show ID from the query string
 
     try {
