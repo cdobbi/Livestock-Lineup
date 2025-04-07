@@ -172,3 +172,7 @@ h1.bg-secondary {
 #breed-options {
     font-size: 1rem !important;
 }
+
+.error {
+    border: 2px solid red;
+}
