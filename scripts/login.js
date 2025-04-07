@@ -1,4 +1,10 @@
-// Handle login
+/**
+ * This script handles user login for the Livestock Lineup application.
+ * It validates the login form inputs, sends the data to the backend `/login` endpoint,
+ * and displays appropriate success or error messages based on the server's response.
+ * This script integrates with the backend server and frontend form validation.
+ */
+
 document.getElementById("login-form").addEventListener("submit", async function (event) {
     event.preventDefault(); // Prevent form submission
 
@@ -44,7 +50,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
     if (isValid) {
         try {
             // Send login data to the server
-            const response = await fetch('https://livestock-lineup.onrender.com', {
+            const response = await fetch('https://livestock-lineup.onrender.com/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
@@ -59,7 +65,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
             }
         } catch (error) {
             alert("An error occurred. Please try again later.");
-            console.error(error);
+            console.error("Error during login:", error);
         }
     }
 });

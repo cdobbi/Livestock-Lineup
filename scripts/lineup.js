@@ -1,4 +1,10 @@
-// This file handles the organizer's operations.
+/**
+ * This script handles the display and management of show lineups for the Livestock Lineup application.
+ * It fetches exhibitor data and show lineups from the backend, validates breed matches,
+ * and allows organizers to send notifications for specific breeds.
+ * The script integrates with the backend server for data retrieval and notification handling
+ * and uses Bootstrap for styling and UI components.
+ */
 
 document.addEventListener("DOMContentLoaded", function () {
     const lineupContainer = document.getElementById("lineup-container");
@@ -14,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Fetch exhibitor entries and cache them
     async function fetchExhibitorEntries() {
         try {
-            const response = await fetch("https://livestock-lineup.onrender.com/exhibitors/all-exhibitors");
+            const response = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
             if (!response.ok) {
                 throw new Error("Failed to fetch exhibitor entries.");
             }
@@ -70,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Send a notification for a specific breed
     async function sendNotification(category, show, breed) {
         try {
-            const response = await fetch("https://livestock-lineup.onrender.com/api/notifications", {
+            const response = await fetch("https://livestock-lineup.onrender.com/api/notify", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ category, show, breed }),
@@ -99,13 +105,15 @@ document.addEventListener("DOMContentLoaded", function () {
             Object.keys(showLineups[category]).forEach((show) => {
                 const lineup = showLineups[category][show];
                 const showDiv = document.createElement("div");
-                showDiv.classList.add("lineup");
+                showDiv.classList.add("lineup", "mb-4", "p-3", "border", "rounded");
 
                 const showTitle = document.createElement("h3");
                 showTitle.textContent = `Category: ${category} - Show: ${show}`;
+                showTitle.classList.add("text-primary");
                 showDiv.appendChild(showTitle);
 
                 const breedList = document.createElement("ul");
+                breedList.classList.add("list-group");
 
                 if (!lineup.breeds || !Array.isArray(lineup.breeds)) {
                     console.warn(`No breeds found for category: ${category}, show: ${show}`);
@@ -115,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 lineup.breeds.forEach((breed) => {
                     const breedItem = document.createElement("li");
                     breedItem.textContent = breed;
-                    breedItem.classList.add("breed-item");
+                    breedItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
 
                     // Add click event to send notification
                     breedItem.addEventListener("click", async () => {
@@ -128,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             const success = await sendNotification(category, show, breed);
                             if (success) {
-                                breedItem.classList.add("notified"); // Mark as notified
+                                breedItem.classList.add("list-group-item-success"); // Mark as notified
                             }
                         }
                     });
