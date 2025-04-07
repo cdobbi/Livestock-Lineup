@@ -10,20 +10,28 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     try {
-        // Fetch lineup data from the backend
-        const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
+        // Dynamically fetch lineup data based on the selected showId
+        const selectedShowId = document.getElementById("show-selector").value; // Dynamically get the selected showId
+        if (!selectedShowId) {
+            console.warn("No show selected.");
+            lineupContainer.innerHTML = "<p>Please select a show to view its lineups.</p>";
+            return; // Stop execution if no show is selected
+        }
+    
+        const response = await fetch(`/api/lineups?showId=${selectedShowId}`);
         if (!response.ok) {
             throw new Error(`Failed to fetch lineups: ${response.statusText}`);
         }
-
+    
         const showLineups = await response.json();
         console.log("Retrieved lineups from backend:", showLineups);
-
+    
         if (showLineups.length === 0) {
             lineupContainer.innerHTML = "<p>No lineups saved.</p>";
             console.warn("No lineups found in the backend.");
             return;
         }
+    
 
         // Render the lineups
         showLineups.forEach((lineup, index) => {
@@ -109,12 +117,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Check for notifications
     async function checkForNotifications() {
         try {
-            // Example notifications (replace with actual logic if needed)
-            const notifications = [
-                { breed: "Holland Lop" },
-                { breed: "Netherland Dwarf" },
-            ];
-
+            const response = await fetch("/api/notifications"); // Fetch notifications dynamically from backend
+            if (!response.ok) {
+                throw new Error(`Failed to fetch notifications: ${response.statusText}`);
+            }
+            const notifications = await response.json();
+            
             // Fetch exhibitor entries from the backend
             const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
             const exhibitorEntries = await exhibitorResponse.json();
