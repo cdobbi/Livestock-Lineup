@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="images/favicon.ico" />
+    <title>Welcome to Livestock Lineup</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/base.css" />
+</head>
+
+<body>
+    <div id="main-content" class="container text-center my-5" style="display: none;">
+        <h1>Welcome to Livestock Lineup!</h1>
+        <p class="lead">Please choose an option to continue:</p>
+        <div class="row justify-content-center my-4 align-items-center">
+            <div class="col-md-4">
+                <button id="organizer-button" class="btn btn-info btn-block" data-toggle="modal"
+                    data-target="#organizerModal">Organizer</button>
+            </div>
+            <div class="col-md-4">
+                <a href="exhibitor.html" class="btn btn-secondary btn-block">Exhibitor</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Existing Organizer Modal remains unchanged -->
+    <div class="modal fade" id="organizerModal" tabindex="-1" role="dialog" aria-labelledby="organizerModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="organizerModalLabel">Organizer Code</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="password" id="organizer-code" class="form-control" placeholder="Enter code">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="verify-code">Verify</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center my-4 border-top pt-3 small">
+        <div class="col-md-4">
+            <p>&copy; All rights reserved 3/2025 Christina Dobbins
+                <br>
+                <a href="https://www.rhinelander-rabbitry.com" class="text-info">https://www.rhinelander-rabbitry.com</a>
+                <br>
+                Contact: <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="scripts/alert.js"></script>
+    <script src="scripts/verify.js"></script>
+    <script src="scripts/date-time.js"></script>
+    <script>
+        // When the page loads, show the login modal.
+        $(document).ready(function () {
+            $("#loginModal").modal("show");
+
+            // When the login button is clicked, validate the credentials.
+            $("#login-button").click(function () {
+                var email = $("#login-email").val().trim();
+                var password = $("#login-password").val().trim();
+
+                // Use your logic or hard-coded example here.
+                // For example, the following credentials are accepted:
+                if (email === "user@example.com" && password === "password") {
+                    // Hide the login modal and show the main content.
+                    $("#loginModal").modal("hide");
+                    $("#main-content").show();
+                } else {
+                    alert("Invalid email or password.");
+                }
+            });
+        });
+    </script>
+    
+</body>
+
+</html>

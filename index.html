@@ -2,79 +2,56 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="images/favicon.ico" />
-    <title>Welcome to Table Time - Table Time</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles/base.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/notification-icon.png" type="image/x-icon">
+
+    <title>Login - Livestock Lineup
+    </title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/base.css">
 </head>
 
 <body>
-    <!-- Login Modal (New Section) -->
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" data-backdrop="static"
-        data-keyboard="false">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                    <!-- You can choose to remove the close button to force login -->
-                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button> -->
-                </div>
-                <div class="modal-body">
-                    <form id="login-form">
-                        <div class="form-group">
-                            <label for="login-email">Email address</label>
-                            <input type="email" class="form-control" id="login-email" placeholder="Enter email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="login-password">Password</label>
-                            <input type="password" class="form-control" id="login-password" placeholder="Password" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="login-button">Login</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="login-container">
+        <h1>Livestock Lineup Login</h1>
 
-    <!-- Main Content (Initially Hidden) -->
-    <div id="main-content" class="container text-center my-5" style="display: none;">
-        <h1>Welcome to Table Time!</h1>
-        <p class="lead">Please choose an option to continue:</p>
-        <div class="row justify-content-center my-4 align-items-center">
-            <div class="col-md-4">
-                <button id="organizer-button" class="btn btn-info btn-block" data-toggle="modal"
-                    data-target="#organizerModal">Organizer</button>
+        <!-- Login Form -->
+        <form id="login-form">
+            <h2>Login</h2>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                <div id="login-email-error" class="error-message"></div>
             </div>
-            <div class="col-md-4">
-                <a href="exhibitor.html" class="btn btn-secondary btn-block">Exhibitor</a>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                <div id="login-password-error" class="error-message"></div>
             </div>
-        </div>
-    </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
 
-    <!-- Existing Organizer Modal remains unchanged -->
-    <div class="modal fade" id="organizerModal" tabindex="-1" role="dialog" aria-labelledby="organizerModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="organizerModalLabel">Organizer Code</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="password" id="organizer-code" class="form-control" placeholder="Enter code">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="verify-code">Verify</button>
-                </div>
+        <!-- Registration Form -->
+        <form id="register-form">
+            <h2>Create an Account</h2>
+            <div class="form-group">
+                <label for="register-username">Username</label>
+                <input type="text" id="register-username" class="form-control" placeholder="Enter your username" required>
+                <div id="register-username-error" class="error-message"></div>
             </div>
-        </div>
+            <div class="form-group">
+                <label for="register-email">Email Address</label>
+                <input type="email" id="register-email" class="form-control" placeholder="Enter your email" required>
+                <div id="register-email-error" class="error-message"></div>
+            </div>
+            <div class="form-group">
+                <label for="register-password">Password</label>
+                <input type="password" id="register-password" class="form-control" placeholder="Enter your password" required>
+                <div id="register-password-error" class="error-message"></div>
+            </div>
+            <button type="submit" class="btn btn-success">Register</button>
+        </form>
     </div>
 
     <footer class="text-center my-4 border-top pt-3 small">
@@ -88,36 +65,8 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="scripts/alert.js"></script>
-    <script src="scripts/verify.js"></script>
-    <script src="scripts/date-time.js"></script>
-    <script>
-        // When the page loads, show the login modal.
-        $(document).ready(function () {
-            $("#loginModal").modal("show");
-
-            // When the login button is clicked, validate the credentials.
-            $("#login-button").click(function () {
-                var email = $("#login-email").val().trim();
-                var password = $("#login-password").val().trim();
-
-                // Use your logic or hard-coded example here.
-                // For example, the following credentials are accepted:
-                if (email === "user@example.com" && password === "password") {
-                    // Hide the login modal and show the main content.
-                    $("#loginModal").modal("hide");
-                    $("#main-content").show();
-                } else {
-                    alert("Invalid email or password.");
-                }
-            });
-        });
-    </script>
-    
+    <script src="scripts/login.js"></script>
+    <script src="scripts/register.js"></script>
 </body>
 
 </html>
