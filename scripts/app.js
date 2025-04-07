@@ -10,7 +10,15 @@ const routeOr = require("./routes/route-or");
 const authRoutes = require("./routes/route-auth");
 const codeRoutes = require("./routes/route-codes");
 const submissionsRoutes = require("./routes/route-submissions");
-
+const showsRoutes = require("./routes/route-shows"); // New route for shows
+const lineupsRoutes = require("./routes/route-lineups");
+app.use("/lineups", lineupsRoutes);
+const breedsRoutes = require("./routes/route-breeds");
+app.use("/breeds", breedsRoutes);
+const notificationsRoutes = require("./routes/route-notifications");
+app.use("/notifications", notificationsRoutes);
+const categoriesRoutes = require("./routes/route-categories"); // Import the categories route
+app.use("/categories", categoriesRoutes); // Add the categories route
 // Initialize the app
 const app = express();
 
@@ -43,59 +51,7 @@ app.use("/organizers", routeOr);
 app.use("/auth", authRoutes);
 app.use("/codes", codeRoutes);
 app.use("/submissions", submissionsRoutes);
-
-// Example route: Fetch breeds
-app.get("/api/breeds", async (req, res) => {
-    try {
-        const result = await pool.query("SELECT * FROM Breeds");
-        res.json(result.rows);
-    } catch (error) {
-        console.error("Error fetching breeds:", error);
-        res.status(500).json({ message: "Failed to fetch breeds." });
-    }
-});
-
-// Example route: Fetch lineups
-app.get("/api/lineups", async (req, res) => {
-    const { showId } = req.query;
-
-    try {
-        const result = await pool.query(
-            `
-            SELECT l.id, s.name AS show_name, c.name AS category_name, b.name AS breed_name
-            FROM Lineups l
-            JOIN Shows s ON l.show_id = s.id
-            JOIN Categories c ON l.category_id = c.id
-            JOIN Breeds b ON l.breed_id = b.id
-            WHERE l.show_id = $1
-            `,
-            [showId]
-        );
-
-        res.json(result.rows);
-    } catch (error) {
-        console.error("Error fetching lineups:", error);
-        res.status(500).json({ message: "Failed to fetch lineups." });
-    }
-});
-
-// Example route: Notifications
-app.get("/exhibitor/notifications", (req, res) => {
-    const notifications = [
-        { breed: "Holland Lop" },
-        { breed: "Netherland Dwarf" },
-        { breed: "Flemish Giant" },
-    ];
-    res.json(notifications);
-});
-
-// Pusher configuration endpoint
-app.get("/pusher-config", (req, res) => {
-    res.json({
-        key: process.env.key,
-        cluster: process.env.cluster,
-    });
-});
+app.use("/shows", showsRoutes); // Add the shows route
 
 // Default route
 app.get("/", (req, res) => {
