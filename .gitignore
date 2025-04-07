@@ -28,3 +28,10 @@ Thumbs.db
 # Ignore cache files
 *.cache
 .cache/
+
+/data/
+
+/data/data.js
+/data/organizer.js
+/data/exhibitor.js
+
