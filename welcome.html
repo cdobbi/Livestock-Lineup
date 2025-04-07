@@ -62,30 +62,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="scripts/alert.js"></script>
     <script src="scripts/verify.js"></script>
-    <script src="scripts/date-time.js"></script>
-    <script>
-        // When the page loads, show the login modal.
-        $(document).ready(function () {
-            $("#loginModal").modal("show");
-
-            // When the login button is clicked, validate the credentials.
-            $("#login-button").click(function () {
-                var email = $("#login-email").val().trim();
-                var password = $("#login-password").val().trim();
-
-                // Use your logic or hard-coded example here.
-                // For example, the following credentials are accepted:
-                if (email === "user@example.com" && password === "password") {
-                    // Hide the login modal and show the main content.
-                    $("#loginModal").modal("hide");
-                    $("#main-content").show();
-                } else {
-                    alert("Invalid email or password.");
-                }
-            });
-        });
-    </script>
-    
 </body>
 
 </html>
