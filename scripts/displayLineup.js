@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     if (checkbox.checked) {
                         try {
                             // Fetch exhibitor entries from the backend
-                            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
+                            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/exhibitors/all-exhibitors");
                             const exhibitorEntries = await exhibitorResponse.json();
 
                             // Validate exhibitorEntries and check if the breed matches
