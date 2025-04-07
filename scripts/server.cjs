@@ -12,7 +12,7 @@ const routeEx = require("../routes/route-ex.js"); // Handles exhibitor logic
 const routeOr = require("../routes/route-or.js"); // Handles organizer logic
 const authRoutes = require("../routes/route-auth.js"); // Handles authentication logic
 const codeRoutes = require("../routes/route-codes.js");
-const
+
 
 const app = express();
 const port = process.env.PORT || 3000;
