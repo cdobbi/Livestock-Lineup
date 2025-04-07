@@ -26,34 +26,33 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Fetch show lineups and display them
-    async function fetchShowLineups() {
+    // Fetch show lineups dynamically based on the show ID
+    async function fetchShowLineups(showId) {
         try {
-            const response = await fetch("https://livestock-lineup.onrender.com/api/all-organizer-lineups");
+            const response = await fetch(`/api/lineups?showId=${showId}`);
             if (!response.ok) {
-                throw new Error("Failed to fetch organizer lineups.");
+                throw new Error("Failed to fetch show lineups.");
             }
 
-            const organizerData = await response.json();
-            console.log("Fetched organizer lineups:", organizerData);
+            const lineupsData = await response.json();
+            console.log("Fetched show lineups:", lineupsData);
 
-            // Aggregate lineups from all organizers
-            organizerData.forEach((organizer) => {
-                organizer.lineups.forEach((lineup) => {
-                    const { category, show, breeds } = lineup;
+            // Aggregate lineups by category and show
+            showLineups = {}; // Reset showLineups to avoid duplication
+            lineupsData.forEach((lineup) => {
+                const { category_name, show_name, breed_name } = lineup;
 
-                    if (!showLineups[category]) showLineups[category] = {};
-                    if (!showLineups[category][show]) showLineups[category][show] = { breeds: [] };
+                if (!showLineups[category_name]) showLineups[category_name] = {};
+                if (!showLineups[category_name][show_name]) showLineups[category_name][show_name] = { breeds: [] };
 
-                    showLineups[category][show].breeds.push(...breeds);
-                });
+                showLineups[category_name][show_name].breeds.push(breed_name);
             });
 
-            // Display updated lineups
-            displayLineups();
+            console.log("Organized lineups:", showLineups);
+            displayLineups(); // Render updated lineups
         } catch (error) {
             console.error("Error fetching show lineups:", error);
-            lineupContainer.innerHTML = "<p class='text-danger'>Failed to load show lineups. Please try again later.</p>";
+            alert("Failed to fetch show lineups. Please try again later.");
         }
     }
 
@@ -146,7 +145,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize the page
     async function initialize() {
         await fetchExhibitorEntries();
-        await fetchShowLineups();
+
+        const showId = 1; // Hardcoded for now; can be dynamic based on user input
+        await fetchShowLineups(showId);
     }
 
     initialize();
