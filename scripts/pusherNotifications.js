@@ -14,7 +14,7 @@ async function initializePusher() {
             cluster: pusherConfig.cluster,
         });
 
-        const channel = pusher.subscribe("table-time");
+        const channel = pusher.subscribe("livestock-lineup");
 
         // Bind to the "breed-notification" event
         channel.bind("breed-notification", (data) => {

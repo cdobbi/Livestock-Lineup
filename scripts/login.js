@@ -44,7 +44,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
     if (isValid) {
         try {
             // Send login data to the server
-            const response = await fetch('https://livestock-lineup.onrender.com/exhibitor/login', {
+            const response = await fetch('https://livestock-lineup.onrender.com', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })

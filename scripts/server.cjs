@@ -51,8 +51,8 @@ app.post("/verify-code", (req, res) => {
     }
 });
 
-// API Route: Fetch Lineups
-app.get("/api/lineups", async (req, res) => {
+// exhibitor Route: Fetch Lineups
+app.get("/exhibitor/lineups", async (req, res) => {
     const { showId } = req.query; // Get the show ID from the query string
 
     try {
@@ -72,8 +72,8 @@ app.get("/api/lineups", async (req, res) => {
     }
 });
 
-// API Route: Notifications
-app.get("/api/notifications", (req, res) => {
+// exhibitor Route: Notifications
+app.get("/exhibitor/notifications", (req, res) => {
     const notifications = [
         { breed: "Holland Lop" },
         { breed: "Netherland Dwarf" },

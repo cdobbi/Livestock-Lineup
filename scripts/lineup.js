@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Fetch exhibitor entries and cache them
     async function fetchExhibitorEntries() {
         try {
-            const response = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");
+            const response = await fetch("https://livestock-lineup.onrender.com/exhibitors/all-exhibitors");
             if (!response.ok) {
                 throw new Error("Failed to fetch exhibitor entries.");
             }
