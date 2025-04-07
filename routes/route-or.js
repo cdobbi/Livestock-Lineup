@@ -1,5 +1,3 @@
-// This file handles organizer logic.
-
 const express = require("express");
 const { Pool } = require("pg"); // PostgreSQL client setup
 const Pusher = require("pusher");
@@ -23,31 +21,31 @@ const pool = new Pool({
 
 // Save organizer lineups
 router.post("/api/save-organizer-lineups", async (req, res) => {
-    const { show, lineup } = req.body;
+    const { show_name, lineup } = req.body;
 
     // Validate the input
-    if (!show || !lineup || !Array.isArray(lineup)) {
+    if (!show_name || !lineup || !Array.isArray(lineup)) {
         return res.status(400).send("Invalid organizer data.");
     }
 
     try {
         // Check if the show already exists in the database
         const existingShow = await pool.query(
-            "SELECT * FROM Organizers WHERE show = $1",
-            [show]
+            "SELECT * FROM Organizers WHERE show_name = $1",
+            [show_name]
         );
 
         if (existingShow.rows.length > 0) {
             // Update the existing lineup
             await pool.query(
-                "UPDATE Organizers SET lineup = $1 WHERE show = $2",
-                [JSON.stringify(lineup), show]
+                "UPDATE Organizers SET lineup = $1 WHERE show_name = $2",
+                [JSON.stringify(lineup), show_name]
             );
         } else {
             // Insert a new lineup
             await pool.query(
-                "INSERT INTO Organizers (show, lineup) VALUES ($1, $2)",
-                [show, JSON.stringify(lineup)]
+                "INSERT INTO Organizers (show_name, lineup) VALUES ($1, $2)",
+                [show_name, JSON.stringify(lineup)]
             );
         }
 
@@ -77,7 +75,7 @@ router.post("/api/notify", (req, res) => {
         return res.status(400).json({ error: "Missing fields" });
     }
 
-    pusher.trigger("table-time", "breed-notification", {
+    pusher.trigger("Livestock-Lineup", "breed-notification", {
         category,
         show,
         breed,
