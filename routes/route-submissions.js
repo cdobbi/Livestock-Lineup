@@ -19,27 +19,32 @@ router.get("/", async (req, res) => {
     }
 });
 
-// Retrieve submissions for a specific exhibitor
-router.get("/exhibitor/:id", async (req, res) => {
-    const { id } = req.params;
+// Retrieve exhibitors for a specific category, show, and breed
+router.get("/match", async (req, res) => {
+    const { category_id, show_id, breed_id } = req.query;
+
+    // Validate input
+    if (!category_id || !show_id || !breed_id) {
+        return res.status(400).json({ message: "All fields are required." });
+    }
 
     try {
         const result = await pool.query(
-            "SELECT * FROM Submissions WHERE exhibitor_id = $1",
-            [id]
+            "SELECT exhibitor_id FROM Submissions WHERE category_id = $1 AND show_id = $2 AND breed_id = $3",
+            [category_id, show_id, breed_id]
         );
 
         if (result.rows.length === 0) {
-            return res.status(404).json({ message: "No submissions found for this exhibitor." });
+            return res.status(404).json({ message: "No matching exhibitors found." });
         }
 
         res.status(200).json(result.rows);
     } catch (error) {
-        console.error("Error retrieving submissions for exhibitor:", error);
+        console.error("Error retrieving matching exhibitors:", error);
         res.status(500).json({ message: "An error occurred. Please try again." });
     }
 });
-
+ 
 // Add a new submission
 router.post("/", async (req, res) => {
     const { exhibitor_id, category_id, show_id, breed_id } = req.body;
