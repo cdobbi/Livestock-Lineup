@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                 }
     
+                
                 let previewWindow = window.open("", "_blank", "width=800,height=600");
                 previewWindow.document.write("<html><head><title>Print Preview</title>");
                 previewWindow.document.write("<style>body { font-family: Arial, sans-serif; white-space: pre-wrap; margin: 20px; }</style>");
@@ -151,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
 
     if (clearLineupButton) {
         clearLineupButton.addEventListener("click", async () => {

@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 500);
     }
   
+    
     async function checkForNotifications() {
         try {
             // Fetch exhibitor entries from the backend

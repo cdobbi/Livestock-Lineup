@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
         }
     
+        
 
         // Render the lineups
         showLineups.forEach((lineup, index) => {
