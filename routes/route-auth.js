@@ -37,6 +37,8 @@ const router = express.Router();
 
 // Handle user registration
 router.post("/register", async (req, res) => {
+    console.log("Incoming registration request:", req.body); // Log the request body for debugging
+
     const { username, email, password } = req.body;
 
     // Validate input
@@ -69,6 +71,8 @@ router.post("/register", async (req, res) => {
 
 // Handle user login
 router.post("/login", async (req, res) => {
+    console.log("Incoming login request:", req.body); // Log the request body for debugging
+
     const { email, password } = req.body;
 
     // Validate input

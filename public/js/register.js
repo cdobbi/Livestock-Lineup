@@ -45,15 +45,29 @@ document.getElementById("register-form").addEventListener("submit", async functi
     }
 
     if (isValid) {
+        // Determine the backend URL dynamically
+        const BACKEND_URL = window.location.hostname === "localhost"
+            ? "http://localhost:3000" // Local development
+            : "https://livestock-lineup.onrender.com"; // Production
+
         try {
             // Send registration data to the server
-            const response = await fetch('/register', {
+            const response = await fetch(`${BACKEND_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, email, password })
             });
 
-            const result = await response.json();
+            const textResponse = await response.text(); // Log raw response
+            console.log("Raw response from server:", textResponse);
+
+            let result;
+            try {
+                result = JSON.parse(textResponse); // Parse response as JSON
+            } catch {
+                throw new Error("Invalid JSON response");
+            }
+
             if (response.ok) {
                 alert(result.message || "Registration successful!");
                 // Redirect to login page or dashboard
