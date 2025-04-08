@@ -51,20 +51,21 @@ document.getElementById("login-form").addEventListener("submit", async function 
         return; // Stop execution if validation fails
     }
 
+    const BACKEND_URL = window.location.hostname === "localhost"
+    ? "http://localhost:3000" // Local development
+    : "https://livestock-lineup.onrender.com"; // Production
+
     try {
-        // Send login data to the server
-        const response = await fetch('https://livestock-lineup.onrender.com/login', {
+        const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         });
 
-        // Log the raw response for debugging
-        const textResponse = await response.text();
+        const textResponse = await response.text(); // Log raw response
         console.log("Raw response from server:", textResponse);
 
-        // Attempt to parse the response as JSON
-        const result = JSON.parse(textResponse);
+        const result = JSON.parse(textResponse); // Parse response as JSON
 
         if (response.ok && result.success) {
             alert("Login successful!");
