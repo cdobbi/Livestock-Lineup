@@ -8,36 +8,36 @@ document.addEventListener("DOMContentLoaded", function () {
     // --- Top-level elements ---
     const rabbitList = document.getElementById("rabbit-list");
 
-    // --- Fetch and Render Rabbit Breed Buttons ---
-    fetch("https://livestock-lineup.onrender.com/api/breeds") // Replace with your backend endpoint
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch rabbit breeds.");
-            }
-            return response.json();
-        })
-        .then((breeds) => {
-            rabbitList.innerHTML = ""; // Clear existing content
+    fetch("https://livestock-lineup.onrender.com/api/breeds")
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error("Failed to fetch rabbit breeds.");
+        }
+        return response.json();
+    })
+    .then((breeds) => {
+        rabbitList.innerHTML = ""; // Clear existing content
 
-            breeds.forEach((breed) => {
-                const button = document.createElement("button");
-                button.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
-                button.dataset.breed = breed.name; // Assuming 'name' is a column in your breeds table
-                button.textContent = breed.name;
+        breeds.forEach((breed) => {
+            const button = document.createElement("button");
+            button.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
+            button.dataset.breedId = breed.id; // Use the ID for unique tracking
+            button.textContent = breed.breed_name; // Display the breed name
 
-                button.addEventListener("click", function () {
-                    this.classList.toggle("active");
-                    console.log(
-                        `Breed ${this.dataset.breed} is now ${this.classList.contains("active") ? "selected" : "deselected"}.`
-                    );
-                });
-                rabbitList.appendChild(button);
+            button.addEventListener("click", function () {
+                this.classList.toggle("active");
+                console.log(
+                    `Breed ${this.textContent} is now ${this.classList.contains("active") ? "selected" : "deselected"}.`
+                );
             });
-        })
-        .catch((error) => {
-            console.error("Error fetching rabbit breeds:", error);
-            rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
+            rabbitList.appendChild(button);
         });
+    })
+    .catch((error) => {
+        console.error("Error fetching rabbit breeds:", error);
+        rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
+    });
+
 
     // --- Save Lineup Button Functionality ---
     const saveLineupButton = document.getElementById("save-lineup");

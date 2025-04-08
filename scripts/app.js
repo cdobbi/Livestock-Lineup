@@ -13,8 +13,8 @@ const submissionsRoutes = require("./routes/route-submissions");
 const showsRoutes = require("./routes/route-shows"); // New route for shows
 const lineupsRoutes = require("./routes/route-lineups");
 app.use("/lineups", lineupsRoutes);
-const breedsRoutes = require("./routes/route-breeds");
-app.use("/breeds", breedsRoutes);
+app.use("/api/breeds", breedsRoutes);
+
 const notificationsRoutes = require("./routes/route-notifications");
 app.use("/notifications", notificationsRoutes);
 const categoriesRoutes = require("./routes/route-categories"); // Import the categories route
