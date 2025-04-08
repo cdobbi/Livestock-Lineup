@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files (for your client-side code)
-app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 // PostgreSQL Pool Configuration
 const pool = new Pool({
@@ -31,27 +31,19 @@ const pusher = new Pusher({
     useTLS: true,
 });
 
-// Logging middleware to log all incoming requests
-app.use((req, res, next) => {
-    console.log(`Incoming request: ${req.method} ${req.url}`);
-    next();
-});
+// Import routes
+const routeEx = require("./routes/route-ex");
+const routeOr = require("./routes/route-or");
+const authRoutes = require("./routes/route-auth");
+const codeRoutes = require("./routes/route-codes");
+const submissionsRoutes = require("./routes/route-submissions");
+const showsRoutes = require("./routes/route-shows");
+const lineupsRoutes = require("./routes/route-lineups");
+const breedsRoutes = require("./routes/route-breeds");
+const notificationsRoutes = require("./routes/route-notifications");
+const categoriesRoutes = require("./routes/route-categories");
 
-// Import routes using the correct relative path (going up one level)
-const codesRoutes = require("./routes/codes");
-const routeEx = require("../routes/route-ex");
-const routeOr = require("../routes/route-or");
-const authRoutes = require("../routes/route-auth");
-const codeRoutes = require("../routes/route-codes");
-const submissionsRoutes = require("../routes/route-submissions");
-const showsRoutes = require("../routes/route-shows");
-const lineupsRoutes = require("../routes/route-lineups");
-const breedsRoutes = require("../routes/route-breeds");
-const notificationsRoutes = require("../routes/route-notifications");
-const categoriesRoutes = require("../routes/route-categories");
-
-// Mount the routes, for example under an API namespace:
-app.use("/codes", codesRoutes);
+// Mount routes under the /api prefix for consistency
 app.use("/api/exhibitors", routeEx);
 app.use("/api/organizers", routeOr);
 app.use("/api/auth", authRoutes);
@@ -63,31 +55,20 @@ app.use("/api/breeds", breedsRoutes);
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/categories", categoriesRoutes);
 
-// Test database connection
-app.get("/api/test-db", async (req, res) => {
-    try {
-        const result = await pool.query("SELECT NOW()");
-        res.status(200).json({ message: "Database connection successful!", time: result.rows[0] });
-    } catch (error) {
-        console.error("Database connection error:", error);
-        res.status(500).json({ message: "Database connection failed." });
-    }
-});
-
-// Default route (if you need one)
+// Default route -- serves your HTML page
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public", "index.html"));
+    res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // 404 handler
 app.use((req, res) => {
-    res.status(404).json({ message: "Route not found" });
+    res.status(404).send("Route not found");
 });
 
-// Global error handler
+// Catch-all error handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ message: "Something went wrong!" });
+    res.status(500).send("Something went wrong!");
 });
 
 module.exports = app;
