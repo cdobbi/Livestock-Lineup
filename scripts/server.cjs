@@ -8,7 +8,9 @@
 const dotenv = require("dotenv"); // Load environment variables from .env file
 dotenv.config();
 
-const app = require("../app"); // Import the app.js file
+const path = require("path");
+const app = require(path.join(__dirname, "../src/app.js"));
+
 
 const port = process.env.PORT || 3000; // Use the port from environment variables or default to 3000
 
