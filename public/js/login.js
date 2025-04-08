@@ -1,6 +1,7 @@
 document.getElementById("login-form").addEventListener("submit", async function (event) {
     event.preventDefault(); // Prevent form submission
 
+    // Clear previous errors
     function clearErrors() {
         const errorFields = ["login-email-error", "login-password-error"];
         errorFields.forEach(id => {
@@ -9,12 +10,12 @@ document.getElementById("login-form").addEventListener("submit", async function 
         });
     }
 
+    // Display error messages
     function displayError(fieldId, message) {
         const element = document.getElementById(fieldId);
         if (element) element.textContent = message;
     }
 
-    // Clear previous errors
     clearErrors();
 
     // Get form values
@@ -42,6 +43,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
         return; // Stop execution if validation fails
     }
 
+    // Determine the backend URL dynamically
     const BACKEND_URL = window.location.hostname === "localhost"
         ? "http://localhost:3000" // Local development
         : "https://livestock-lineup.onrender.com"; // Production
@@ -65,7 +67,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
         }
 
         if (response.ok && result.success) {
-            // Show a temporary alert-like message
+            // Show a temporary success message
             const successMessage = document.createElement("div");
             successMessage.textContent = "Login successful! Redirecting...";
             successMessage.style.position = "fixed";
@@ -81,7 +83,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
 
             // Redirect to welcome.html after 2 seconds
             setTimeout(() => {
-                window.location.href = "welcome.html";
+                window.location.href = "/welcome.html"; // Ensure this path is correct
             }, 2000); // 2-second delay
         } else {
             alert(result.message || "Login failed. Please check your credentials.");
