@@ -7,7 +7,7 @@
  */
 
 const express = require("express");
-const pool = require("../db"); // Import the centralized database connection
+const pool = require("../src/db"); // Import the centralized database connection
 const Pusher = require("pusher");
 
 const router = express.Router(); // Initialize the router
