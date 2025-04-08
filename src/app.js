@@ -31,19 +31,20 @@ const pusher = new Pusher({
     useTLS: true,
 });
 
-// Import routes
-const routeEx = require("./routes/route-ex");
-const routeOr = require("./routes/route-or");
-const authRoutes = require("./routes/route-auth");
-const codeRoutes = require("./routes/route-codes");
-const submissionsRoutes = require("./routes/route-submissions");
-const showsRoutes = require("./routes/route-shows");
-const lineupsRoutes = require("./routes/route-lineups");
-const breedsRoutes = require("./routes/route-breeds");
-const notificationsRoutes = require("./routes/route-notifications");
-const categoriesRoutes = require("./routes/route-categories");
 
-// Mount routes under the /api prefix for consistency
+// Import routes using the correct relative path (going up one level)
+const routeEx = require("../routes/route-ex");
+const routeOr = require("../routes/route-or");
+const authRoutes = require("../routes/route-auth");
+const codeRoutes = require("../routes/route-codes");
+const submissionsRoutes = require("../routes/route-submissions");
+const showsRoutes = require("../routes/route-shows");
+const lineupsRoutes = require("../routes/route-lineups");
+const breedsRoutes = require("../routes/route-breeds");
+const notificationsRoutes = require("../routes/route-notifications");
+const categoriesRoutes = require("../routes/route-categories");
+
+// Mount the routes, for example under an API namespace:
 app.use("/api/exhibitors", routeEx);
 app.use("/api/organizers", routeOr);
 app.use("/api/auth", authRoutes);
@@ -55,20 +56,20 @@ app.use("/api/breeds", breedsRoutes);
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/categories", categoriesRoutes);
 
-// Default route -- serves your HTML page
+// Default route (if you need one)
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.send("Welcome to the Livestock Lineup API");
 });
 
 // 404 handler
 app.use((req, res) => {
-    res.status(404).send("Route not found");
+  res.status(404).send("Route not found");
 });
 
-// Catch-all error handler
+// Global error handler
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send("Something went wrong!");
+  console.error(err.stack);
+  res.status(500).send("Something went wrong!");
 });
 
 module.exports = app;
