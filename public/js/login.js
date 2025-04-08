@@ -56,20 +56,25 @@ document.getElementById("login-form").addEventListener("submit", async function 
     : "https://livestock-lineup.onrender.com"; // Production
 
     try {
-        const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
-
-        const textResponse = await response.text(); // Log raw response
-        console.log("Raw response from server:", textResponse);
-
-        const result = JSON.parse(textResponse); // Parse response as JSON
-
         if (response.ok && result.success) {
-            alert("Login successful!");
-            window.location.href = "welcome.html"; // Redirect to the main page
+            // Show a temporary alert-like message
+            const successMessage = document.createElement("div");
+            successMessage.textContent = "Login successful! Redirecting...";
+            successMessage.style.position = "fixed";
+            successMessage.style.top = "20px";
+            successMessage.style.left = "50%";
+            successMessage.style.transform = "translateX(-50%)";
+            successMessage.style.backgroundColor = "#4CAF50";
+            successMessage.style.color = "white";
+            successMessage.style.padding = "10px 20px";
+            successMessage.style.borderRadius = "5px";
+            successMessage.style.zIndex = "1000";
+            document.body.appendChild(successMessage);
+        
+            // Redirect to welcome.html after 2 seconds
+            setTimeout(() => {
+                window.location.href = "welcome.html";
+            }, 2000); // 2-second delay
         } else {
             alert(result.message || "Login failed. Please check your credentials.");
         }
