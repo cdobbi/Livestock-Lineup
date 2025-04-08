@@ -1,0 +1,178 @@
+/* General Styles */
+body {
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 2rem;
+}
+
+#show-selector {
+    margin-bottom: 20px;
+}
+
+button {
+    display: block;
+    margin: 0.8rem;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.form-control {
+    margin-bottom: 15px;
+}
+
+.form-check-input {
+    width: 44px;
+    height: 44px;
+    margin-right: 10px;
+}
+
+.form-check-label {
+    font-size: 1.1rem;
+    margin-left: 10px;
+}
+
+h1.bg-secondary {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* 
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .entry {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-check-label {
+        font-size: 1rem;
+    }
+} */
+
+.breed-button {
+    /* display: inline-block; */
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #f0f8ff;
+    color: #333;
+    border: 2px solid #add8e6;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.breed-button:hover {
+    background-color: #e0f7fa;
+    border-color: #87ceeb;
+}
+
+.breed-button.selected {
+    background-color: #ffcccb;
+    color: #333;
+    border-color: #f08080;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    background: #eeba7d;
+    border-radius: 8px;
+    border-color: black;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.container {
+    max-width: 80%;
+    height: auto;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#rabbit-list .breed-button {
+    flex: 0 0 calc(30% - 1rem);
+    max-width: calc(30% - 1rem);
+    text-align: center;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    padding: 10px;
+    font-size: 1rem;
+    height: auto;
+    line-height: 1.2;
+    font-size: 1.2rem;
+}
+
+#rabbit-list .breed-button {
+    flex: 0 0 calc(30% - 1rem);
+    max-width: calc(20% - 1rem);
+    text-align: center;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    #rabbit-list .breed-button {
+        flex: 0 0 calc(45% - 1rem);
+        max-width: calc(45% - 1rem);
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    #rabbit-list .breed-button {
+        flex: 0 0 calc(100% - 1rem);
+        max-width: calc(100% - 1rem);
+        font-size: 0.7rem;
+    }
+}
+
+.breed-button {
+    font-size: 1rem !important;
+}
+
+#breed-options {
+    font-size: 1rem !important;
+}
+
+.error {
+    border: 2px solid red;
+}

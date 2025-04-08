@@ -1,5 +1,5 @@
 import { fetchAndRenderBreeds } from "./fetchBreeds.js";
-import { saveLineup } from "./lineupActions.js";
+import { saveLineup } from "../../scripts/lineupActions.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     const rabbitList = document.getElementById("rabbit-list");
