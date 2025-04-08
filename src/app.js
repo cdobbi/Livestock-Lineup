@@ -31,6 +31,12 @@ const pusher = new Pusher({
     useTLS: true,
 });
 
+// Logging middleware to log all incoming requests
+app.use((req, res, next) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
+    next();
+});
+
 // Import routes using the correct relative path (going up one level)
 const routeEx = require("../routes/route-ex");
 const routeOr = require("../routes/route-or");
@@ -55,21 +61,31 @@ app.use("/api/breeds", breedsRoutes);
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/categories", categoriesRoutes);
 
+// Test database connection
+app.get("/api/test-db", async (req, res) => {
+    try {
+        const result = await pool.query("SELECT NOW()");
+        res.status(200).json({ message: "Database connection successful!", time: result.rows[0] });
+    } catch (error) {
+        console.error("Database connection error:", error);
+        res.status(500).json({ message: "Database connection failed." });
+    }
+});
+
 // Default route (if you need one)
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../public", "index.html"));
-  });
-  
+});
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).send("Route not found");
+    res.status(404).json({ message: "Route not found" });
 });
 
 // Global error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something went wrong!");
+    console.error(err.stack);
+    res.status(500).json({ message: "Something went wrong!" });
 });
 
 module.exports = app;

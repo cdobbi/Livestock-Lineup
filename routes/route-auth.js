@@ -35,6 +35,16 @@ const router = express.Router();
     }
 })();
 
+router.get("/test-db", async (req, res) => {
+    try {
+        const result = await pool.query("SELECT NOW()");
+        res.status(200).json({ message: "Database connection successful!", time: result.rows[0] });
+    } catch (error) {
+        console.error("Database connection error:", error);
+        res.status(500).json({ message: "Database connection failed." });
+    }
+});
+
 // Handle user registration
 router.post("/register", async (req, res) => {
     console.log("Incoming registration request:", req.body); // Log the request body for debugging
@@ -64,7 +74,7 @@ router.post("/register", async (req, res) => {
 
         res.status(200).json({ message: "Registration successful!", userId: result.rows[0].id });
     } catch (error) {
-        console.error("Error during registration:", error);
+        console.error("Error during registration:", error); // Log the full error
         res.status(500).json({ message: "An error occurred during registration. Please try again." });
     }
 });
@@ -97,12 +107,11 @@ router.post("/login", async (req, res) => {
         }
 
         // Temporarily store user session data (if applicable)
-        // This can be replaced with a proper session or JWT implementation later
         req.session = { userId: user.id, email: user.email };
 
         res.status(200).json({ message: "Login successful!", userId: user.id });
     } catch (error) {
-        console.error("Error during login:", error);
+        console.error("Error during login:", error); // Log the full error
         res.status(500).json({ message: "An error occurred during login. Please try again." });
     }
 });
