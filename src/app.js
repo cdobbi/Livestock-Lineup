@@ -63,22 +63,6 @@ app.use("/api/breeds", breedsRoutes);
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/categories", categoriesRoutes);
 
-// Add a route for /exhibitors/all-exhibitors if needed
-app.get("/exhibitors/all-exhibitors", async (req, res) => {
-    try {
-        const result = await pool.query("SELECT * FROM Exhibitors");
-        res.status(200).json(result.rows);
-    } catch (error) {
-        console.error("Error fetching exhibitors:", error);
-        res.status(500).json({ message: "Failed to fetch exhibitors." });
-    }
-});
-
-// Add a route for /codes/verify if needed
-app.get("/codes/verify", (req, res) => {
-    res.status(200).json({ message: "Verification successful!" });
-});
-
 // Test database connection
 app.get("/api/test-db", async (req, res) => {
     try {
