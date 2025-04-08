@@ -7,7 +7,7 @@
 
 const express = require("express");
 const bcrypt = require("bcrypt");
-const pool = require("../db"); // Import the centralized database connection
+const pool = require("../src/db"); // Import the centralized database connection
 
 const router = express.Router();
 
