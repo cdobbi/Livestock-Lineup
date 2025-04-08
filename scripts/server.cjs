@@ -5,16 +5,19 @@
  * routes and integrations with the database and frontend.
  */
 
-const dotenv = require("dotenv"); // Load environment variables from .env file
+// scripts/server.cjs
+const dotenv = require("dotenv");
 dotenv.config();
 
 const path = require("path");
-const app = require(path.join(__dirname, "../src/app.js"));
+// Debug: log the resolved path for clarity
+const appPath = path.join(__dirname, "../src/app.js");
+console.log("Loading Express app from:", appPath);
 
+const app = require(appPath);
 
 const port = process.env.PORT || 3000; // Use the port from environment variables or default to 3000
 
-// Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
