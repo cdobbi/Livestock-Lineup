@@ -4,9 +4,9 @@ import { saveLineup } from "./lineupActions.js";
 document.addEventListener("DOMContentLoaded", function () {
     const rabbitList = document.getElementById("rabbit-list");
     const saveLineupButton = document.getElementById("save-lineup");
-    const apiBase = "https://livestock-lineup.onrender.com/api"; // Adjust for your API
+    const apiBase = "https://livestock-lineup.onrender.com/api"; // Base URL for API endpoints
 
-    // Fetch and Render Rabbit Breeds
+    // Fetch and Render Rabbit Breeds from /api/breeds
     fetchAndRenderBreeds(`${apiBase}/breeds`, rabbitList);
 
     // Save Lineup Action
@@ -21,7 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 (btn) => btn.dataset.breed
             );
 
-            await saveLineup(category, show, selectedBreeds, `${apiBase}/save-organizer-lineups`, "Organizer123");
+            // Using the /api/lineups route to save lineups
+            await saveLineup(category, show, selectedBreeds, `${apiBase}/lineups`, "Organizer123");
         });
     }
 });
