@@ -25,7 +25,7 @@ const router = express.Router();
 
             // Insert the test user into the database
             await pool.query(
-                "INSERT INTO Users (user_name, email, password_hash, created_at) VALUES ($1, $2, $3, NOW())",
+                "INSERT INTO Users (username, email, password_hash, created_at) VALUES ($1, $2, $3, NOW())",
                 ["Test User", testEmail, hashedPassword]
             );
             console.log("Test user added: test@example.com / password");
@@ -35,6 +35,7 @@ const router = express.Router();
     }
 })();
 
+// Test database connection
 router.get("/test-db", async (req, res) => {
     try {
         const result = await pool.query("SELECT NOW()");
@@ -47,8 +48,7 @@ router.get("/test-db", async (req, res) => {
 
 // Handle user registration
 router.post("/register", async (req, res) => {
-    console.log("Incoming registration request:", req.body); // Log the request body for debugging
-
+    console.log("Register request body:", req.body); // Log the request body for debugging
     const { username, email, password } = req.body;
 
     // Validate input
@@ -68,7 +68,7 @@ router.post("/register", async (req, res) => {
 
         // Insert user into database
         const result = await pool.query(
-            "INSERT INTO Users (user_name, email, password_hash, created_at) VALUES ($1, $2, $3, NOW()) RETURNING id",
+            "INSERT INTO Users (username, email, password_hash, created_at) VALUES ($1, $2, $3, NOW()) RETURNING id",
             [username, email, hashedPassword]
         );
 
