@@ -69,7 +69,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
 
         if (response.ok && result.success) {
             alert("Login successful!");
-            window.location.href = "index.html"; // Redirect to the main page
+            window.location.href = "welcome.html"; // Redirect to the main page
         } else {
             alert(result.message || "Login failed. Please check your credentials.");
         }
