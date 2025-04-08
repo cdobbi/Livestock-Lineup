@@ -71,7 +71,7 @@ document.getElementById("register-form").addEventListener("submit", async functi
             if (response.ok) {
                 alert(result.message || "Registration successful!");
                 // Redirect to login page or dashboard
-                window.location.href = "/login.html";
+                window.location.href = "/index.html";
             } else {
                 alert(result.message || "Registration failed. Please try again.");
             }
