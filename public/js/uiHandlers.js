@@ -4,8 +4,9 @@
  * These handlers ensure a responsive and interactive experience for exhibitors by updating the page based on user actions or backend data.
  */
 
-import { fetchAndRenderBreeds } from "./fetchBreeds.js";
-import { saveLineup } from "../../scripts/lineupActions.js";
+// Use `require` to import dependencies
+const fetchAndRenderBreeds = require("./fetchBreeds.js").fetchAndRenderBreeds;
+const saveLineup = require("../../scripts/lineupActions.js").saveLineup;
 
 document.addEventListener("DOMContentLoaded", function () {
     const rabbitList = document.getElementById("rabbit-list");
