@@ -97,22 +97,6 @@ h1.bg-secondary {
     border-color: #f08080;
 }
 
-.login-container {
-    max-width: 400px;
-    margin: 100px auto;
-    padding: 20px;
-    background: #eeba7d;
-    border-radius: 8px;
-    border-color: black;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.login-container h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
 .error-message {
     color: red;
     font-size: 14px;
@@ -175,4 +159,13 @@ h1.bg-secondary {
 
 .error {
     border: 2px solid red;
+}
+
+.tablet-container {
+    width: 90%;
+    /* Use 90% of the viewport width */
+    max-width: 768px;
+    /* But never wider than 768px */
+    margin: 0 auto;
+    /* Center the container */
 }
