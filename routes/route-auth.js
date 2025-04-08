@@ -79,7 +79,6 @@ router.post("/register", async (req, res) => {
     }
 });
 
-// Handle user login
 router.post("/login", async (req, res) => {
     console.log("Incoming login request:", req.body); // Log the request body for debugging
 
@@ -95,7 +94,8 @@ router.post("/login", async (req, res) => {
         const result = await pool.query("SELECT * FROM Users WHERE email = $1", [email]);
 
         if (result.rows.length === 0) {
-            return res.status(400).json({ message: "User not found." });
+            console.warn(`Login failed: User not found for email ${email}`);
+            return res.status(401).json({ message: "Invalid credentials." }); // Use 401 for unauthorized
         }
 
         const user = result.rows[0];
@@ -103,13 +103,15 @@ router.post("/login", async (req, res) => {
         // Compare passwords
         const isMatch = await bcrypt.compare(password, user.password_hash);
         if (!isMatch) {
-            return res.status(400).json({ message: "Invalid credentials." });
+            console.warn(`Login failed: Invalid password for email ${email}`);
+            return res.status(401).json({ message: "Invalid credentials." }); // Use 401 for unauthorized
         }
 
         // Temporarily store user session data (if applicable)
         req.session = { userId: user.id, email: user.email };
 
-        res.status(200).json({ message: "Login successful!", userId: user.id });
+        console.log(`Login successful for user ID: ${user.id}`);
+        res.status(200).json({ success: true, message: "Login successful!", userId: user.id });
     } catch (error) {
         console.error("Error during login:", error); // Log the full error
         res.status(500).json({ message: "An error occurred during login. Please try again." });
