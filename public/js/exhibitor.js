@@ -108,8 +108,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     async function checkForNotifications() {
         try {
-            // Fetch exhibitor entries from the backend
-            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/all-exhibitors");            if (!exhibitorResponse.ok) {
+            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/exhibitors/all-exhibitors");
+            if (!exhibitorResponse.ok) {
                 throw new Error("Failed to fetch exhibitor data.");
             }
     
