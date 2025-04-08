@@ -1,14 +1,6 @@
-/**
- * This script handles user login for the Livestock Lineup application.
- * It validates the login form inputs, sends the data to the backend `/login` endpoint,
- * and displays appropriate success or error messages based on the server's response.
- * This script integrates with the backend server and frontend form validation.
- */
-
 document.getElementById("login-form").addEventListener("submit", async function (event) {
     event.preventDefault(); // Prevent form submission
 
-    // Function to clear all previous error messages
     function clearErrors() {
         const errorFields = ["login-email-error", "login-password-error"];
         errorFields.forEach(id => {
@@ -17,7 +9,6 @@ document.getElementById("login-form").addEventListener("submit", async function 
         });
     }
 
-    // Function to display error messages
     function displayError(fieldId, message) {
         const element = document.getElementById(fieldId);
         if (element) element.textContent = message;
@@ -52,10 +43,27 @@ document.getElementById("login-form").addEventListener("submit", async function 
     }
 
     const BACKEND_URL = window.location.hostname === "localhost"
-    ? "http://localhost:3000" // Local development
-    : "https://livestock-lineup.onrender.com"; // Production
+        ? "http://localhost:3000" // Local development
+        : "https://livestock-lineup.onrender.com"; // Production
 
     try {
+        // Send login data to the server
+        const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        const textResponse = await response.text(); // Log raw response
+        console.log("Raw response from server:", textResponse);
+
+        let result;
+        try {
+            result = JSON.parse(textResponse); // Parse response as JSON
+        } catch {
+            throw new Error("Invalid JSON response");
+        }
+
         if (response.ok && result.success) {
             // Show a temporary alert-like message
             const successMessage = document.createElement("div");
@@ -70,7 +78,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
             successMessage.style.borderRadius = "5px";
             successMessage.style.zIndex = "1000";
             document.body.appendChild(successMessage);
-        
+
             // Redirect to welcome.html after 2 seconds
             setTimeout(() => {
                 window.location.href = "welcome.html";
