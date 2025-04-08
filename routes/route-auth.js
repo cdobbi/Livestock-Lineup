@@ -11,6 +11,30 @@ const pool = require("../src/db"); // Import the centralized database connection
 
 const router = express.Router();
 
+// Add a default test user for ease of testing
+(async function addTestUser() {
+    try {
+        const testEmail = "test@example.com";
+        const testPassword = "password";
+
+        // Check if the test user already exists
+        const existingUser = await pool.query("SELECT * FROM Users WHERE email = $1", [testEmail]);
+        if (existingUser.rows.length === 0) {
+            // Hash the test user's password
+            const hashedPassword = await bcrypt.hash(testPassword, 10);
+
+            // Insert the test user into the database
+            await pool.query(
+                "INSERT INTO Users (user_name, email, password_hash, created_at) VALUES ($1, $2, $3, NOW())",
+                ["Test User", testEmail, hashedPassword]
+            );
+            console.log("Test user added: test@example.com / password");
+        }
+    } catch (error) {
+        console.error("Error adding test user:", error);
+    }
+})();
+
 // Handle user registration
 router.post("/register", async (req, res) => {
     const { username, email, password } = req.body;
@@ -39,7 +63,7 @@ router.post("/register", async (req, res) => {
         res.status(200).json({ message: "Registration successful!", userId: result.rows[0].id });
     } catch (error) {
         console.error("Error during registration:", error);
-        res.status(500).json({ message: "An error occurred. Please try again." });
+        res.status(500).json({ message: "An error occurred during registration. Please try again." });
     }
 });
 
@@ -75,7 +99,7 @@ router.post("/login", async (req, res) => {
         res.status(200).json({ message: "Login successful!", userId: user.id });
     } catch (error) {
         console.error("Error during login:", error);
-        res.status(500).json({ message: "An error occurred. Please try again." });
+        res.status(500).json({ message: "An error occurred during login. Please try again." });
     }
 });
 
