@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files (for your client-side code)
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../public")));
 
 // PostgreSQL Pool Configuration
 const pool = new Pool({
@@ -30,7 +30,6 @@ const pusher = new Pusher({
     cluster: process.env.cluster,
     useTLS: true,
 });
-
 
 // Import routes using the correct relative path (going up one level)
 const routeEx = require("../routes/route-ex");
@@ -58,8 +57,9 @@ app.use("/api/categories", categoriesRoutes);
 
 // Default route (if you need one)
 app.get("/", (req, res) => {
-  res.send("Welcome to the Livestock Lineup API");
-});
+    res.sendFile(path.join(__dirname, "../public", "index.html"));
+  });
+  
 
 // 404 handler
 app.use((req, res) => {
