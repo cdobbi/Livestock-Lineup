@@ -35,3 +35,5 @@ Thumbs.db
 /data/organizer.js
 /data/exhibitor.js
 
+# IDE-specific files
+.idea/
