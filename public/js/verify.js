@@ -10,12 +10,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const verifyButton = document.getElementById("verify-code");
 
     if (verifyButton) {
-        verifyButton.addEventListener("click", async function () {
+        verifyButton.addEventListener("click", async function () {  
             const organizerCode = document.getElementById("organizer-code").value;
 
             try {
                 // Send code to the /codes/verify endpoint
-                const response = await fetch("/codes/verify", {
+                const response = await fetch("/api/codes/verify", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ code: organizerCode }),
