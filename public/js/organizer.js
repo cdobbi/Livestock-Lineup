@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             try {
                 // Fetch saved lineups from the backend
-                const response = await fetch("https://livestock-lineup.onrender.com/api/get-lineups");
+                const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
                 if (!response.ok) {
                     throw new Error("Failed to fetch saved lineups.");
                 }
