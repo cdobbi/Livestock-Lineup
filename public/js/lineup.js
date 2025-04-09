@@ -96,7 +96,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Display the lineups in the UI
+        // Display the lineups in the UI
+    // Function to display lineups on the Lineup page
     function displayLineups() {
         lineupContainer.innerHTML = ""; // Clear the container
 
@@ -113,11 +114,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const breedList = document.createElement("ul");
                 breedList.classList.add("list-group");
-
-                if (!lineup.breeds || !Array.isArray(lineup.breeds)) {
-                    console.warn(`No breeds found for category: ${category}, show: ${show}`);
-                    return;
-                }
 
                 lineup.breeds.forEach((breed) => {
                     const breedItem = document.createElement("li");
