@@ -1,46 +1,56 @@
-/**
- * This script handles the organizer functionality for the Livestock Lineup application.
- * It integrates with a PostgreSQL backend to fetch rabbit breeds, validate exhibitor entries,
- * save and manage lineups, and navigate to other pages.
- */
-
 document.addEventListener("DOMContentLoaded", function () {
     // --- Top-level elements ---
     const rabbitList = document.getElementById("rabbit-list");
-    const saveLineupButton = document.getElementById("save-lineup"); // Add this line to define the button
+    const saveLineupButton = document.getElementById("save-lineup");
 
+    // Add the category and show mappings here
+    const categoryMap = {
+        1: "Youth",
+        2: "Open"
+    };
+
+    const showMap = {
+        1: "Show A",
+        2: "Show B",
+        3: "Show C",
+        4: "Show D",
+        5: "Meat Pen",
+        6: "Fur"
+    };
+
+    // --- Fetch Rabbit Breeds ---
     fetch("https://livestock-lineup.onrender.com/api/breeds")
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error("Failed to fetch rabbit breeds.");
-        }
-        return response.json();
-    })
-    .then((breeds) => {
-        rabbitList.innerHTML = ""; // Clear existing content
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch rabbit breeds.");
+            }
+            return response.json();
+        })
+        .then((breeds) => {
+            rabbitList.innerHTML = ""; // Clear existing content
 
-        breeds.forEach((breed) => {
-            const button = document.createElement("button");
-            button.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
-            button.dataset.breedId = breed.id; // Use the ID for unique tracking
-            button.textContent = breed.breed_name; // Display the breed name
+            breeds.forEach((breed) => {
+                const button = document.createElement("button");
+                button.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
+                button.dataset.breedId = breed.id; // Use the ID for unique tracking
+                button.textContent = breed.breed_name; // Display the breed name
 
-            button.addEventListener("click", function () {
-                this.classList.toggle("active");
-                console.log(
-                    `Breed ${this.textContent} is now ${this.classList.contains("active") ? "selected" : "deselected"}.`
-                );
+                button.addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    console.log(
+                        `Breed ${this.textContent} is now ${this.classList.contains("active") ? "selected" : "deselected"}.`
+                    );
+                });
+                rabbitList.appendChild(button);
             });
-            rabbitList.appendChild(button);
+        })
+        .catch((error) => {
+            console.error("Error fetching rabbit breeds:", error);
+            rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
         });
-    })
-    .catch((error) => {
-        console.error("Error fetching rabbit breeds:", error);
-        rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
-    });
 
     // --- Save Lineup Button Functionality ---
-    if (saveLineupButton) { // Ensure the button exists
+    if (saveLineupButton) {
         saveLineupButton.addEventListener("click", async () => {
             const categoryEl = document.getElementById("category");
             const showEl = document.getElementById("show");
@@ -66,12 +76,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response.ok) {
                     const flippingCard = document.getElementById("flipping-card");
                     flippingCard.style.display = "block"; // Show the flipping card
-                
+
                     // Stop the flipping animation after 2 seconds and show the success message
                     setTimeout(() => {
                         flippingCard.querySelector(".flipping-card-inner").style.animation = "none";
                     }, 2000);
-                
+
                     // Hide the flipping card after 4 seconds
                     setTimeout(() => {
                         flippingCard.style.display = "none";
@@ -106,9 +116,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     savedLineups.forEach((lineup, index) => {
                         printContent += `Lineup ${index + 1}\n`;
-                        printContent += `Category: ${lineup.category}\n`;
-                        printContent += `Show: ${lineup.show}\n`;
-                        printContent += `Breeds: ${lineup.breeds.join(", ")}\n\n`;
+                        printContent += `Category: ${categoryMap[lineup.category_id] || "Unknown"}\n`;
+                        printContent += `Show: ${showMap[lineup.show_id] || "Unknown"}\n`;
+                        printContent += `Breed ID: ${lineup.breed_id}\n\n`; // Replace with breed_name if available
                     });
                 }
 

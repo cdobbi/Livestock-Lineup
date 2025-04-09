@@ -25,10 +25,23 @@ router.post("/", async (req, res) => {
     }
 });
 
-// Fetch all lineups
 router.get("/", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM lineups ORDER BY id");
+        const result = await pool.query(`
+            SELECT 
+                l.id,
+                l.show_id,
+                l.category_id,
+                b.breed_name
+            FROM 
+                lineups l
+            JOIN 
+                breeds b
+            ON 
+                l.breed_id = b.id
+            ORDER BY 
+                l.id
+        `);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error("Error fetching lineups:", error);
