@@ -27,23 +27,27 @@ document.addEventListener("DOMContentLoaded", function () {
     })
         
     .then((breeds) => {
-        console.log("Fetched breeds:", breeds); // Debugging log
+        console.log("Fetched breeds array:", breeds); // Log the full array
+        breeds.forEach((breed) => {
+            console.log(`Breed ID: ${breed.id}, Breed Name: ${breed.breed_name}`); // Log each breed
+        });
+    
         rabbitList.innerHTML = ""; // Clear existing content
-            breeds.forEach((breed) => {
-                const button = document.createElement("button");
-                button.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
-                button.dataset.breedId = breed.id; // Use the ID for unique tracking
-                button.textContent = breed.breed_name; // Display the breed name
-
-                button.addEventListener("click", function () {
-                    this.classList.toggle("active");
-                    console.log(
-                        `Breed ${this.textContent} is now ${this.classList.contains("active") ? "selected" : "deselected"}.`
-                    );
-                });
-                rabbitList.appendChild(button);
+        breeds.forEach((breed) => {
+            const button = document.createElement("button");
+            button.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
+            button.dataset.breedId = breed.id; // Use the ID for unique tracking
+            button.textContent = breed.breed_name; // Display the breed name
+    
+            button.addEventListener("click", function () {
+                this.classList.toggle("active");
+                console.log(
+                    `Breed ${this.textContent} is now ${this.classList.contains("active") ? "selected" : "deselected"}.`
+                );
             });
-        })
+            rabbitList.appendChild(button);
+        });
+    })
         .catch((error) => {
             console.error("Error fetching rabbit breeds:", error);
             rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
