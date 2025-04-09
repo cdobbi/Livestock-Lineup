@@ -1,6 +1,6 @@
 // const { initializePusher } = require("./pusherNotifications.js");
 document.addEventListener("DOMContentLoaded", async function () {
-    const breedOptionsContainer = document.getElementById("breed-options");
+    const breedOptionsContainer = document.getElementById("breeds-options");
     const saveEntriesButton = document.getElementById("save-entries");
     const categorySelect = document.getElementById("category-select"); // Added for category
     const showSelect = document.getElementById("show-select"); // Added for show
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const entries = {
             category: selectedCategory,
             show: selectedShow,
-            breed: selectedBreeds,
+            breeds: selectedBreeds,
         };
     
         try {
