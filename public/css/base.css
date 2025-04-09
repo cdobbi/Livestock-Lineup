@@ -176,6 +176,11 @@ h1.bg-secondary {
 }
 
 /* Flipping Card Styles */
+
+#flipping-card {
+    display: none;
+}
+
 .flipping-card-container {
     position: fixed;
     top: 50%;
@@ -239,4 +244,22 @@ h1.bg-secondary {
     100% {
         transform: rotateY(360deg);
     }
+}
+
+#notificationModal {
+    display: none;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    z-index: 1000;
+    background: #fff;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+}
+
+#notificationModal p {
+    font-size: 22px;
+    margin-bottom: 15px;
 }
