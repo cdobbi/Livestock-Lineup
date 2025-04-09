@@ -9,10 +9,10 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../src/db"); // Assuming you're using PostgreSQL with a pool
 
-// Define the /breed route
+// Define the /breeds route
 router.get("/breeds", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM Breeds ORDER BY id");
+        const result = await pool.query("SELECT * FROM breeds ORDER BY id");
         res.status(200).json(result.rows);
     } catch (error) {
         console.error("Error fetching breeds:", error);
