@@ -6,7 +6,7 @@
 
 // Use `require` to import dependencies
 const fetchAndRenderBreeds = require("./fetchBreeds.js").fetchAndRenderBreeds;
-const saveLineup = require("../../scripts/lineupActions.js").saveLineup;
+const saveLineup = require("../scripts/lineupActions.js").saveLineup;
 
 document.addEventListener("DOMContentLoaded", function () {
     const rabbitList = document.getElementById("rabbit-list");
