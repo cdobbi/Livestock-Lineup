@@ -8,6 +8,7 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../src/db"); // Assuming you're using PostgreSQL with a pool
+const result = await pool.query("SELECT id, breed_name, category, related_show FROM breeds ORDER BY id");
 
 // Define the /breeds route
 router.get("/breeds", async (req, res) => {
