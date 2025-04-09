@@ -43,11 +43,11 @@ document.addEventListener("DOMContentLoaded", function () {
     saveLineupButton.addEventListener("click", async () => {
         const categoryEl = document.getElementById("category");
         const showEl = document.getElementById("show");
-        const categoryId = categoryEl ? categoryEl.value : "";
-        const showId = showEl ? showEl.value : "";
+        const categoryId = parseInt(categoryEl ? categoryEl.value : "", 10); // Convert to integer
+        const showId = parseInt(showEl ? showEl.value : "", 10); // Convert to integer
     
         const breedIds = Array.from(document.querySelectorAll(".breed-button.active")).map(
-            (btn) => btn.dataset.breedId // Ensure this matches the `data-breed-id` attribute
+            (btn) => parseInt(btn.dataset.breedId, 10) // Convert to integer
         );
     
         if (!categoryId || !showId || breedIds.length === 0) {
