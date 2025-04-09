@@ -57,7 +57,7 @@ app.use("/api/codes", codeRoutes);
 app.use("/api/submissions", submissionsRoutes);
 app.use("/api/shows", showsRoutes);
 app.use("/api/lineups", lineupsRoutes);
-app.use("/api/breeds", breedsRoutes);
+app.use("/api/breedsRoutes", breedsRoutes);
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/categories", categoriesRoutes);
 

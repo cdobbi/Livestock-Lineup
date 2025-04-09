@@ -10,6 +10,21 @@ const pool = require("../src/db"); // Import the centralized database connection
 
 const router = express.Router(); // Initialize the router
 
+router.post("/", async (req, res) => {
+    const { organizerId, categoryId, showsID, breedId, lineups } = req.body;
+    try {
+        // Save the lineup to the database
+        const result = await pool.query(
+            "INSERT INTO lineups (organizer_id, category_id, shows_id, breed_id, lineups) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+            [organizerId, categoryId, showsID, breedId, JSON.stringify(lineups)]
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.error("Error saving lineup:", error);
+        res.status(500).json({ message: "Failed to save lineup." });
+    }
+});
+
 // Fetch lineups for a specific show
 router.get("/", async (req, res) => {
     const { showId } = req.query;

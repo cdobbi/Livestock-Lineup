@@ -13,11 +13,11 @@ const router = express.Router(); // Initialize the router
 // Fetch all exhibitors
 router.get("/all-exhibitors", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM Exhibitors ORDER BY id"); // Fetch all exhibitors
+        const result = await pool.query("SELECT * FROM exhibitors ORDER BY id"); // Fetch all exhibitors
         res.status(200).json(result.rows); // Send the fetched data as JSON
     } catch (error) {
-        console.error("Error fetching exhibitor data:", error);
-        res.status(500).json({ error: "Failed to fetch exhibitor data." });
+        console.error("Error fetching exhibitors:", error);
+        res.status(500).json({ message: "Failed to fetch exhibitors." });
     }
 });
 
