@@ -17,18 +17,18 @@ document.addEventListener("DOMContentLoaded", function () {
         5: "Meat Pen",
         6: "Fur"
     };
-
-    // --- Fetch Rabbit Breeds ---
     fetch("https://livestock-lineup.onrender.com/api/breeds")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch rabbit breeds.");
-            }
-            return response.json();
-        })
-        .then((breeds) => {
-            rabbitList.innerHTML = ""; // Clear existing content
-
+    .then((response) => {
+        console.log("Fetch breeds response:", response); // Debugging log
+        if (!response.ok) {
+            throw new Error("Failed to fetch rabbit breeds.");
+        }
+        return response.json();
+    })
+        
+    .then((breeds) => {
+        console.log("Fetched breeds:", breeds); // Debugging log
+        rabbitList.innerHTML = ""; // Clear existing content
             breeds.forEach((breed) => {
                 const button = document.createElement("button");
                 button.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
