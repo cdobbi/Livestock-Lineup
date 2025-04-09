@@ -10,7 +10,7 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "description": "",
+    "description": "Table-Time 🐇📣\r Welcome to Table-Time, the premier app for organizing rabbit shows and ensuring seamless communication between organizers and exhibitors. Manage schedules, send alerts, and streamline the lineup process to make every rabbit show a success!",
     "dependencies": {
         "bcrypt": "^5.1.1",
         "body-parser": "^2.2.0",
