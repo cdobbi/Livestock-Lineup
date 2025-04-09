@@ -64,10 +64,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
 
                 if (response.ok) {
-                    alert("Lineup saved successfully!");
-                } else {
-                    console.error("Failed to save lineup:", response.statusText);
-                    alert("Failed to save lineup. Please try again.");
+                    const flippingCard = document.getElementById("flipping-card");
+                    flippingCard.style.display = "block"; // Show the flipping card
+                
+                    // Stop the flipping animation after 2 seconds and show the success message
+                    setTimeout(() => {
+                        flippingCard.querySelector(".flipping-card-inner").style.animation = "none";
+                    }, 2000);
+                
+                    // Hide the flipping card after 4 seconds
+                    setTimeout(() => {
+                        flippingCard.style.display = "none";
+                    }, 4000);
                 }
             } catch (error) {
                 console.error("Error saving lineup:", error);
