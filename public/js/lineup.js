@@ -32,28 +32,27 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Fetch show lineups dynamically based on the show ID
     async function fetchShowLineups(showId) {
         try {
             const response = await fetch(`/api/lineups?showId=${showId}`);
             if (!response.ok) {
                 throw new Error("Failed to fetch show lineups.");
             }
-
+    
             const lineupsData = await response.json();
             console.log("Fetched show lineups:", lineupsData);
-
+    
             // Aggregate lineups by category and show
             showLineups = {}; // Reset showLineups to avoid duplication
             lineupsData.forEach((lineup) => {
                 const { category_name, show_name, breed_name } = lineup;
-
+    
                 if (!showLineups[category_name]) showLineups[category_name] = {};
                 if (!showLineups[category_name][show_name]) showLineups[category_name][show_name] = { breeds: [] };
-
+    
                 showLineups[category_name][show_name].breeds.push(breed_name);
             });
-
+    
             console.log("Organized lineups:", showLineups);
             displayLineups(); // Render updated lineups
         } catch (error) {
