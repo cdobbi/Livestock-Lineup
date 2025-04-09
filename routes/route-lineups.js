@@ -33,7 +33,7 @@ router.get("/", async (req, res) => {
                 l.show_id,
                 l.category_id,
                 b.breed_name,
-                c.category_name,
+                c.name AS category_name, -- Use the correct column name and alias it
                 s.show_name
             FROM 
                 lineups l
