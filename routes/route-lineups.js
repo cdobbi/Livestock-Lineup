@@ -11,12 +11,12 @@ const pool = require("../src/db"); // Import the centralized database connection
 const router = express.Router(); // Initialize the router
 
 router.post("/", async (req, res) => {
-    const { organizerId, categoryId, showsID, breedId, lineups } = req.body;
+    const { showId, categoryId, breedIds } = req.body; // Adjusted to match your table structure
     try {
         // Save the lineup to the database
         const result = await pool.query(
-            "INSERT INTO lineups (organizer_id, category_id, shows_id, breed_id, lineups) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-            [organizerId, categoryId, showsID, breedId, JSON.stringify(lineups)]
+            "INSERT INTO lineups (show_id, category_id, breed_id) VALUES ($1, $2, $3) RETURNING *",
+            [showId, categoryId, breedIds] // Assuming breedIds is a single ID or array
         );
         res.status(201).json(result.rows[0]);
     } catch (error) {
