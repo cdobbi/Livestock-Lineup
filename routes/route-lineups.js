@@ -34,7 +34,7 @@ router.get("/", async (req, res) => {
                 l.category_id,
                 b.breed_name,
                 c.name AS category_name, -- Use the correct column name and alias it
-                s.show_name
+                s.name AS show_name -- Use the correct column name and alias it
             FROM 
                 lineups l
             JOIN 
