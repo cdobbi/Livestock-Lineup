@@ -169,3 +169,8 @@ h1.bg-secondary {
     margin: 0 auto;
     /* Center the container */
 }
+
+.tablet-container {
+    max-width: 768px;
+    margin: 0 auto;
+}
