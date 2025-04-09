@@ -45,7 +45,7 @@ const codeRoutes = require("../routes/route-codes");
 const submissionsRoutes = require("../routes/route-submissions");
 const showsRoutes = require("../routes/route-shows");
 const lineupsRoutes = require("../routes/route-lineups");
-const breedsRoutes = require("../routes/route-breeds");
+const breedsRoutes = require("./routes/route-breeds");
 const notificationsRoutes = require("../routes/route-notifications");
 const categoriesRoutes = require("../routes/route-categories");
 

@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
-    fetch("https://livestock-lineup.onrender.com/api/breeds")
+    fetch("https://livestock-lineup.onrender.com/api/public/breeds")
     .then((response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
