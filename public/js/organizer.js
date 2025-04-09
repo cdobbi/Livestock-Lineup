@@ -7,6 +7,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     // --- Top-level elements ---
     const rabbitList = document.getElementById("rabbit-list");
+    const saveLineupButton = document.getElementById("save-lineup"); // Add this line to define the button
 
     fetch("https://livestock-lineup.onrender.com/api/breeds")
     .then((response) => {
@@ -38,41 +39,44 @@ document.addEventListener("DOMContentLoaded", function () {
         rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
     });
 
-
     // --- Save Lineup Button Functionality ---
-    saveLineupButton.addEventListener("click", async () => {
-        const categoryEl = document.getElementById("category");
-        const showEl = document.getElementById("show");
-        const categoryId = parseInt(categoryEl ? categoryEl.value : "", 10); // Convert to integer
-        const showId = parseInt(showEl ? showEl.value : "", 10); // Convert to integer
-    
-        const breedIds = Array.from(document.querySelectorAll(".breed-button.active")).map(
-            (btn) => parseInt(btn.dataset.breedId, 10) // Convert to integer
-        );
-    
-        if (!categoryId || !showId || breedIds.length === 0) {
-            alert("Please select a category, show, and at least one breed.");
-            return;
-        }
-    
-        try {
-            const response = await fetch("https://livestock-lineup.onrender.com/api/lineups", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ showId, categoryId, breedIds }),
-            });
-    
-            if (response.ok) {
-                alert("Lineup saved successfully!");
-            } else {
-                console.error("Failed to save lineup:", response.statusText);
-                alert("Failed to save lineup. Please try again.");
+    if (saveLineupButton) { // Ensure the button exists
+        saveLineupButton.addEventListener("click", async () => {
+            const categoryEl = document.getElementById("category");
+            const showEl = document.getElementById("show");
+            const categoryId = parseInt(categoryEl ? categoryEl.value : "", 10); // Convert to integer
+            const showId = parseInt(showEl ? showEl.value : "", 10); // Convert to integer
+
+            const breedIds = Array.from(document.querySelectorAll(".breed-button.active")).map(
+                (btn) => parseInt(btn.dataset.breedId, 10) // Convert to integer
+            );
+
+            if (!categoryId || !showId || breedIds.length === 0) {
+                alert("Please select a category, show, and at least one breed.");
+                return;
             }
-        } catch (error) {
-            console.error("Error saving lineup:", error);
-            alert("An error occurred while saving the lineup.");
-        }
-    });
+
+            try {
+                const response = await fetch("https://livestock-lineup.onrender.com/api/lineups", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ showId, categoryId, breedIds }),
+                });
+
+                if (response.ok) {
+                    alert("Lineup saved successfully!");
+                } else {
+                    console.error("Failed to save lineup:", response.statusText);
+                    alert("Failed to save lineup. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error saving lineup:", error);
+                alert("An error occurred while saving the lineup.");
+            }
+        });
+    } else {
+        console.error("Save Lineup button not found.");
+    }
 
     // --- Print Lineup Button Functionality ---
     const printLineupButton = document.getElementById("print-lineup");
