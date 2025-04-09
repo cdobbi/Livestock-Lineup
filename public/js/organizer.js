@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const lineup = { category, show, breeds: selectedBreeds };
 
                 // Save the lineup to the PostgreSQL backend
-                const response = await fetch("https://livestock-lineup.onrender.com/api/save-organizer-lineups", {
+                const response = await fetch("https://livestock-lineup.onrender.com/api/lineups", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ organizerId, lineups: [lineup] }),
