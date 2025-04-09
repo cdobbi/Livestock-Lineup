@@ -99,8 +99,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // Display the lineups in the UI
     // Function to display lineups on the Lineup page
     function displayLineups() {
+        console.log("Clearing lineup container...");
         lineupContainer.innerHTML = ""; // Clear the container
-
+    
         Object.keys(showLineups).forEach((category) => {
             Object.keys(showLineups[category]).forEach((show) => {
                 const lineup = showLineups[category][show];

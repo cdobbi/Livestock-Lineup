@@ -26,3 +26,4 @@ export async function fetchAndRenderBreeds(apiEndpoint, rabbitList) {
         rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
     }
 }
+
