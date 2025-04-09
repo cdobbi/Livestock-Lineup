@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
-    fetch("https://livestock-lineup.onrender.com/api/breed")
+    fetch("https://livestock-lineup.onrender.com/api/breeds")
     .then((response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -35,14 +35,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Iterate over the breed entries to dynamically create buttons
         data.entries.forEach((entry) => {
             const breedButton = document.createElement("button");
-            breedButton.className = "breed-button";
-            breedButton.textContent = entry.breed;
+            breedButton.className = "breeds-button";
+            breedButton.textContent = entry.breeds;
 
             // Add a click event listener to toggle the selected class
             breedButton.addEventListener("click", function (event) {
                 event.preventDefault();
                 breedButton.classList.toggle("selected");
-                console.log(`Button clicked for breed: ${entry.breed}`);
+                console.log(`Button clicked for breed: ${entry.breeds}`);
             });
 
             // Append the dynamically created button to the breed-options container
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.log("Breed options successfully fetched and rendered.");
     })
     .catch((error) => {
-        console.error("Error fetching or processing breed data:", error);
+        console.error("Error fetching or processing breeds data:", error);
     });
 
     // Save entries when the button is clicked
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     
         // Collect selected breeds
         const selectedBreeds = [];
-        const selectedButtons = breedOptionsContainer.querySelectorAll(".breed-button.selected");
+        const selectedButtons = breedOptionsContainer.querySelectorAll(".breeds-button.selected");
     
         selectedButtons.forEach((button) => {
             selectedBreeds.push(button.textContent);
@@ -118,26 +118,26 @@ document.addEventListener("DOMContentLoaded", async function () {
     
             // Notification examples (you can fetch these dynamically if required)
             const notifications = [
-                { breed: "Holland Lop", category: "Youth", show: "A" },
-                { breed: "Netherland Dwarf", category: "Youth", show: "A" },
+                { breeds: "Holland Lop", category: "Youth", show: "A" },
+                { breeds: "Netherland Dwarf", category: "Youth", show: "A" },
             ];
     
             // Check if any exhibitor matches the notifications
             notifications.forEach((notification) => {
-                const { breed, category, show } = notification;
+                const { breeds, category, show } = notification;
     
                 const isMatchFound = exhibitorEntries.some((exhibitor) =>
                     exhibitor.submissions.some((submission) =>
                         submission.category === category &&
                         submission.show === show &&
-                        submission.breeds.includes(breed)
+                        submission.breeds.includes(breeds)
                     )
                 );
 
                 if (typeof notifyUser === "function") {
-                    notifyUser(breed, category, show);
+                    notifyUser(breeds, category, show);
                 } else {
-                    alert(`Notification for Category: ${category}, Show: ${show}, Breed: ${breed}`);
+                    alert(`Notification for Category: ${category}, Show: ${show}, Breeds: ${breeds}`);
                     const notificationSound = new Audio("/sounds/alert.mp3");
                     notificationSound.play();
                 }                          
