@@ -29,16 +29,20 @@ router.get("/", async (req, res) => {
     try {
         const result = await pool.query(`
             SELECT 
-                l.id,
+                l.id AS lineup_id,
                 l.show_id,
                 l.category_id,
-                b.breed_name
+                b.breed_name,
+                c.category_name,
+                s.show_name
             FROM 
                 lineups l
             JOIN 
-                breeds b
-            ON 
-                l.breed_id = b.id
+                breeds b ON l.breed_id = b.id
+            JOIN 
+                categories c ON l.category_id = c.id
+            JOIN 
+                shows s ON l.show_id = s.id
             ORDER BY 
                 l.id
         `);
