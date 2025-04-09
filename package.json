@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "main": "scripts/server.cjs",
     "scripts": {
+        "build": "webpack",
         "start": "node scripts/server.cjs",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
