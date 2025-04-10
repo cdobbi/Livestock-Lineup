@@ -38,8 +38,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         showLineups.forEach((lineup, index) => {
             const showDiv = document.createElement("div");
 
-            const showTitle = document.createElement("h3");
-            showTitle.textContent = `Lineup ${index + 1}: Category: ${lineup.category} - Show: ${lineup.show}`;
+            const showName = document.createElement("h3");
+            showName.textContent = `Lineup ${index + 1}: Category: ${lineup.category} - Show: ${lineup.show}`;
             showDiv.appendChild(showTitle);
 
             // Create a breed list
@@ -55,12 +55,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                     if (checkbox.checked) {
                         try {
                             // Fetch exhibitor entries from the backend
-                            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/submissions");
-                            const exhibitorEntries = await exhibitorResponse.json();
+                            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/exhibitors.submissions");
+                            const exhibitorsSubmissions = await exhibitorResponse.json();
 
                             // Validate exhibitorEntries and check if the breed matches
-                            const isBreedSelectedByExhibitor = exhibitorEntries.some((exhibitor) =>
-                                exhibitor.submissions.some((submission) =>
+                            const isBreedSelectedByExhibitor = exhibitorsSubmissions.show((exhibitor) =>
+                                exhibitor.submissions.show((submission) =>
                                     submission.breeds.includes(breed)
                                 )
                             );
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                             // If the breed matches, send the notification
                             const payload = {
-                                breed,
+                                breed_name: breed,
                                 category: lineup.category,
                                 show: lineup.show,
                             };
