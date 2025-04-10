@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     notifyUser(notification.breed);
                 }
             });
-        } catch (error) {F
+        } catch (error) {
             console.error("Error fetching notifications:", error);
         }
     }
