@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         printContent += `Lineup ${index + 1}\n`;
                         printContent += `Category: ${categoryMap[lineup.category_id] || "Unknown"}\n`;
                         printContent += `Show: ${showMap[lineup.show_id] || "Unknown"}\n`;
-                        printContent += `Breed ID: ${lineup.breed_id}\n\n`; // Replace with breed_name if available
+                        printContent += `Breed: ${lineup.breed_name}\n\n`; // Replace with breed_name if available
                     });
                 }
 
