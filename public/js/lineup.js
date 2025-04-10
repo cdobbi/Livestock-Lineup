@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Exhibitors data fetched:", exhibitorEntries);
         } catch (error) {
             console.error("Error fetching exhibitor entries:", error);
-            alert("Failed to load exhibitor data. Please try again later.");
         }
     }
 
@@ -56,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
             displayLineups(); // Render updated lineups
         } catch (error) {
             console.error("Error fetching show lineups:", error);
-            alert("Failed to fetch show lineups. Please try again later.");
         }
     }
 
@@ -85,12 +83,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 return true;
             } else {
                 console.error("Failed to send notification:", response.statusText);
-                alert("Failed to send notification. Please try again.");
                 return false;
             }
         } catch (error) {
             console.error("Error sending notification:", error);
-            alert("An error occurred while sending the notification.");
             return false;
         }
     }

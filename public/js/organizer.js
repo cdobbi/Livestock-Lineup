@@ -95,7 +95,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             } catch (error) {
                 console.error("Error saving lineup:", error);
-                alert("An error occurred while saving the lineup.");
             }
         });
     } else {
@@ -141,7 +140,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 previewWindow.focus();
             } catch (error) {
                 console.error("Error fetching saved lineups:", error);
-                alert("Failed to load saved lineups. Please try again later.");
             }
         });
     }
@@ -161,7 +159,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             } catch (error) {
                 console.error("Error clearing lineups:", error);
-                alert("An error occurred while clearing the lineups.");
             }
         });
     } else {

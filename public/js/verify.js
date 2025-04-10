@@ -30,12 +30,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Highlight the input field with an error style
                     const codeInput = document.getElementById("organizer-code");
                     codeInput.classList.add("error");
-                    alert("Invalid code. Please try again.");
                 }
             } catch (error) {
                 // Log error for debugging and show a user-friendly message
                 console.error("Error verifying code:", error);
-                alert("An error occurred while verifying the code. Please try again.");
             }
         });
     } else {
