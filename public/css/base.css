@@ -1,7 +1,6 @@
 /* General Styles */
 body {
     background-color: #f3efe7f7;
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     font-family: cursive;
@@ -165,19 +164,14 @@ h1.bg-secondary {
 
 .tablet-container {
     width: 90%;
-    /* Use 90% of the viewport width */
     max-width: 768px;
-    /* But never wider than 768px */
     margin: 0 auto;
-    /* Center the container */
 }
 
 .tablet-container {
     max-width: 768px;
     margin: 0 auto;
 }
-
-/* Flipping Card Styles */
 
 #flipping-card {
     display: none;
@@ -305,10 +299,6 @@ h1.bg-secondary {
     text-align: center;
 }
 
-#text-primary {
-    color: black;
-}
-
 #category,
 #show,
 #category-select,
@@ -361,28 +351,16 @@ body::before {
     width: 100%;
     height: 100%;
     background-image: url("../images/livestock-image.png");
-    /* Path to your background image */
     background-size: 90%;
-    /* Slightly wider than a tablet */
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
     opacity: 0.2;
-    /* Makes the background transparent */
     z-index: -1;
-    /* Ensures it stays behind all content */
-}
-
-body {
-    color: black;
 }
 
 header {
     text-align: center;
-}
-
-h4 {
-    color: black;
 }
 
 .lineup-container {
@@ -395,62 +373,45 @@ h4 {
     margin-left: 20px;
 }
 
-/* Styling for the category and show text */
-.category-show-text {
-    color: black;
-    font-weight: bold;
-}
-
-/* Styling for breed labels */
-.breed-label {
+/* .breed-label {
     font-weight: normal;
     background: none;
     border: none;
-    color: inherit;
     padding: 0;
     margin: 0;
+    
     display: inline;
-}
+} */
 
-.text-primary {
+.text-primary,
+.text-secondary,
+.text-success,
+.text-danger,
+.text-warning {
     color: black;
 }
 
 /* Styling for breed list items */
 .breed-item {
-    list-style: none;
-    /* Remove default list styling */
-    font-weight: normal;
-    background: none;
-    border: none;
-    color: inherit;
-    padding: 0;
-    margin: 0;
-    display: inline;
-    /* Ensure it behaves as inline text */
+    margin-bottom: 10px;
+    align-items: center;
+    display: flex;
 }
 
-/* Ensure the category and show text is black */
 .category-show-text {
     color: black;
     font-weight: bold;
+    margin-left: 8px;
 }
 
-/* Styling for breed items */
-.breed-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    /* Add spacing between items */
-}
-
-/* Styling for breed labels */
 .breed-label {
     margin-left: 8px;
-    /* Add spacing between the checkbox and label */
     font-weight: normal;
-    color: inherit;
-    /* Inherit text color */
+}
+
+.breed-label.highlight {
+    font-weight: bold;
+    color: #6c757d;
 }
 
 #lineup-container,
@@ -459,6 +420,9 @@ h4 {
 #show-selector,
 #show-list,
 #show-list-container,
-#lineup-container-content {
+#lineup-container-content,
+body,
+h4,
+#text-primary {
     color: black;
 }
