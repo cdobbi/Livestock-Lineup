@@ -5,20 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-    <title>Show Lineup & Alert - Table Time</title>
+    <title>Rabbit Show Lineup & Alert</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/base.css">
+    <style>
+        /* Add minimal styles for the card layout */
+        .lineup-card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
-        <h1 class="text-center my-4">Show Lineup & Alert</h1>
-        <div id="lineup-container" class="row justify-content-start">
-            <!-- Lineup will be displayed here -->
-
-
-
+        <h1 class="text-center my-4">Show Lineup</h1>
+        <div id="lineup-container" class="lineup-card">
+            <h4>Category: Youth - Show: Fur</h4>
+            <div>
+                <input type="checkbox" id="flemish-giant">
+                <label for="flemish-giant">FLEMISH GIANT</label>
+            </div>
+            <div>
+                <input type="checkbox" id="havana">
+                <label for="havana">HAVANA</label>
+            </div>
+            <!-- Add more items here -->
         </div>
+
+        <div id="lineup-container" class="lineup-card mt-3">
+            <h4>Category: Youth - Show: Meat Pen</h4>
+            <div>
+                <input type="checkbox" id="plush-lop">
+                <label for="plush-lop">PLUSH LOP</label>
+            </div>
+            <div>
+                <input type="checkbox" id="florida-white">
+                <label for="florida-white">FLORIDA WHITE</label>
+            </div>
+            <!-- Add more items here -->
+        </div>
+
         <div class="text-left my-4">
             <button id="print" class="btn btn-warning mx-2">Print</button>
         </div>
@@ -32,15 +62,6 @@
             </p>
         </div>
     </footer>
-
-    <!-- Custom Client-Side Scripts -->
-    <!-- <script src="js/displayLineup.js"></script>
-    <script src="js/alert.js"></script> -->
-    <!-- <script src="./js/uiHandlers.bundle.js"></script> -->
-    <script src="js/displayLineup.js"></script>
-    <script src="js/alert.js"></script>
-    <script src="js/lineup.js"></script>
-
 </body>
 
 </html>
