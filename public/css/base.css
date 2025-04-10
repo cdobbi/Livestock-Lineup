@@ -1,7 +1,8 @@
 /* General Styles */
 body {
-    background-color: #c4beb1f7;
+    background-color: #d7d2c9f7;
     font-family: Arial, sans-serif;
+    max-width: 1200px;
     margin: 0;
     padding: 0;
 }
@@ -64,9 +65,9 @@ h1.bg-secondary {
     /* display: inline-block; */
     padding: 10px 20px;
     margin: 5px;
-    background-color: #f0f8ff;
-    color: #333;
-    border: 2px solid #418082;
+    background-color: #64999b;
+    color: white;
+    border: 2px solid #25484a; 
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
@@ -81,7 +82,7 @@ h1.bg-secondary {
 
 .breed-button.selected {
     background-color: #d1c6aef7;
-    color: #333;
+    color: black;
     border-color: #6c757d;
 }
 
@@ -246,4 +247,18 @@ h1.bg-secondary {
 #notificationModal p {
     font-size: 22px;
     margin-bottom: 15px;
+}
+
+#save-lineup,
+#print-lineup,
+#clear-lineup,
+#finished  {
+    background-color: #c5ebed;
+    color: black;;
+    border: 2px solid #6c757d;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    text-align: center;
 }
