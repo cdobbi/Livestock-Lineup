@@ -59,8 +59,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                             const exhibitorsSubmissions = await exhibitorResponse.json();
 
                             // Validate exhibitorEntries and check if the breed matches
-                            const isBreedSelectedByExhibitor = exhibitorsSubmissions.show((exhibitors) =>
-                                exhibitors.submissions.show((submission) =>
+                            const isBreedSelectedByExhibitor = exhibitorsSubmissions.showName((exhibitors) =>
+                                exhibitors.submissions.showName((submission) =>
                                     submissions.breeds.includes(breed)
                                 )
                             );

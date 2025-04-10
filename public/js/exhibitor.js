@@ -113,8 +113,8 @@ document.addEventListener("DOMContentLoaded", async function () {
                 throw new Error("Failed to fetch exhibitor data.");
             }
     
-            const exhibitorEntries = await exhibitorResponse.json();
-            console.log("Exhibitor shows fetched for validation:", exhibitorEntries);
+            const submissions = await exhibitorResponse.json();
+            console.log("Exhibitor shows fetched for validation:", submissions);
     
             // Notification examples (you can fetch these dynamically if required)
             const notifications = [
@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             notifications.forEach((notification) => {
                 const { breed, category, show } = notification;
     
-                const isMatchFound = exhibitorEntries.some((exhibitor) =>
+                const isMatchFound = exhibitors.submissions.some((exhibitor) =>
                     exhibitor.submissions.some((submission) =>
                         submission.category === category &&
                         submission.show === show &&
