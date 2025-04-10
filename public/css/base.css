@@ -264,10 +264,11 @@ h1.bg-secondary {
 #print,
 #organizer-button,
 #save-entries,
-#return {
+#return,
+#login,
+#register {
     background-color: #c5ebed;
     color: black;
-    ;
     border: 2px solid #6c757d;
     border-radius: 5px;
     cursor: pointer;
@@ -294,7 +295,13 @@ h1.bg-secondary {
 #category,
 #show,
 #category-select,
-#show-select {
+#show-select,
+#password,
+#email,
+#username,
+#register-password,
+#register-email,
+#register-username {
     background-color: #d1c6aef7;
     margin: 0 auto;
 }
@@ -306,7 +313,25 @@ hr {
 
 h1 {
     color: black;
-    font-size: 2.2em;
+    font-size: 2.5em;
+    font-family: cursive;
+    font-weight: normal;
+}
+
+h2 {
+    color: black;
+    font-size: 1.5em;
     font-weight: 100;
     font-family: cursive;
+}
+
+html {
+    scroll-behavior: smooth;
+    max-width: 1600px;
+    padding: 0;
+    left: 50%;
+}
+
+#login {
+    margin-bottom: 100px;
 }
