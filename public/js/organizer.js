@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // --- Top-level elements ---
     const rabbitList = document.getElementById("rabbit-list");
     const saveLineupButton = document.getElementById("save-lineup");
+    const clearLineupButton = document.getElementById("clear-lineup");
+    const finishedButton = document.getElementById("finished");
 
     // Add the category and show mappings here
     const categoryMap = {
@@ -122,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         printContent += `Lineup ${index + 1}\n`;
                         printContent += `Category: ${categoryMap[lineup.category_id] || "Unknown"}\n`;
                         printContent += `Show: ${showMap[lineup.show_id] || "Unknown"}\n`;
-                        printContent += `Breed: ${lineup.breed_name}\n\n`; // Replace with breed_name if available
+                        printContent += `Breed: ${lineup.breed_name}\n\n`;
                     });
                 }
 
@@ -143,4 +145,38 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    // --- Clear Lineup Button Functionality ---
+    if (clearLineupButton) {
+        clearLineupButton.addEventListener("click", async () => {
+            try {
+                const response = await fetch("https://livestock-lineup.onrender.com/api/lineups", {
+                    method: "DELETE",
+                });
+
+                if (response.ok) {
+                    alert("All lineups have been cleared.");
+                } else {
+                    throw new Error("Failed to clear lineups.");
+                }
+            } catch (error) {
+                console.error("Error clearing lineups:", error);
+                alert("An error occurred while clearing the lineups.");
+            }
+        });
+    } else {
+        console.error("Clear Lineup button not found.");
+    }
+
+    // --- Finished Button Functionality ---
+    if (finishedButton) {
+        finishedButton.addEventListener("click", () => {
+            // Simply route to lineup.html
+            window.location.href = "lineup.html";
+        });
+    } else {
+        console.error("Finished button not found.");
+    }
+
+    // --- Save and Print functionality remain unchanged ---
 });
