@@ -3,29 +3,29 @@
  * It fetches Pusher configuration from the backend, initializes Pusher, and listens for notifications
  * on the "livestock-lineup" channel. Notifications are displayed using the Browser Notification API
  * or updated in the UI if notifications are unsupported.
- * This script integrates with the backend server and frontend UI for real-time updates.
  */
+
+const NOTIFICATION_SOUND_PATH = "/sounds/alert.mp3";
+const NOTIFICATION_ICON_PATH = "/images/notification-icon.png";
+const PUSHER_CHANNEL_NAME = "livestock-lineup";
 
 async function initializePusher() {
     try {
-        // Fetch Pusher configuration from the server
         const response = await fetch("https://livestock-lineup.onrender.com/pusher-config");
         if (!response.ok) {
-            throw new Error("Failed to fetch Pusher configuration.");
+            throw new Error(`Failed to fetch Pusher configuration. Status: ${response.status}`);
         }
 
         const pusherConfig = await response.json();
 
-        // Initialize Pusher using the fetched configuration
         const pusher = new Pusher(pusherConfig.key, {
             cluster: pusherConfig.cluster,
         });
 
-        const channel = pusher.subscribe("livestock-lineup");
+        const channel = pusher.subscribe(PUSHER_CHANNEL_NAME);
 
-        // Bind to the "breed-notification" event
         channel.bind("breed-notification", (data) => {
-            const { breed, category, show } = data; // Extract all relevant fields
+            const { breed, category, show } = data;
             console.log(`Notification received for Category: ${category}, Show: ${show}, Breed: ${breed}`);
             handleNotification(breed, category, show);
         });
@@ -33,24 +33,22 @@ async function initializePusher() {
         return { pusher, channel };
     } catch (error) {
         console.error("Error initializing Pusher:", error);
+        alert("Real-time notifications are currently unavailable. Please refresh the page or try again later.");
         return null;
     }
 }
 
-// Handle incoming notifications with sound and polished notifications
 function handleNotification(breed, category, show) {
     try {
-        // Play notification sound
-        const notificationSound = new Audio("/sounds/alert.mp3");
+        const notificationSound = new Audio(NOTIFICATION_SOUND_PATH);
         notificationSound.play();
 
-        // Use Browser Notification API if supported
         if ("Notification" in window) {
             Notification.requestPermission().then((permission) => {
                 if (permission === "granted") {
                     new Notification("Table-Time Alert", {
                         body: `Your breed (${breed}) is up next!`,
-                        icon: "/images/notification-icon.png", // Optional: add an icon for a polished look
+                        icon: NOTIFICATION_ICON_PATH,
                     });
                 } else {
                     console.warn("Notifications permission denied. Falling back to UI alert.");
@@ -58,7 +56,6 @@ function handleNotification(breed, category, show) {
                 }
             });
         } else {
-            // Fall back to updating the UI if browser notifications are unsupported
             updateNotificationArea(breed, category, show);
         }
     } catch (error) {
@@ -66,19 +63,28 @@ function handleNotification(breed, category, show) {
     }
 }
 
-// Update the notification area in the UI
 function updateNotificationArea(breed, category, show) {
-    const notificationArea = document.getElementById("notification-area");
+    let notificationArea = document.getElementById("notification-area");
 
     if (!notificationArea) {
-        console.error("Notification area element not found in the DOM.");
-        return;
+        console.warn("Notification area element not found. Creating one dynamically.");
+        notificationArea = document.createElement("div");
+        notificationArea.id = "notification-area";
+        notificationArea.style.position = "fixed";
+        notificationArea.style.bottom = "10px";
+        notificationArea.style.right = "10px";
+        notificationArea.style.backgroundColor = "#f8d7da";
+        notificationArea.style.color = "#721c24";
+        notificationArea.style.padding = "10px";
+        notificationArea.style.border = "1px solid #f5c6cb";
+        notificationArea.style.borderRadius = "5px";
+        notificationArea.style.zIndex = "1000";
+        document.body.appendChild(notificationArea);
     }
 
     notificationArea.textContent = `Category: ${category}, Show: ${show}\nYour breed (${breed}) is up next!`;
     notificationArea.style.display = "block";
 
-    // Auto-hide the notification after 10 seconds
     setTimeout(() => {
         notificationArea.style.display = "none";
     }, 10000);
