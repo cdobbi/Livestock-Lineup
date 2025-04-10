@@ -14,74 +14,74 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Fetch and render breeds
     fetch("https://livestock-lineup.onrender.com/api/breeds")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then((breeds) => {
-            if (!Array.isArray(breeds)) {
-                console.error("Error: Expected an array of breed objects.");
-                return;
-            }
-            breeds.forEach((breed) => {
-                const breedButton = document.createElement("button");
-                breedButton.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
-                breedButton.dataset.breedId = breed.id;
-                breedButton.textContent = breed.breed_name; // Change if property name differs
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then((breeds) => {
+        if (!Array.isArray(breeds)) {
+            console.error("Error: Expected an array of breed objects.");
+            return;
+        }
+        breeds.forEach((breed) => {
+            const breedButton = document.createElement("button");
+            breedButton.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
+            breedButton.dataset.breedId = breed.id;
+            breedButton.textContent = breed.breed_name;
 
-                breedButton.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    breedButton.classList.toggle("selected");
-                    console.log(`Button clicked for breed: ${breed.breed_name}`);
-                });
-
-                breedOptionsContainer.appendChild(breedButton);
+            breedButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                breedButton.classList.toggle("selected");
+                console.log(`Button clicked for breed: ${breed.breed_name}`);
             });
-            console.log("Breed options successfully fetched and rendered.");
-        })
-        .catch((error) => {
-            console.error("Error fetching or processing breed data:", error);
-            breedOptionsContainer.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
+
+            breedOptionsContainer.appendChild(breedButton);
         });
+        console.log("Breed options successfully fetched and rendered.");
+    })
+    .catch((error) => {
+        console.error("Error fetching or processing breed data:", error);
+        breedOptionsContainer.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
+    });
 
     // Save shows when the button is clicked
     saveEntriesButton.addEventListener("click", async function () {
         const selectedCategory = categorySelect.value;
         const selectedShow = showSelect.value;
-
+    
         if (!selectedCategory || !selectedShow) {
             alert("Please select both a category and a show.");
             return;
         }
-
+    
         // Collect selected breeds
         const selectedBreeds = [];
         const selectedButtons = breedOptionsContainer.querySelectorAll(".breed-button.selected");
         selectedButtons.forEach((button) => {
             selectedBreeds.push(button.textContent);
         });
-
+    
         if (selectedBreeds.length === 0) {
             alert("Please select at least one breed to start the application.");
             return;
         }
-
+    
         // Create the entry object to send to the backend
         const shows = {
             category: selectedCategory,
             show: selectedShow,
             breeds: selectedBreeds,
         };
-
+    
         try {
             const response = await fetch("https://livestock-lineup.onrender.com/api/submissions", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(shows),
             });
-
+    
             if (response.ok) {
                 alert("Your shows have been saved. You will be notified when your breed is called.");
             } else {
@@ -122,9 +122,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     )
                 );
     
-                if (typeof notifyUser === "function") {
-                    notifyUser(breed, category, show);
-                } else {
+                if (isMatchFound) {
                     alert(`Notification for Category: ${category}, Show: ${show}, Breed: ${breed}`);
                     const notificationSound = new Audio("/sounds/alert.mp3");
                     notificationSound.play();
