@@ -53,4 +53,16 @@ router.get("/", async (req, res) => {
     }
 });
 
+// Clear all lineups
+router.delete("/", async (req, res) => {
+    try {
+        // Delete all entries in the 'lineups' table
+        await pool.query("DELETE FROM lineups");
+        res.status(200).json({ message: "All lineups cleared successfully." });
+    } catch (error) {
+        console.error("Error clearing lineups:", error);
+        res.status(500).json({ message: "Failed to clear lineups." });
+    }
+});
+
 module.exports = router; // Export the router

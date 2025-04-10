@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Fetched show lineups:", lineupsData);
     
             // Aggregate lineups by category and show
-            showLineups = {}; // Reset showLineups to avoid duplication
             lineupsData.forEach((lineup) => {
                 const { category_name, show_name, breed_name } = lineup;
     
