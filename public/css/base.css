@@ -387,3 +387,20 @@ h4 {
 .checkbox-group {
     margin-left: 20px;
 }
+
+/* Styling for the category and show text */
+.category-show-text {
+    color: black;
+    font-weight: bold;
+}
+
+/* Styling for breed labels */
+.breed-label {
+    font-weight: normal;
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    display: inline;
+}
