@@ -1,7 +1,7 @@
 // const { initializePusher } = require("./pusherNotifications.js");
 document.addEventListener("DOMContentLoaded", async function () {
     const breedOptionsContainer = document.getElementById("breeds-options");
-    const saveEntriesButton = document.getElementById("save-entries");
+    const saveEntriesButton = document.getElementById("save-shows");
     const categorySelect = document.getElementById("category-select"); // Added for category
     const showSelect = document.getElementById("show-select"); // Added for show
 
@@ -21,8 +21,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         return response.json();
     })
     .then((data) => {
-        if (!data.entries || !Array.isArray(data.entries)) {
-            console.error("Error: 'entries' is missing or is not an array in the fetched data.");
+        if (!data.shows || !Array.isArray(data.shows)) {
+            console.error("Error: 'shows' is missing or is not an array in the fetched data.");
             return;
         }
 
@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
         }
 
-        // Iterate over the breed entries to dynamically create buttons
-        data.entries.forEach((entry) => {
+        // Iterate over the breed shows to dynamically create buttons
+        data.shows.forEach((entry) => {
             const breedButton = document.createElement("button");
             breedButton.className = "breed-button";
             breedButton.textContent = entry.breed;
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("Error fetching or processing breed data:", error);
     });
 
-    // Save entries when the button is clicked
+    // Save shows when the button is clicked
     saveEntriesButton.addEventListener("click", async function () {
         // Get selected category and show
         const selectedCategory = categorySelect.value;
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     
         // Create the entry object to send to the backend
-        const entries = {
+        const shows = {
             category: selectedCategory,
             show: selectedShow,
             breeds: selectedBreeds,
@@ -91,18 +91,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             const response = await fetch("https://livestock-lineup.onrender.com/api/submissions", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(entries),
+                body: JSON.stringify(shows),
             });
     
             if (response.ok) {
-                alert("Your entries have been saved. You will be notified when your breed is called.");
+                alert("Your shows have been saved. You will be notified when your breed is called.");
             } else {
-                console.error("Failed to save entries:", await response.text());
-                alert("Failed to save entries. Please try again.");
+                console.error("Failed to save shows:", await response.text());
+                alert("Failed to save shows. Please try again.");
             }
         } catch (error) {
-            console.error("Error saving entries:", error);
-            alert("An error occurred while saving your entries.");
+            console.error("Error saving shows:", error);
+            alert("An error occurred while saving your shows.");
         }
     });    
 
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
     
             const exhibitorEntries = await exhibitorResponse.json();
-            console.log("Exhibitor entries fetched for validation:", exhibitorEntries);
+            console.log("Exhibitor shows fetched for validation:", exhibitorEntries);
     
             // Notification examples (you can fetch these dynamically if required)
             const notifications = [
