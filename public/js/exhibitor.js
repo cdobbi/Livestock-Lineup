@@ -10,18 +10,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const categorySelect = document.getElementById("category-select");
     const showSelect = document.getElementById("show-select");
 
-    // Fetch and render breeds
-    await fetchAndRenderBreeds("https://livestock-lineup.onrender.com/api/breeds", breedOptionsContainer);
-
-    // Save shows when the button is clicked
-    saveEntriesButton.addEventListener("click", async function () {
-        const selectedCategory = categorySelect.value;
-        const selectedShow = showSelect.value;
-
-        if (!selectedCategory || !selectedShow) {
-            alert("Please select both a category and a show.");
-            return;
-        }
 
         // Collect selected breeds
         const selectedBreeds = [];
@@ -41,25 +29,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             show: selectedShow,
             breeds: selectedBreeds,
         };
-
-        try {
-            const response = await fetch("https://livestock-lineup.onrender.com/api/submissions", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(shows),
-            });
-
-            if (response.ok) {
-                alert("Your shows have been saved. You will be notified when your breed is called.");
-            } else {
-                console.error("Failed to save shows:", await response.text());
-                alert("Failed to save shows. Please try again.");
-            }
-        } catch (error) {
-            console.error("Error saving shows:", error);
-            alert("An error occurred while saving your shows.");
-        }
-    });
 
     // Use Pusher for real-time notifications
     const channel = pusherInstance.channel;

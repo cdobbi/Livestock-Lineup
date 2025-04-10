@@ -14,11 +14,10 @@
     <header class="text-center my-4" id="intro">
         <h1 class="text-center my-4">Exhibitor Entries</h1>
         <hr>
-        </hr>
     </header>
     <div class="container">
         <form id="exhibitor-form">
-            <!-- New Category Selection Section -->
+            <!-- Category Selection -->
             <div class="form-group text-center">
                 <label for="category-select" class="h5">Select Category</label>
                 <select id="category-select" class="form-control w-50 mx-auto">
@@ -28,7 +27,7 @@
                 </select>
             </div>
 
-            <!-- New Show Selection Section -->
+            <!-- Show Selection -->
             <div class="form-group text-center my-4">
                 <label for="show-select" class="h5">Select Show</label>
                 <select id="show-select" class="form-control w-50 mx-auto">
@@ -43,27 +42,19 @@
             </div>
 
             <!-- Breed Options -->
-            <div id="breed-options" class="row justify-content-center">
-                <!-- Breed options will be displayed here -->
-
+            <div id="rabbit-list" class="row justify-content-center">
+                <!-- Breeds will be dynamically populated here -->
             </div>
 
             <!-- Buttons -->
             <div class="text-center my-4 d-flex justify-content-center">
-                <button type="button" id="save-entries" class="btn btn-info btn-lg mx-2">Save & Start Application</button>
-                <button type="button" id="return" onclick="window.location.href='index.html'" class="btn btn-info btn-lg mx-2">Return to
-                    Login</button>
+                <button type="button" id="save-lineup" class="btn btn-info btn-lg mx-2">Save & Start Application</button>
+                <button type="button" id="return" onclick="window.location.href='index.html'" class="btn btn-info btn-lg mx-2">Return to Login</button>
             </div>
         </form>
 
-        <!-- Notification Modal -->
-        <div id="notificationModal">
-            <p id="modalMessage"></p>
-        </div>
-
         <footer class="text-center my-4">
             <hr>
-            </hr>
             <div class="col-lg-4">
                 <p>&copy; Christi Dobbins 🐇🫐🥕🥬<br>
                     <a href="https://www.rhinelander-rabbitry.com" class="text-info">www.rhinelander-rabbitry.com</a>
@@ -77,9 +68,6 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-        <script src="./js/pusherNotification.js"></script>
-        <script src="./js/exhibitor.js"></script>
-        <script src="./js/fetchBreeds.js"></script>
-</body>
-
+        <script src="./js/uiHandlers.bundle.js"></script>
+    </body>
 </html>
