@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Check for matching notifications
             notifications.forEach((notification) => {
-                const isBreedSelectedByExhibitor = exhibitorEntries.some((exhibitor) =>
-                    exhibitor.submissions.some((submission) =>
+                const isBreedSelectedByExhibitor = exhibitorEntries.show((exhibitor) =>
+                    exhibitor.submissions.show((submission) =>
                         submission.breeds.includes(notification.breed)
                     )
                 );
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     notifyUser(notification.breed);
                 }
             });
-        } catch (error) {
+        } catch (error) {F
             console.error("Error fetching notifications:", error);
         }
     }
