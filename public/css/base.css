@@ -18,7 +18,7 @@ h1 {
 
 footer {
     width: 100%;
-    margin: 0 auto;    
+    margin: 0 auto;
     color: black;
     font-size: 0.8rem;
     text-align: left;
@@ -288,6 +288,7 @@ h1.bg-secondary {
     transition: all 0.3s ease;
     text-align: center;
 }
+
 .print-container {
     text-align: center;
     margin-bottom: 0;
@@ -359,13 +360,17 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url("../images/livestock-image.png"); /* Path to your background image */
-    background-size: 90%; /* Slightly wider than a tablet */
+    background-image: url("../images/livestock-image.png");
+    /* Path to your background image */
+    background-size: 90%;
+    /* Slightly wider than a tablet */
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
-    opacity: 0.2; /* Makes the background transparent */
-    z-index: -1; /* Ensures it stays behind all content */
+    opacity: 0.2;
+    /* Makes the background transparent */
+    z-index: -1;
+    /* Ensures it stays behind all content */
 }
 
 body {
@@ -379,11 +384,13 @@ header {
 h4 {
     color: black;
 }
+
 .lineup-container {
     display: inline-block;
     text-align: left;
     margin-bottom: 15px;
 }
+
 .checkbox-group {
     margin-left: 20px;
 }
@@ -407,4 +414,18 @@ h4 {
 
 .text-primary {
     color: black;
+}
+
+/* Styling for breed list items */
+.breed-item {
+    list-style: none;
+    /* Remove default list styling */
+    font-weight: normal;
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+    display: inline;
+    /* Ensure it behaves as inline text */
 }

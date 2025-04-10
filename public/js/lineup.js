@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 lineup.breeds.forEach((breed) => {
                     const breedItem = document.createElement("li");
                     breedItem.textContent = breed;
-                    breedItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+                    breedItem.classList.add("breed-item");
 
                     // Add click event to send notification
                     breedItem.addEventListener("click", async () => {
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             const success = await sendNotification(category, show, breed);
                             if (success) {
-                                breedItem.classList.add("list-group-item-success"); // Mark as notified
+                                breedItem.classList.add("list-group-item-primary"); // Mark as notified
                             }
                         }
                     });
