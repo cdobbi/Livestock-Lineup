@@ -429,3 +429,26 @@ h4 {
     display: inline;
     /* Ensure it behaves as inline text */
 }
+
+/* Ensure the category and show text is black */
+.category-show-text {
+    color: black;
+    font-weight: bold;
+}
+
+/* Styling for breed items */
+.breed-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    /* Add spacing between items */
+}
+
+/* Styling for breed labels */
+.breed-label {
+    margin-left: 8px;
+    /* Add spacing between the checkbox and label */
+    font-weight: normal;
+    color: inherit;
+    /* Inherit text color */
+}
