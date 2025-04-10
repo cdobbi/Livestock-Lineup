@@ -272,3 +272,8 @@ h1.bg-secondary {
 #text-primary {
     color: black;
 }
+
+hr {
+    border: 2px solid #ffffff; 
+    margin: 15px 0;
+}
