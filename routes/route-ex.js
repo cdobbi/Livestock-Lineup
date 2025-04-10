@@ -13,10 +13,10 @@ const router = express.Router(); // Initialize the router
 // Fetch all exhibitors
 router.get("/all-exhibitors", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM exhibitors ORDER BY id"); // Fetch all exhibitors
+        const result = await pool.query("SELECT * FROM sumbissions ORDER BY id"); // Fetch all exhibitors
         res.status(200).json(result.rows); // Send the fetched data as JSON
     } catch (error) {
-        console.error("Error fetching exhibitors:", error);
+        console.error("Error fetching exhibitorssubmissions:", error);
         res.status(500).json({ message: "Failed to fetch exhibitors." });
     }
 });
@@ -24,24 +24,23 @@ router.get("/all-exhibitors", async (req, res) => {
 // Save exhibitor data
 router.post("/save-exhibitor", async (req, res) => {
     try {
-        const { name, submissions } = req.body;
+        const { exhibitor_id, category_id, show_id, breed_id } = req.body;
 
-        // Validate the input
-        if (!name || !submissions || !Array.isArray(submissions)) {
-            return res.status(400).json({ error: "Missing or invalid fields" });
+        // Validate required fields
+        if (!exhibitor_id || !category_id || !show_id || !breed_id) {
+            return res.status(400).json({ error: "Missing required fields" });
         }
 
-        // Insert exhibitor data into the database
         const result = await pool.query(
-            "INSERT INTO Exhibitors (name, submissions) VALUES ($1, $2) RETURNING *",
-            [name, JSON.stringify(submissions)] // Store submissions as JSON
+            "INSERT INTO submissions (exhibitor_is, category_id, show_id, breed_is) VALUES ($1, $2, $3, $4) RETURNING *",
+            [exhibitor_is, category_id, show_id, breed_is]
         );
 
-        res.status(201).json({ message: "Exhibitor saved successfully!", exhibitor: result.rows[0] });
+        res.status(201).json({ message: "Submission saved successfully!", submission: result.rows[0] });
     } catch (error) {
-        console.error("Error saving exhibitor data:", error);
-        res.status(500).json({ error: "Failed to save exhibitor data." });
+        console.error("Error saving submission data:", error);
+        res.status(500).json({ error: "Failed to save submission data." });
     }
 });
 
-module.exports = router; // Export the router
+module.exports = router;
