@@ -404,3 +404,7 @@ h4 {
     margin: 0;
     display: inline;
 }
+
+.text-primary {
+    color: black;
+}
