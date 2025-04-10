@@ -257,7 +257,8 @@ h1.bg-secondary {
 #save-lineup,
 #print-lineup,
 #clear-lineup,
-#finished  {
+#finished,
+#print  {
     background-color: #c5ebed;
     color: black;;
     border: 2px solid #6c757d;
