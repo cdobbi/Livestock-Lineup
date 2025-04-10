@@ -452,3 +452,13 @@ h4 {
     color: inherit;
     /* Inherit text color */
 }
+
+#lineup-container,
+#lineup-list,
+#rabbit-list,
+#show-selector,
+#show-list,
+#show-list-container,
+#lineup-container-content {
+    color: black;
+}
