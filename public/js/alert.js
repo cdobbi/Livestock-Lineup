@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const notificationSound = new Audio("/sounds/alert.mp3");
+    const notificationSound = new Audio("../sounds/alert.mp3");
     const displayedNotifications = new Set();
 
     function showModal(message) {
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function notifyUser(breed) {
         notificationSound.play();
         setTimeout(() => {
-            showModal(`Your breed (${breed}) is up next!`);
+            showModal(`${breed} is up next!\n Take  ${breed} to ${show}.\nGood luck!`);
         }, 500);
     }
 
