@@ -364,7 +364,7 @@ body::before {
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
-    opacity: 0.1; /* Makes the background transparent */
+    opacity: 0.2; /* Makes the background transparent */
     z-index: -1; /* Ensures it stays behind all content */
 }
 
