@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function checkForNotifications() {
         try {
-            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/exhibitors/all-exhibitors");
+            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/shows");
             if (!exhibitorResponse.ok) {
                 throw new Error("Failed to fetch exhibitor entries.");
             }
