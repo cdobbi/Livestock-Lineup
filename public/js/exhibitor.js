@@ -7,37 +7,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const breedOptionsContainer = document.getElementById("breed-options");
     const saveEntriesButton = document.getElementById("save-shows");
-    const categorySelect = document.getElementById("category-select"); // For category
-    const showSelect = document.getElementById("show-select"); // For show
+    const categorySelect = document.getElementById("category-select");
+    const showSelect = document.getElementById("show-select");
 
     // Fetch and render breeds
-    try {
-        const response = await fetch("https://livestock-lineup.onrender.com/api/breeds");
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const breeds = await response.json();
-
-        breedOptionsContainer.innerHTML = ""; // Clear existing content
-        breeds.forEach((breed) => {
-            const breedButton = document.createElement("button");
-            breedButton.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
-            breedButton.dataset.breedId = breed.id;
-            breedButton.textContent = breed.breed_name;
-
-            breedButton.addEventListener("click", function (event) {
-                event.preventDefault();
-                breedButton.classList.toggle("selected");
-                console.log(`Button clicked for breed: ${breed.breed_name}`);
-            });
-
-            breedOptionsContainer.appendChild(breedButton);
-        });
-        console.log("Breed options successfully fetched and rendered.");
-    } catch (error) {
-        console.error("Error fetching or processing breed data:", error);
-        breedOptionsContainer.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
-    }
+    await fetchAndRenderBreeds("https://livestock-lineup.onrender.com/api/breeds", breedOptionsContainer);
 
     // Save shows when the button is clicked
     saveEntriesButton.addEventListener("click", async function () {
@@ -87,44 +61,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    async function checkForNotifications() {
+    // Use Pusher for real-time notifications
+    const channel = pusherInstance.channel;
+    channel.bind("breed-notification", (data) => {
+        const { breed, category, show } = data;
+        alert(`Notification for Category: ${category}, Show: ${show}, Breed: ${breed}`);
         try {
-            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/exhibitors/all-exhibitors");
-            if (!exhibitorResponse.ok) {
-                throw new Error("Failed to fetch exhibitor data.");
-            }
-
-            const submissions = await exhibitorResponse.json();
-            console.log("Exhibitor shows fetched for validation:", submissions);
-
-            // Notification examples (adjust properties as needed)
-            const notifications = [
-                { breed: "Holland Lop", category: "Youth", show: "A" },
-                { breed: "Netherland Dwarf", category: "Youth", show: "A" },
-            ];
-
-            // Check if any exhibitor matches the notifications
-            notifications.forEach((notification) => {
-                const { breed, category, show } = notification;
-
-                const isMatchFound = submissions.some((exhibitor) =>
-                    exhibitor.submissions.some((submission) =>
-                        submission.category === category &&
-                        submission.show === show &&
-                        submission.breed.includes(breed)
-                    )
-                );
-
-                if (isMatchFound) {
-                    alert(`Notification for Category: ${category}, Show: ${show}, Breed: ${breed}`);
-                    const notificationSound = new Audio("/sounds/alert.mp3");
-                    notificationSound.play();
-                }
-            });
+            const notificationSound = new Audio("/sounds/alert.mp3");
+            notificationSound.play();
         } catch (error) {
-            console.error("Error fetching or processing notifications:", error);
+            console.error("Error playing notification sound:", error);
         }
-    }
-
-    setInterval(checkForNotifications, 5000);
+    });
 });
