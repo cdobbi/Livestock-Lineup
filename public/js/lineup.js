@@ -14,20 +14,20 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    let exhibitorEntries = [];
+    let exhibitorsSubmissions = [];
     let showLineups = {};
 
-    // Fetch exhibitor entries and cache them
+    // Fetch exhibitor submisions and cache them
     async function fetchExhibitorEntries() {
         try {
             const response = await fetch("https://livestock-lineup.onrender.com/api/exhibitors");
             if (!response.ok) {
-                throw new Error("Failed to fetch exhibitor entries.");
+                throw new Error("Failed to fetch exhibitor submissions.");
             }
-            exhibitorEntries = await response.json();
-            console.log("Exhibitors data fetched:", exhibitorEntries);
+            exhibitorsSubmissions = await response.json();
+            console.log("Exhibitors data fetched:", exhibitorsSubmissions);
         } catch (error) {
-            console.error("Error fetching exhibitor entries:", error);
+            console.error("Error fetching exhibitor submissions:", error);
         }
     }
 
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Validate if a breed matches any exhibitor's registration
     function isBreedMatched(category, show, breed) {
-        return exhibitorEntries.some((exhibitor) =>
+        return exhibitorsSubmissions.some((exhibitor) =>
             exhibitor.submissions.some((submission) =>
                 submission.category === category &&
                 submission.show === show &&
