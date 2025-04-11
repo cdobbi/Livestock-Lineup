@@ -1,6 +1,6 @@
 // Does this file need to go into the uiHandlers.bundle.js file? Also which html file does it belong in if any? If it doesn't belong in an HTML or any of the other files, how is it initialized, called or used? What is it's purpose? Please, verify, ensure that this file is updated to use ES Modals and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly.
 
-const fetchAndRenderLineups = async (lineupContainer, showSelectorId) => {
+export const fetchAndRenderLineups = async (lineupContainer, showSelectorId) => {
     // Verify lineup-container exists
     if (!lineupContainer) {
         console.error("lineup-container element not found in the DOM.");
@@ -46,7 +46,7 @@ const fetchAndRenderLineups = async (lineupContainer, showSelectorId) => {
     }
 };
 
-const renderLineups = (lineupContainer, showLineups) => {
+export const renderLineups = (lineupContainer, showLineups) => {
     lineupContainer.innerHTML = ""; // Clear the container
 
     showLineups.forEach((lineup, index) => {
@@ -80,9 +80,4 @@ const renderLineups = (lineupContainer, showLineups) => {
     });
 
     console.log("Lineups rendered successfully!");
-};
-
-// Export the functions for use in other files
-module.exports = {
-    fetchAndRenderLineups,
 };
