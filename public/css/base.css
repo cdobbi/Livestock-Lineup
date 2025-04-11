@@ -398,7 +398,7 @@ header {
     display: flex;
 }
 
-.category-show-text {
+#category-show-text {
     color: black;
     font-weight: bold;
     margin-left: 8px;
