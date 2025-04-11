@@ -1,11 +1,25 @@
 // Does this file need to go into the uiHandlers.bundle.js file? Also which html file does it belong in if any? If it doesn't belong in an HTML or any of the other files, how is it initialized, called or used? What is it's purpose? Please, verify, ensure that this file is updated to use ES Modals and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly.
 
+import express from "express";
+import cors from "cors";
+import path from "path";
+import Pusher from "pusher";
+import { Pool } from "pg";
+import { fileURLToPath } from "url";
+import routeEx from "../routes/route-ex.js";
+import routeOr from "../routes/route-or.js";
+import authRoutes from "../routes/route-auth.js";
+import codeRoutes from "../routes/route-codes.js";
+import submissionsRoutes from "../routes/route-submissions.js";
+import showsRoutes from "../routes/route-shows.js";
+import lineupsRoutes from "../routes/route-lineups.js";
+import breedsRoutes from "../routes/route-breeds.js";
+import notificationsRoutes from "../routes/route-notifications.js";
+import categoriesRoutes from "../routes/route-categories.js";
 
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
-const Pusher = require("pusher");
-const { Pool } = require("pg");
+// Resolve __dirname for ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Initialize the app
 const app = express();
@@ -39,18 +53,6 @@ app.use((req, res, next) => {
     console.log(`Incoming request: ${req.method} ${req.url}`);
     next();
 });
-
-// Import routes using the correct relative path (going up one level)
-const routeEx = require("../routes/route-ex");
-const routeOr = require("../routes/route-or");
-const authRoutes = require("../routes/route-auth");
-const codeRoutes = require("../routes/route-codes");
-const submissionsRoutes = require("../routes/route-submissions");
-const showsRoutes = require("../routes/route-shows");
-const lineupsRoutes = require("../routes/route-lineups");
-const breedsRoutes = require("../routes/route-breeds");
-const notificationsRoutes = require("../routes/route-notifications");
-const categoriesRoutes = require("../routes/route-categories");
 
 // Mount the routes, for example under an API namespace:
 app.use("/api/exhibitors", routeEx);
@@ -91,4 +93,4 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: "Something went wrong!" });
 });
 
-module.exports = app;
+export default app;
