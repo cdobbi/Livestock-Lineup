@@ -6,9 +6,9 @@
  * It relies on the centralized database connection from db.js and integrates with Pusher for notifications.
  */
 
-const express = require("express");
-const pool = require("../src/db"); // Import the centralized database connection
-const Pusher = require("pusher");
+import express from "express";
+import pool from "../src/db.js"; // Import the centralized database connection
+import Pusher from "pusher";
 
 const router = express.Router(); // Initialize the router
 
@@ -101,4 +101,4 @@ router.post("/api/notify", (req, res) => {
     res.status(200).json({ message: "Notification sent successfully." });
 });
 
-module.exports = router; // Export the router
+export default router; // Export the router

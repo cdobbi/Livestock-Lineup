@@ -5,7 +5,7 @@
  * This file can be extended to integrate real-time notifications using services like Pusher.
  */
 
-const express = require("express");
+import express from "express";
 
 const router = express.Router(); // Initialize the router
 
@@ -21,4 +21,4 @@ router.get("/", (req, res) => {
     res.status(200).json(notifications); // Send the notifications as JSON
 });
 
-module.exports = router; // Export the router
+export default router; // Export the router
