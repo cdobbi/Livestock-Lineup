@@ -101,56 +101,63 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Save Lineup button not found.");
     }
 
-    // --- Print Lineup Button Functionality ---
-    const printLineupButton = document.getElementById("print-lineup");
-    if (printLineupButton) {
-        printLineupButton.addEventListener("click", async () => {
-            let printContent = "";
-        
-            try {
-                // Fetch saved lineups from the backend
-                const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
-                if (!response.ok) {
-                    throw new Error("Failed to fetch saved lineups.");
-                }
-        
-                const savedLineups = await response.json();
-        
-                if (savedLineups.length === 0) {
-                    printContent = "No lineups saved.";
-                } else {
-                    savedLineups.forEach((lineup, index) => {
-                        printContent += `Lineup: ${index + 1}\n`;
-                        printContent += `Category: ${categoryMap[lineup.category_id] || "Unknown"}\n`;
-                        printContent += `Show: ${showMap[lineup.show_id] || "Unknown"}\n`;
-        
-                        if (Array.isArray(lineup.breeds) && lineup.breeds.length > 0) {
-                            printContent += `Breed:\n`;
-                            printContent += lineup.breeds.join(", ") + ".\n"; // Join all breeds with commas and add a period
-                        } else {
-                            printContent += `Breed:\nUnknown.\n`; // Handle cases where no breeds are available
-                        }
-                        printContent += "\n"; // Add a blank line between lineups
-                    });
-                }
-        
-                // Open a print preview window
-                const previewWindow = window.open("", "_blank", "width=800,height=600");
-                previewWindow.document.write("<html><head><title>Print Preview</title>");
-                previewWindow.document.write("<style>body { font-family: Arial, sans-serif; white-space: pre-wrap; margin: 20px; }</style>");
-                previewWindow.document.write("</head><body>");
-                previewWindow.document.write("<h2>Print Preview</h2>");
-                previewWindow.document.write("<pre>" + printContent + "</pre>");
-                previewWindow.document.write("<button class='btn btn-primary' onclick='window.print();'>Print Now</button>");
-                previewWindow.document.write("<script>window.onafterprint = function(){ window.close(); }<\/script>");
-                previewWindow.document.write("</body></html>");
-                previewWindow.document.close();
-                previewWindow.focus();
-            } catch (error) {
-                console.error("Error fetching saved lineups:", error);
+   // --- Print Lineup Button Functionality ---
+let printContent = "";
+document.getElementById("printContainer").innerHTML = `<pre>${printContent}</pre>`;
+if (printLineupButton) {
+    printLineupButton.addEventListener("click", async () => {
+        let printContent = "";
+    
+        try {
+            // Fetch saved lineups from the backend
+            const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
+            if (!response.ok) {
+                throw new Error("Failed to fetch saved lineups.");
             }
-        });
+    
+            const savedLineups = await response.json();
+    
+            if (savedLineups.length === 0) {
+                printContent = "No lineups saved.";
+            } else {
+                savedLineups.forEach((lineup, index) => {
+                    printContent += `Lineup: ${index + 1}\n`;
+                    printContent += `Category: ${categoryMap[lineup.category_id] || "Unknown"}\n`;
+                    printContent += `Show: ${showMap[lineup.show_id] || "Unknown"}\n`;
+    
+                    if (Array.isArray(lineup.breeds) && lineup.breeds.length > 0) {
+                        printContent += `Breed:\n`;
+                        // For each breed, print it on its own line with a checkbox.
+                        lineup.breeds.forEach(breed => {
+                            printContent += `<div>
+  <input type="checkbox" class="breed-checkbox" data-lineup-index="${index}" value="${breed}" onchange="handleBreedCheckboxChange(this, '${breed}', ${index})">
+  ${breed}
+</div>\n`;
+                        });
+                    } else {
+                        printContent += `Breed:\nUnknown.\n`;
+                    }
+                    printContent += "\n"; // Add a blank line between lineups
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    
+        document.getElementById("printContainer").innerHTML = printContent;
+    });
+}
+
+function handleBreedCheckboxChange(checkbox, breed, lineupIndex) {
+    if (checkbox.checked) {
+        // Play an alert sound (ensure alert.mp3 exists or update this path as needed)
+        var audio = new Audio('alert.mp3');
+        audio.play();
+        // Send an alert to exhibitors
+        alert(`Time to bring ${breed} from Lineup: ${lineupIndex + 1} to the judges table.`);
     }
+}
+
 
     // --- Clear Lineup Button Functionality ---
     if (clearLineupButton) {

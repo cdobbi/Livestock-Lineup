@@ -391,3 +391,7 @@ h4,
 #text-primary {
     color: black;
 }
+
+#printContainer {
+    white-space: pre-wrap;
+}
