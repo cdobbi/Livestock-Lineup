@@ -106,55 +106,34 @@ document.addEventListener("DOMContentLoaded", function () {
     if (printLineupButton) {
         printLineupButton.addEventListener("click", async () => {
             let printContent = "";
-
+        
             try {
+                // Fetch saved lineups from the backend
                 const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
                 if (!response.ok) {
                     throw new Error("Failed to fetch saved lineups.");
                 }
-
+        
                 const savedLineups = await response.json();
-
-                try {
-                    let printContent = "";
-                  
-                    // Fetch saved lineups from the backend
-                    const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
-                    if (!response.ok) {
-                      throw new Error("Failed to fetch saved lineups.");
-                    }
-                  
-                    const savedLineups = await response.json();
-                  
-                    if (savedLineups.length === 0) {
-                      printContent = "No lineups saved.";
-                    } else {
-                      savedLineups.forEach((lineup, index) => {
-                        printContent += `Lineup:${index + 1}\n`;
-                        
+        
+                if (savedLineups.length === 0) {
+                    printContent = "No lineups saved.";
+                } else {
+                    savedLineups.forEach((lineup, index) => {
+                        printContent += `Lineup: ${index + 1}\n`;
                         printContent += `Category: ${categoryMap[lineup.category_id] || "Unknown"}\n`;
-                        
-                        printContent += `Show: ${lineup.show || "A"}\n`;
-                        
+                        printContent += `Show: ${showMap[lineup.show_id] || "Unknown"}\n`;
+        
                         if (Array.isArray(lineup.breeds)) {
-                          printContent += `Breeds:\n`;
-                          lineup.breeds.forEach(breed => {
-                            printContent += `${breed}\n`;
-                          });
-                          printContent += "\n";
+                            printContent += `Breeds: ${lineup.breeds.join(", ")}\n\n`;
                         } else {
-                          printContent += `Breeds:\n${lineup.breed_name}\n\n`;
+                            printContent += `Breeds: ${lineup.breed_name}\n\n`;
                         }
-                      });
-                    }
-                  
-                    console.log(printContent);
-                  } catch (error) {
-                    console.error(error);
-                  }
-                  
-
-                let previewWindow = window.open("", "_blank", "width=800,height=600");
+                    });
+                }
+        
+                // Open a print preview window
+                const previewWindow = window.open("", "_blank", "width=800,height=600");
                 previewWindow.document.write("<html><head><title>Print Preview</title>");
                 previewWindow.document.write("<style>body { font-family: Arial, sans-serif; white-space: pre-wrap; margin: 20px; }</style>");
                 previewWindow.document.write("</head><body>");
