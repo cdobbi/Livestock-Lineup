@@ -21,40 +21,14 @@ export function initFinishedButton(finishedButton) {
                 // Get all lineups from localStorage
                 const lineups = getLineups();
                 
-                // Use regular /api/lineups endpoint instead of /bulk since it doesn't exist
-                // Submit lineups one by one
-                let allSuccessful = true;
+                // Simply redirect to lineup.html without trying to send to server
+                // The data is already saved in localStorage
+                console.log("Finished button clicked. Redirecting to lineup.html");
+                window.location.href = "lineup.html";
                 
-                for (const lineup of lineups) {
-                    const response = await fetch("https://livestock-lineup.onrender.com/api/lineups", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            showId: lineup.show_id,
-                            categoryId: lineup.category_id,
-                            breedIds: lineup.breedIds
-                        })
-                    });
-                    
-                    if (!response.ok) {
-                        allSuccessful = false;
-                        console.error(`Failed to submit lineup: ${JSON.stringify(lineup)}`);
-                    }
-                }
-                
-                if (allSuccessful) {
-                    // Clear localStorage after successful submission
-                    clearLineups();
-                    
-                    // Redirect to lineup.html
-                    console.log("Finished button clicked. Redirecting to lineup.html");
-                    window.location.href = "lineup.html";
-                } else {
-                    throw new Error("Some lineups failed to submit");
-                }
             } catch (error) {
-                console.error("Error submitting lineups:", error);
-                alert("There was a problem submitting some lineups. Please try again.");
+                console.error("Error:", error);
+                alert("There was a problem. Please try again.");
             }
         });
     } else {
