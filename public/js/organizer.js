@@ -122,8 +122,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     savedLineups.forEach((lineup, index) => {
                         printContent += `Lineup ${index + 1}\n`;
                         printContent += `Category: ${categoryMap[lineup.category_id] || "Unknown"}\n`;
-                        printContent += `Show: ${showMap[lineup.show_id] || "Unknown"}\n`;
-                        printContent += `Breed: ${lineup.breed_name}\n\n`;
+                        if (Array.isArray(lineup.breeds)) {
+                            printContent += `Breeds: ${lineup.breeds.join(", ")}\n\n`;
+                        } else {
+                            printContent += `Breeds: ${lineup.breed_name}\n\n`;
+                        }
                     });
                 }
 
