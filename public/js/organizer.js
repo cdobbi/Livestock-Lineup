@@ -1,9 +1,9 @@
 // Does this file need to go into the uiHandlers.bundle.js file? Also which html file does it belong in if any? If it doesn't belong in an HTML or any of the other files, how is it initialized, called or used? What is it's purpose? Please, verify, ensure that this file is updated to use ES Modals and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly.
 
-const { fetchBreeds, saveLineup } = require('./uiHandlers.bundle.js');
-const { initClearLineupButton } = require('./clearLineups.js');
-const { initFinishedButton } = require('./finishLineups.js');
-const { initPrintLineupButton } = require('./printLineups.js');
+import { fetchBreeds, saveLineup } from './uiHandlers.bundle.js';
+import { initClearLineupButton } from './clearLineups.js';
+import { initFinishedButton } from './finishLineups.js';
+import { initPrintLineupButton } from './printLineups.js';
 
 document.addEventListener("DOMContentLoaded", function () {
     // Select all button elements
@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const finishedButton = document.getElementById("finished");
     const rabbitList = document.getElementById("rabbit-list");
     const fetchAndRenderBreeds = async (apiEndpoint, rabbitList) => {
+
         try {
             const response = await fetch(apiEndpoint);
             if (!response.ok) {
@@ -41,11 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
             rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
         }
     };
-    
-    // Export the function for use in other files
-    module.exports = {
-        fetchAndRenderBreeds,
-    };
+
 
     // Show error if any elements weren't found
     if (!saveLineupButton) console.error("Save Lineup button not found");
@@ -89,6 +86,3 @@ document.addEventListener("DOMContentLoaded", function () {
     initClearLineupButton(clearLineupButton);
     initFinishedButton(finishedButton);
 });
-
-// Export the function for use in other files (if needed)
-module.exports = {};
