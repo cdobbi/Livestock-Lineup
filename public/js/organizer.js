@@ -135,18 +135,13 @@ if (printLineupButton) {
     
                     if (Array.isArray(lineup.breeds) && lineup.breeds.length > 0) {
                         printContent += `Breed:\n`;
-                        // Print each breed on its own line with a comma following all but the last entry.
                         lineup.breeds.forEach((breed, i) => {
-                            if (i < lineup.breeds.length - 1) {
-                                printContent += `${breed},\n`;
-                            } else {
-                                printContent += `${breed}.\n`;
-                            }
+                            printContent += (i < lineup.breeds.length - 1) ? `${breed},\n` : `${breed}.\n`;
                         });
                     } else {
-                        printContent += `Breed:\nUnknown.\n`;
-                    }
-                    
+                        // Instead of printing "Unknown", we print the breed name provided (if available)
+                        printContent += `Breed:\n${lineup.breed_name || ""}\n`;
+                    }                    
                     printContent += "\n"; // Add a blank line between lineups
                 });
             }
