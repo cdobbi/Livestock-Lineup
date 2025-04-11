@@ -3,14 +3,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const rabbitList = document.getElementById("rabbit-list");
     const saveLineupButton = document.getElementById("save-lineup");
     const clearLineupButton = document.getElementById("clear-lineup");
+    const printLineupButton = document.getElementById("print-lineup"); // Added this
     const finishedButton = document.getElementById("finished");
-
-    // Add the category and show mappings here
+    
+    // Create printContainer if it doesn't exist
+    let printContainerElement = document.getElementById("printContainer");
+    if (!printContainerElement) {
+        printContainerElement = document.createElement("div");
+        printContainerElement.id = "printContainer";
+        document.body.appendChild(printContainerElement);
+    }
+    
     const categoryMap = {
         1: "Youth",
         2: "Open"
     };
-
+    
     const showMap = {
         1: "Show A",
         2: "Show B",
@@ -30,23 +38,24 @@ document.addEventListener("DOMContentLoaded", function () {
         
     .then((breeds) => {
         console.log("Fetched breeds array:", breeds); // Log the full array
+    
+        // Log each fetched breed for debugging purposes.
         breeds.forEach((breed) => {
-            console.log(`Breed ID: ${breed.id}, Breed Name: ${breed.breed_name}`); // Log each breed
+            console.log(`Breed ID: ${breed.id}, Breed Name: ${breed.breed_name}`);
         });
     
-        rabbitList.innerHTML = ""; // Clear existing content
-        breeds.forEach((breed) => {
-            const button = document.createElement("button");
-            button.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
-            button.dataset.breedId = breed.id; // Use the ID for unique tracking
-            button.textContent = breed.breed_name; // Display the breed name
-    
+       
+        const breedButtons = document.querySelectorAll("#rabbit-list .breed-button");
+        
+        breedButtons.forEach((button) => {
             button.addEventListener("click", function () {
+                // Toggle the "active" class on the button when clicked.
                 this.classList.toggle("active");
                 console.log(
                     `Breed ${this.textContent} is now ${this.classList.contains("active") ? "selected" : "deselected"}.`
                 );
             });
+    
             rabbitList.appendChild(button);
         });
     })
@@ -102,7 +111,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
    // --- Print Lineup Button Functionality ---
-// --- Print Lineup Button Functionality (Print Preview) ---
 let printContent = "";
 document.getElementById("printContainer").innerHTML = `<pre>${printContent}</pre>`;
 if (printLineupButton) {
@@ -148,7 +156,6 @@ if (printLineupButton) {
         }
     });
 }
-
 
     // --- Finished Button Functionality ---
     if (finishedButton) {
