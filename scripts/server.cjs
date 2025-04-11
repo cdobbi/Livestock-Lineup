@@ -1,20 +1,21 @@
-/**
- * This script initializes and starts the backend server for the Livestock Lineup application.
- * It loads environment variables, imports the main app configuration from `app.js`,
- * and listens on the specified port. The server is responsible for handling all backend
- * routes and integrations with the database and frontend.
- */
+// Does this file need to go into the uiHandlers.bundle.js file? Also which html file does it belong in if any? If it doesn't belong in an HTML or any of the other files, how is it initialized, called or used? What is it's purpose? Please, verify, ensure that this file is updated to use ES Modals and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly.
 
 // scripts/server.cjs
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 dotenv.config();
 
-const path = require("path");
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Resolve __dirname for ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Debug: log the resolved path for clarity
 const appPath = path.join(__dirname, "../src/app.js");
 console.log("Loading Express app from:", appPath);
 
-const app = require(appPath);
+import app from appPath;
 
 const port = process.env.PORT || 3000; // Use the port from environment variables or default to 3000
 
