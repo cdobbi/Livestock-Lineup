@@ -107,23 +107,20 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.error("Save Lineup button not found.");
     }    
-
-
     
-    // --- Print Lineup Button Functionality ---
     if (printLineupButton) {
         printLineupButton.addEventListener("click", async () => {
             let printContent = "";
-    
+        
             try {
                 // Fetch saved lineups from the backend
                 const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
                 if (!response.ok) {
                     throw new Error("Failed to fetch saved lineups.");
                 }
-    
+        
                 const savedLineups = await response.json();
-    
+        
                 if (savedLineups.length === 0) {
                     printContent = "No lineups saved.";
                 } else {
@@ -131,21 +128,20 @@ document.addEventListener("DOMContentLoaded", function () {
                         printContent += `Lineup: ${index + 1}\n`;
                         printContent += `Category: ${categoryMap[lineup.category_id] || "Unknown"}\n`;
                         printContent += `Show: ${showMap[lineup.show_id] || "Unknown"}\n`;
-    
+        
                         if (Array.isArray(lineup.breeds) && lineup.breeds.length > 0) {
                             printContent += `Breed:\n`;
                             lineup.breeds.forEach((breed, i) => {
                                 printContent += (i < lineup.breeds.length - 1) ? `${breed},\n` : `${breed}.\n`;
                             });
                         } else {
-                            
                             printContent += `Breed:\n${lineup.breed_name || ""}\n`;
                         }                    
                         printContent += "\n";
                     });
                 }
-            
-                // --- Text Only Print Preview Block ---
+                
+                // --- Moved Text Only Print Preview Block ---
                 const blob = new Blob([printContent], { type: "text/plain;charset=utf-8" });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement("a");
@@ -155,6 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
+                // --- End Moved Block ---
         
             } catch (error) {
                 console.error(error);
@@ -163,4 +160,34 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.error("Print Lineup button not found.");
     }
+    
+    if (clearLineupButton) {
+        clearLineupButton.addEventListener("click", () => {
+            // Remove the "active" class from all breed buttons.
+            document.querySelectorAll(".breed-button.active").forEach((btn) => {
+                btn.classList.remove("active");
+            });
+            // Optionally reset the category and show dropdowns if they exist.
+            const categoryEl = document.getElementById("category");
+            const showEl = document.getElementById("show");
+            if (categoryEl) {
+                categoryEl.selectedIndex = 0;
+            }
+            if (showEl) {
+                showEl.selectedIndex = 0;
+            }
+            console.log("Clear lineup: Active breed selections cleared.");
+        });
+    } else {
+        console.error("Clear Lineup button not found.");
+    }
+    
+    if (finishedButton) {
+        finishedButton.addEventListener("click", () => {
+            console.log("Finished button clicked. Redirecting to lineup.html");
+            window.location.href = "lineup.html";
+        });
+    } else {
+        console.error("Finished button not found.");
+    }    
 });
