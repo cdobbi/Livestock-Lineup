@@ -5,6 +5,7 @@
  * and logging in. It relies on the centralized database connection from db.js.
  */
 
+// Does this file need to go into the uiHandlers.bundle.js file? Also which html file does it belong in if any? If it doesn't belong in an HTML or any of the other files, how is it initialized, called or used? What is it's purpose? Please, verify, ensure that this file is updated to use ES Modals and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly.
 const express = require("express");
 const bcrypt = require("bcrypt");
 const pool = require("../src/db"); // Import the centralized database connection
