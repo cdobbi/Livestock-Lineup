@@ -1,42 +1,39 @@
-/**
- * This script handles the verification of organizer codes.
- * It sends the entered code to the backend `/codes/verify` endpoint for validation.
- * If the code is valid, the user is redirected to the organizer page.
- * If the code is invalid, an error message is displayed, and the input field is highlighted.
- * This script is designed to work with the frontend and backend integration.
- */
+// Does this file need to go into the uiHandlers.bundle.js file? Also which html file does it belong in if any? If it doesn't belong in an HTML or any of the other files, how is it initialized, called or used? What is it's purpose? Please, verify, ensure that this file is updated to use ES Modals and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly.
 
-document.addEventListener("DOMContentLoaded", function () {
-    const verifyButton = document.getElementById("verify-code");
 
-    if (verifyButton) {
-        verifyButton.addEventListener("click", async function () {  
-            const organizerCode = document.getElementById("organizer-code").value;
+export const handleCodeVerification = () => {
+    document.addEventListener("DOMContentLoaded", function () {
+        const verifyButton = document.getElementById("verify-code");
 
-            try {
-                // Send code to the /codes/verify endpoint
-                const response = await fetch("/api/codes/verify", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ code: organizerCode }),
-                });
+        if (verifyButton) {
+            verifyButton.addEventListener("click", async function () {
+                const organizerCode = document.getElementById("organizer-code").value;
 
-                const result = await response.json();
+                try {
+                    // Send code to the /codes/verify endpoint
+                    const response = await fetch("/api/codes/verify", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ code: organizerCode }),
+                    });
 
-                if (result.valid) {
-                    // Redirect to organizer page if the code is valid
-                    window.location.href = "organizer.html";
-                } else {
-                    // Highlight the input field with an error style
-                    const codeInput = document.getElementById("organizer-code");
-                    codeInput.classList.add("error");
+                    const result = await response.json();
+
+                    if (result.valid) {
+                        // Redirect to organizer page if the code is valid
+                        window.location.href = "organizer.html";
+                    } else {
+                        // Highlight the input field with an error style
+                        const codeInput = document.getElementById("organizer-code");
+                        codeInput.classList.add("error");
+                    }
+                } catch (error) {
+                    // Log error for debugging and show a user-friendly message
+                    console.error("Error verifying code:", error);
                 }
-            } catch (error) {
-                // Log error for debugging and show a user-friendly message
-                console.error("Error verifying code:", error);
-            }
-        });
-    } else {
-        console.warn("Verify button not found in the DOM.");
-    }
-});
+            });
+        } else {
+            console.warn("Verify button not found in the DOM.");
+        }
+    });
+};
