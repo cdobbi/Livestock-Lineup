@@ -1,10 +1,7 @@
-import { hasLineups, getLineups, clearLineups } from './localStorage.js';
+const { hasLineups, getLineups, clearLineups } = require('./localStorage.js');
 
-/**
- * Initialize Finished button functionality
- * @param {HTMLElement} finishedButton - The Finished button element
- */
-export function initFinishedButton(finishedButton) {
+// Initialize Finished button functionality
+function initFinishedButton(finishedButton) {
     if (finishedButton) {
         finishedButton.addEventListener("click", () => {
             if (!hasLineups()) {
@@ -19,3 +16,8 @@ export function initFinishedButton(finishedButton) {
         console.error("Finished button not found.");
     }
 }
+
+// Export the function for use in other files
+module.exports = {
+    initFinishedButton
+};

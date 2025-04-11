@@ -1,10 +1,7 @@
-import { getLineups } from './localStorage.js';
+const { getLineups } = require('./localStorage.js');
 
-/**
- * Initialize Print Lineup button functionality
- * @param {HTMLElement} printLineupButton - The Print Lineup button element
- */
-export function initPrintLineupButton(printLineupButton) {
+// Initialize Print Lineup button functionality
+function initPrintLineupButton(printLineupButton) {
     if (printLineupButton) {
         printLineupButton.addEventListener("click", () => {
             let printContent = "";
@@ -57,3 +54,8 @@ export function initPrintLineupButton(printLineupButton) {
         console.error("Print Lineup button not found.");
     }
 }
+
+// Export the function for use in other files
+module.exports = {
+    initPrintLineupButton
+};

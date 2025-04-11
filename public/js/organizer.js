@@ -1,8 +1,8 @@
-// Import modules
-import { saveLineup } from './localStorage.js';
-import { initClearLineupButton } from './clearLineups.js';
-import { initFinishedButton } from './finishLineups.js';
-import { initPrintLineupButton } from './printLineups.js';
+// Require modules
+const { saveLineup } = require('./localStorage.js');
+const { initClearLineupButton } = require('./clearLineups.js');
+const { initFinishedButton } = require('./finishLineups.js');
+const { initPrintLineupButton } = require('./printLineups.js');
 
 document.addEventListener("DOMContentLoaded", function () {
     // Select all button elements
@@ -101,6 +101,9 @@ document.addEventListener("DOMContentLoaded", function () {
     initClearLineupButton(clearLineupButton);
     initFinishedButton(finishedButton);
 });
+
+// Export the function for use in other files (if needed)
+module.exports = {};
 
 
 // // At the top of organizer.js, add this import
