@@ -124,13 +124,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         printContent += `Category: ${categoryMap[lineup.category_id] || "Unknown"}\n`;
                         printContent += `Show: ${showMap[lineup.show_id] || "Unknown"}\n`;
         
-                        if (Array.isArray(lineup.breeds)) {
-                            printContent += `Breed,\n`;
-                            lineup.breeds.forEach((breed) => {
-                                printContent += `${breed},\n`;
-                            });
+                        if (Array.isArray(lineup.breeds) && lineup.breeds.length > 0) {
+                            printContent += `Breed:\n`;
+                            printContent += lineup.breeds.join(", ") + ".\n"; // Join all breeds with commas and add a period
                         } else {
-                            printContent += `Breed,\n${lineup.breed_name},\n`;
+                            printContent += `Breed:\nUnknown.\n`; // Handle cases where no breeds are available
                         }
                         printContent += "\n"; // Add a blank line between lineups
                     });
