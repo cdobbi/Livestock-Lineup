@@ -108,7 +108,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let printContent = "";
 
             try {
-                // Fetch saved lineups from the backend
                 const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
                 if (!response.ok) {
                     throw new Error("Failed to fetch saved lineups.");
@@ -116,19 +115,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const savedLineups = await response.json();
 
-                if (savedLineups.length === 0) {
-                    printContent = "No lineups saved.";
-                } else {
-                    savedLineups.forEach((lineup, index) => {
-                        printContent += `Lineup ${index + 1}\n`;
+                try {
+                    let printContent = "";
+                  
+                    // Fetch saved lineups from the backend
+                    const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
+                    if (!response.ok) {
+                      throw new Error("Failed to fetch saved lineups.");
+                    }
+                  
+                    const savedLineups = await response.json();
+                  
+                    if (savedLineups.length === 0) {
+                      printContent = "No lineups saved.";
+                    } else {
+                      savedLineups.forEach((lineup, index) => {
+                        printContent += `Lineup:${index + 1}\n`;
+                        
                         printContent += `Category: ${categoryMap[lineup.category_id] || "Unknown"}\n`;
+                        
+                        printContent += `Show: ${lineup.show || "A"}\n`;
+                        
                         if (Array.isArray(lineup.breeds)) {
-                            printContent += `Breeds: ${lineup.breeds.join(", ")}\n\n`;
+                          printContent += `Breeds:\n`;
+                          lineup.breeds.forEach(breed => {
+                            printContent += `${breed}\n`;
+                          });
+                          printContent += "\n";
                         } else {
-                            printContent += `Breeds: ${lineup.breed_name}\n\n`;
+                          printContent += `Breeds:\n${lineup.breed_name}\n\n`;
                         }
-                    });
-                }
+                      });
+                    }
+                  
+                    console.log(printContent);
+                  } catch (error) {
+                    console.error(error);
+                  }
+                  
 
                 let previewWindow = window.open("", "_blank", "width=800,height=600");
                 previewWindow.document.write("<html><head><title>Print Preview</title>");
