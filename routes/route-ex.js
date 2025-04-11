@@ -3,8 +3,8 @@
  * It provides routes to fetch all exhibitors submissions and save new exhibitor submission data.
  */
 
-const express = require("express");
-const pool = require("../src/db"); // Centralized database connection
+import express from "express";
+import pool from "../src/db.js"; // Centralized database connection
 
 const router = express.Router();
 
@@ -41,4 +41,4 @@ router.post("/save-exhibitor", async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
