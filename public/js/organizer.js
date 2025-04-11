@@ -1,6 +1,6 @@
 // Import modules
 import { saveLineup, getLineups, hasLineups } from './localStorage.js';
-import { initClearLineupButton, initFinishedButton } from './clear-finish.js';
+import { initClearLineupButton, initFinishedButton } from './clearLineups.js';
 
 // Define category and show mappings
 const categoryMap = {
