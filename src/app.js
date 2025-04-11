@@ -3,7 +3,7 @@ const cors = require("cors");
 const path = require("path");
 const Pusher = require("pusher");
 const { Pool } = require("pg");
-const helmet = require("helmet");
+const helmet = require("helmet"); // Ensure this is declared only once
 
 // Initialize the app
 const app = express();
@@ -12,8 +12,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
-const helmet = require("helmet");
 
+// Use Helmet for security
 app.use(
     helmet({
         contentSecurityPolicy: {
@@ -39,6 +39,7 @@ app.use(
         },
     })
 );
+
 // Serve static files (for your client-side code)
 app.use(express.static(path.join(__dirname, "../public")));
 
