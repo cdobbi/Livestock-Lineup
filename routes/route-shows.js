@@ -5,8 +5,8 @@
  * It relies on the centralized database connection from db.js.
  */
 
-const express = require("express");
-const pool = require("../src/db"); // Import the centralized database connection
+import express from "express";
+import pool from "../src/db.js"; // Import the centralized database connection
 
 const router = express.Router(); // Initialize the router
 
@@ -42,4 +42,4 @@ router.post("/", async (req, res) => {
     }
 });
 
-module.exports = router; // Export the router
+export default router; // Export the router
