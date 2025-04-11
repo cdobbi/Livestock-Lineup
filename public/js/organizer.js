@@ -38,24 +38,23 @@ document.addEventListener("DOMContentLoaded", function () {
         
     .then((breeds) => {
         console.log("Fetched breeds array:", breeds); // Log the full array
-    
-        // Log each fetched breed for debugging purposes.
         breeds.forEach((breed) => {
-            console.log(`Breed ID: ${breed.id}, Breed Name: ${breed.breed_name}`);
+            console.log(`Breed ID: ${breed.id}, Breed Name: ${breed.breed_name}`); // Log each breed
         });
     
-       
-        const breedButtons = document.querySelectorAll("#rabbit-list .breed-button");
-        
-        breedButtons.forEach((button) => {
+        rabbitList.innerHTML = ""; // Clear existing content
+        breeds.forEach((breed) => {
+            const button = document.createElement("button");
+            button.className = "btn btn-outline-secondary btn-lg mx-1 my-1 breed-button";
+            button.dataset.breedId = breed.id; // Use the ID for unique tracking
+            button.textContent = breed.breed_name; // Display the breed name
+    
             button.addEventListener("click", function () {
-                // Toggle the "active" class on the button when clicked.
                 this.classList.toggle("active");
                 console.log(
                     `Breed ${this.textContent} is now ${this.classList.contains("active") ? "selected" : "deselected"}.`
                 );
             });
-    
             rabbitList.appendChild(button);
         });
     })
