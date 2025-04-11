@@ -1,11 +1,6 @@
-/**
- * This script handles user registration for the Livestock Lineup application.
- * It validates the registration form inputs, sends the data to the backend `/register` endpoint,
- * and displays appropriate success or error messages based on the server's response.
- * This script is designed to integrate with the backend server and frontend form validation.
- */
+// Does this file need to go into the uiHandlers.bundle.js file? Also which html file does it belong in if any? If it doesn't belong in an HTML or any of the other files, how is it initialized, called or used? What is it's purpose? Please, verify, ensure that this file is updated to use ES Modals and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly.
 
-document.getElementById("register-form").addEventListener("submit", async function (event) {
+export const handleRegistration = async (event) => {
     event.preventDefault(); // Prevent form submission
 
     // Clear previous error messages
@@ -80,4 +75,7 @@ document.getElementById("register-form").addEventListener("submit", async functi
             console.error("Error during registration:", error);
         }
     }
-});
+};
+
+// Attach the event listener
+document.getElementById("register-form").addEventListener("submit", handleRegistration);
