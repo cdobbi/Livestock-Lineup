@@ -105,7 +105,18 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     } else {
         console.error("Save Lineup button not found.");
-    }
+    }    
+
+    // --- Text only print preview ---
+    const blob = new Blob([printContent], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "lineup.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
     
     // --- Print Lineup Button Functionality ---
     if (printLineupButton) {
