@@ -12,8 +12,33 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
-app.use(helmet()); // Use Helmet for security
+const helmet = require("helmet");
 
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                defaultSrc: ["'self'"],
+                scriptSrc: [
+                    "'self'",
+                    "https://stackpath.bootstrapcdn.com", // Allow Bootstrap JS
+                    "https://code.jquery.com", // Allow jQuery
+                    "https://js.pusher.com", // Allow Pusher
+                ],
+                styleSrc: [
+                    "'self'",
+                    "https://stackpath.bootstrapcdn.com", // Allow Bootstrap CSS
+                ],
+                fontSrc: ["'self'", "https://stackpath.bootstrapcdn.com"], // Allow Bootstrap fonts
+                imgSrc: ["'self'", "data:"], // Allow images and inline data URIs
+                connectSrc: [
+                    "'self'",
+                    "https://*.pusher.com", // Allow Pusher connections
+                ],
+            },
+        },
+    })
+);
 // Serve static files (for your client-side code)
 app.use(express.static(path.join(__dirname, "../public")));
 
