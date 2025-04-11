@@ -5,9 +5,10 @@
  * It relies on the centralized database connection from db.js.
  */
 
-const express = require("express");
+import express from "express";
+import pool from "../src/db.js"; // Assuming you're using PostgreSQL with a pool
+
 const router = express.Router();
-const pool = require("../src/db"); // Assuming you're using PostgreSQL with a pool
 
 // Define the /breeds route
 router.get("/breeds", async (req, res) => {
@@ -20,4 +21,4 @@ router.get("/breeds", async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
