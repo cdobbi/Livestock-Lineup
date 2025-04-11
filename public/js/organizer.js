@@ -125,10 +125,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         printContent += `Show: ${showMap[lineup.show_id] || "Unknown"}\n`;
         
                         if (Array.isArray(lineup.breeds)) {
-                            printContent += `Breeds: ${lineup.breeds.join(", ")}\n\n`;
+                            printContent += `Breed,\n`;
+                            lineup.breeds.forEach((breed) => {
+                                printContent += `${breed},\n`;
+                            });
                         } else {
-                            printContent += `Breeds: ${lineup.breed_name}\n\n`;
+                            printContent += `Breed,\n${lineup.breed_name},\n`;
                         }
+                        printContent += "\n"; // Add a blank line between lineups
                     });
                 }
         
