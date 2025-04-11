@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         return response.json();
     })
-        
     .then((breeds) => {
         console.log("Fetched breeds array:", breeds); // Log the full array
         breeds.forEach((breed) => {
@@ -58,11 +57,11 @@ document.addEventListener("DOMContentLoaded", function () {
             rabbitList.appendChild(button);
         });
     })
-        .catch((error) => {
-            console.error("Error fetching rabbit breeds:", error);
-            rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
-        });
-
+    .catch((error) => {
+        console.error("Error fetching rabbit breeds:", error);
+        rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
+    });
+    
     // --- Save Lineup Button Functionality ---
     if (saveLineupButton) {
         saveLineupButton.addEventListener("click", async () => {
@@ -70,33 +69,32 @@ document.addEventListener("DOMContentLoaded", function () {
             const showEl = document.getElementById("show");
             const categoryId = parseInt(categoryEl ? categoryEl.value : "", 10); // Convert to integer
             const showId = parseInt(showEl ? showEl.value : "", 10); // Convert to integer
-
+    
             const breedIds = Array.from(document.querySelectorAll(".breed-button.active")).map(
                 (btn) => parseInt(btn.dataset.breedId, 10) // Convert to integer
             );
-
+    
             if (!categoryId || !showId || breedIds.length === 0) {
                 alert("Please select a category, show, and at least one breed.");
                 return;
             }
-
+    
             try {
                 const response = await fetch("https://livestock-lineup.onrender.com/api/lineups", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ showId, categoryId, breedIds }),
                 });
-
+    
                 if (response.ok) {
                     const flippingCard = document.getElementById("flipping-card");
-                    flippingCard.style.display = "block"; // Show the flipping card
-
+                    flippingCard.style.display = "block";
+    
                     // Stop the flipping animation after 2 seconds and show the success message
                     setTimeout(() => {
                         flippingCard.querySelector(".flipping-card-inner").style.animation = "none";
                     }, 2000);
-
-                    // Hide the flipping card after 4 seconds
+    
                     setTimeout(() => {
                         flippingCard.style.display = "none";
                     }, 4000);
@@ -108,50 +106,49 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.error("Save Lineup button not found.");
     }
-
-   // --- Print Lineup Button Functionality ---
-let printContent = "";
-document.getElementById("printContainer").innerHTML = `<pre>${printContent}</pre>`;
-if (printLineupButton) {
-    printLineupButton.addEventListener("click", async () => {
-        let printContent = "";
     
-        try {
-            // Fetch saved lineups from the backend
-            const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
-            if (!response.ok) {
-                throw new Error("Failed to fetch saved lineups.");
+    // --- Print Lineup Button Functionality ---
+    if (printLineupButton) {
+        printLineupButton.addEventListener("click", async () => {
+            let printContent = "";
+    
+            try {
+                // Fetch saved lineups from the backend
+                const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
+                if (!response.ok) {
+                    throw new Error("Failed to fetch saved lineups.");
+                }
+    
+                const savedLineups = await response.json();
+    
+                if (savedLineups.length === 0) {
+                    printContent = "No lineups saved.";
+                } else {
+                    savedLineups.forEach((lineup, index) => {
+                        printContent += `Lineup: ${index + 1}\n`;
+                        printContent += `Category: ${categoryMap[lineup.category_id] || "Unknown"}\n`;
+                        printContent += `Show: ${showMap[lineup.show_id] || "Unknown"}\n`;
+    
+                        if (Array.isArray(lineup.breeds) && lineup.breeds.length > 0) {
+                            printContent += `Breed:\n`;
+                            lineup.breeds.forEach((breed, i) => {
+                                printContent += (i < lineup.breeds.length - 1) ? `${breed},\n` : `${breed}.\n`;
+                            });
+                        } else {
+                            
+                            printContent += `Breed:\n${lineup.breed_name || ""}\n`;
+                        }                    
+                        printContent += "\n";
+                    });
+                }
+                sessionStorage.setItem("printContent", printContent);
+                window.open("printPreview.html", "PrintPreview", "width=800,height=600");
+            } catch (error) {
+                console.error(error);
             }
+        });
+    }
     
-            const savedLineups = await response.json();
-    
-            if (savedLineups.length === 0) {
-                printContent = "No lineups saved.";
-            } else {
-                savedLineups.forEach((lineup, index) => {
-                    printContent += `Lineup: ${index + 1}\n`;
-                    printContent += `Category: ${categoryMap[lineup.category_id] || "Unknown"}\n`;
-                    printContent += `Show: ${showMap[lineup.show_id] || "Unknown"}\n`;
-    
-                    if (Array.isArray(lineup.breeds) && lineup.breeds.length > 0) {
-                        printContent += `Breed:\n`;
-                        lineup.breeds.forEach((breed, i) => {
-                            printContent += (i < lineup.breeds.length - 1) ? `${breed},\n` : `${breed}.\n`;
-                        });
-                    } else {
-                        // Instead of printing "Unknown", we print the breed name provided (if available)
-                        printContent += `Breed:\n${lineup.breed_name || ""}\n`;
-                    }                    
-                    printContent += "\n"; // Add a blank line between lineups
-                });
-            }
-            document.getElementById("printContainer").innerHTML = `<pre>${printContent}</pre>`;
-        } catch (error) {
-            console.error(error);
-        }
-    });
-}
-
     // --- Finished Button Functionality ---
     if (finishedButton) {
         finishedButton.addEventListener("click", () => {
@@ -160,7 +157,5 @@ if (printLineupButton) {
         });
     } else {
         console.error("Finished button not found.");
-    }
-
-    // --- Save and Print functionality remain unchanged ---
+    }    
 });
