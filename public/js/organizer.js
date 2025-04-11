@@ -7,6 +7,7 @@ const { initPrintLineupButton } = require('./printLineups.js');
 
 document.addEventListener("DOMContentLoaded", function () {
     // Select all button elements
+    const apiEndpoint = "https://livestock-lineup.onrender.com/api/breeds";
     const saveLineupButton = document.getElementById("save-lineup");
     const printLineupButton = document.getElementById("print-lineup");
     const clearLineupButton = document.getElementById("clear-lineup");
