@@ -4,7 +4,6 @@ body {
     margin: 0;
     padding: 0;
     font-family: cursive;
-
 }
 
 h1 {
@@ -27,7 +26,6 @@ footer {
 footer-content {
     text-align: left;
     margin-left: 0 auto;
-
 }
 
 #show-selector {
@@ -52,8 +50,6 @@ button:hover {
     background-color: #25484a;
     border-color: #6c757d;
     color: white;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 .form-control {
@@ -79,7 +75,6 @@ h1.bg-secondary {
 }
 
 .breed-button {
-    /* display: inline-block; */
     padding: 10px 20px;
     margin: 5px;
     background-color: #64999b;
@@ -121,17 +116,9 @@ h1.bg-secondary {
     text-overflow: ellipsis;
     word-wrap: break-word;
     padding: 10px;
-    font-size: 1rem;
+    font-size: 1.2rem;
     height: auto;
     line-height: 1.2;
-    font-size: 1.2rem;
-}
-
-#rabbit-list .breed-button {
-    flex: 0 0 calc(30% - 1rem);
-    max-width: calc(20% - 1rem);
-    text-align: center;
-    white-space: nowrap;
 }
 
 @media (max-width: 768px) {
@@ -150,10 +137,6 @@ h1.bg-secondary {
     }
 }
 
-.breed-button {
-    font-size: 1rem !important;
-}
-
 #breed-options {
     font-size: 1rem !important;
 }
@@ -164,11 +147,6 @@ h1.bg-secondary {
 
 .tablet-container {
     width: 90%;
-    max-width: 768px;
-    margin: 0 auto;
-}
-
-.tablet-container {
     max-width: 768px;
     margin: 0 auto;
 }
@@ -219,8 +197,6 @@ h1.bg-secondary {
     transform: rotateY(180deg);
     background-color: #418082;
     color: white;
-    justify-content: center;
-    align-items: center;
 }
 
 @keyframes flip {
@@ -373,16 +349,6 @@ header {
     margin-left: 20px;
 }
 
-/* .breed-label {
-    font-weight: normal;
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    
-    display: inline;
-} */
-
 .text-primary,
 .text-secondary,
 .text-success,
@@ -391,7 +357,6 @@ header {
     color: black;
 }
 
-/* Styling for breed list items */
 .breed-item {
     margin-bottom: 10px;
     align-items: center;
