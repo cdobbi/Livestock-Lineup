@@ -3,6 +3,7 @@ const cors = require("cors");
 const path = require("path");
 const Pusher = require("pusher");
 const { Pool } = require("pg");
+const helmet = require("helmet");
 
 // Initialize the app
 const app = express();
@@ -11,6 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(helmet()); // Use Helmet for security
 
 // Serve static files (for your client-side code)
 app.use(express.static(path.join(__dirname, "../public")));
