@@ -146,6 +146,7 @@ if (printLineupButton) {
                     } else {
                         printContent += `Breed:\nUnknown.\n`;
                     }
+                    
                     printContent += "\n"; // Add a blank line between lineups
                 });
             }
