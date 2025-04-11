@@ -1,4 +1,7 @@
-export async function fetchAndRenderBreeds(apiEndpoint, rabbitList) {
+// Does this file need to go into the uiHandlers.bundle.js file ? Also which html file does it belong in if any. If it doesn't belong in an HTML how is called or rendered? And please, Verify, ensure that require and module.exports are used and dont use the weird notations. ensure that all variables, functions, and wording are consistent ac ross files and that everything links properly.
+
+
+const fetchAndRenderBreeds = async (apiEndpoint, rabbitList) => {
     try {
         const response = await fetch(apiEndpoint);
         if (!response.ok) {
@@ -25,5 +28,9 @@ export async function fetchAndRenderBreeds(apiEndpoint, rabbitList) {
         console.error("Error fetching rabbit breeds:", error);
         rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
     }
-}
+};
 
+// Export the function for use in other files
+module.exports = {
+    fetchAndRenderBreeds,
+};

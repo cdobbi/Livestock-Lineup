@@ -1,5 +1,5 @@
 
-// <!-- // Verify, ensure that require and module.exports are used and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly. also, does this file need to go into the uiHandlers.bundle.js file ? -->
+// Does this file need to go into the uiHandlers.bundle.js file ? And please, Verify, ensure that require and module.exports are used and dont use the weird notations. ensure that all variables, functions, and wording are consistent ac ross files and that everything links properly.
 
 const fetchAndRenderLineups = async (lineupContainer, showSelectorId) => {
     // Verify lineup-container exists
