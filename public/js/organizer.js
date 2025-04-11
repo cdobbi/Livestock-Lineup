@@ -102,6 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
    // --- Print Lineup Button Functionality ---
+// --- Print Lineup Button Functionality (Print Preview) ---
 let printContent = "";
 document.getElementById("printContainer").innerHTML = `<pre>${printContent}</pre>`;
 if (printLineupButton) {
@@ -127,12 +128,13 @@ if (printLineupButton) {
     
                     if (Array.isArray(lineup.breeds) && lineup.breeds.length > 0) {
                         printContent += `Breed:\n`;
-                        // For each breed, print it on its own line with a checkbox.
-                        lineup.breeds.forEach(breed => {
-                            printContent += `<div>
-  <input type="checkbox" class="breed-checkbox" data-lineup-index="${index}" value="${breed}" onchange="handleBreedCheckboxChange(this, '${breed}', ${index})">
-  ${breed}
-</div>\n`;
+                        // Print each breed on its own line with a comma following all but the last entry.
+                        lineup.breeds.forEach((breed, i) => {
+                            if (i < lineup.breeds.length - 1) {
+                                printContent += `${breed},\n`;
+                            } else {
+                                printContent += `${breed}.\n`;
+                            }
                         });
                     } else {
                         printContent += `Breed:\nUnknown.\n`;
@@ -140,45 +142,13 @@ if (printLineupButton) {
                     printContent += "\n"; // Add a blank line between lineups
                 });
             }
+            document.getElementById("printContainer").innerHTML = `<pre>${printContent}</pre>`;
         } catch (error) {
             console.error(error);
         }
-    
-        document.getElementById("printContainer").innerHTML = printContent;
     });
 }
 
-function handleBreedCheckboxChange(checkbox, breed, lineupIndex) {
-    if (checkbox.checked) {
-        // Play an alert sound (ensure alert.mp3 exists or update this path as needed)
-        var audio = new Audio('alert.mp3');
-        audio.play();
-        // Send an alert to exhibitors
-        alert(`Time to bring ${breed} from Lineup: ${lineupIndex + 1} to the judges table.`);
-    }
-}
-
-
-    // --- Clear Lineup Button Functionality ---
-    if (clearLineupButton) {
-        clearLineupButton.addEventListener("click", async () => {
-            try {
-                const response = await fetch("https://livestock-lineup.onrender.com/api/lineups", {
-                    method: "DELETE",
-                });
-
-                if (response.ok) {
-                    alert("All lineups have been cleared.");
-                } else {
-                    throw new Error("Failed to clear lineups.");
-                }
-            } catch (error) {
-                console.error("Error clearing lineups:", error);
-            }
-        });
-    } else {
-        console.error("Clear Lineup button not found.");
-    }
 
     // --- Finished Button Functionality ---
     if (finishedButton) {
