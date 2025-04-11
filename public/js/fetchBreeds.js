@@ -1,4 +1,4 @@
-// Does this file need to go into the uiHandlers.bundle.js file ? Also which html file does it belong in if any. If it doesn't belong in an HTML how is called or rendered? And please, Verify, ensure that require and module.exports are used and dont use the weird notations. ensure that all variables, functions, and wording are consistent ac ross files and that everything links properly.
+// Does this file need to go into the uiHandlers.bundle.js file? Also which html file does it belong in if any? If it doesn't belong in an HTML or any of the other files, how is it initialized, called or used? What is it's purpose? Please, Verify, ensure that require and module.exports are used and teir are no weird notations. Please ensure that all variables, functions, and wording are consistent accrossed files and that everything links properly.
 
 
 const fetchAndRenderBreeds = async (apiEndpoint, rabbitList) => {
