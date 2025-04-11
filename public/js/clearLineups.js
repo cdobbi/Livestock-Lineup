@@ -1,3 +1,6 @@
+// Verify, ensure that require and module.exports are used and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly. 
+
+
 import { clearLineups } from './localStorage.js';
 
 /**
