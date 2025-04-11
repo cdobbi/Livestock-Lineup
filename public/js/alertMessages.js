@@ -1,7 +1,6 @@
 // Does this file need to go into the uiHandlers.bundle.js file? Also which html file does it belong in if any? If it doesn't belong in an HTML or any of the other files, how is it initialized, called or used? What is it's purpose? Please, verify, ensure that this file is updated to use ES Modals and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly.
 
-
-function showInitialAlert() {
+export function showInitialAlert() {
     const alertMessage = document.createElement("div");
     alertMessage.className = "alert alert-info text-center";
     alertMessage.style.position = "fixed";
@@ -22,7 +21,7 @@ function showInitialAlert() {
     });
   }
   
-  function showSecondAlert() {
+  export function showSecondAlert() {
     const secondAlertMessage = document.createElement("div");
     secondAlertMessage.className = "alert alert-warning text-center";
     secondAlertMessage.style.position = "fixed";
@@ -43,6 +42,3 @@ function showInitialAlert() {
         secondAlertMessage.style.display = "none";
       });
   }
-  
-  //  the functions defined in this file
-  module.exports = { showInitialAlert, showSecondAlert };
