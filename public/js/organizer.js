@@ -99,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         flippingCard.style.display = "none";
                     }, 4000);
                 }
+                
             } catch (error) {
                 console.error("Error saving lineup:", error);
             }
@@ -107,16 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Save Lineup button not found.");
     }    
 
-    // --- Text only print preview ---
-    const blob = new Blob([printContent], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "lineup.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+
     
     // --- Print Lineup Button Functionality ---
     if (printLineupButton) {
@@ -152,21 +144,23 @@ document.addEventListener("DOMContentLoaded", function () {
                         printContent += "\n";
                     });
                 }
-                sessionStorage.setItem("printContent", printContent);
-                window.open("printPreview.html", "PrintPreview", "width=800,height=600");
+            
+                // --- Text Only Print Preview Block ---
+                const blob = new Blob([printContent], { type: "text/plain;charset=utf-8" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "lineup.txt";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+        
             } catch (error) {
                 console.error(error);
             }
         });
-    }
-    
-    // --- Finished Button Functionality ---
-    if (finishedButton) {
-        finishedButton.addEventListener("click", () => {
-            // Simply route to lineup.html
-            window.location.href = "lineup.html";
-        });
     } else {
-        console.error("Finished button not found.");
-    }    
+        console.error("Print Lineup button not found.");
+    }
 });
