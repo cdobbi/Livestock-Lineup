@@ -4,7 +4,7 @@ const NOTIFICATION_SOUND_PATH = "/sounds/alert.mp3";
 const NOTIFICATION_ICON_PATH = "/images/notification-icon.png";
 const PUSHER_CHANNEL_NAME = "livestock-lineup";
 
-async function initializePusher() {
+export async function initializePusher() {
     try {
         const response = await fetch("https://livestock-lineup.onrender.com/pusher-config");
         if (!response.ok) {
@@ -84,6 +84,3 @@ function updateNotificationArea(breed, category, show) {
         notificationArea.style.display = "none";
     }, 10000);
 }
-
-// Export the initialization function
-window.initializePusher = initializePusher;
