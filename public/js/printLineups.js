@@ -1,10 +1,10 @@
 // Does this file need to go into the uiHandlers.bundle.js file? Also which html file does it belong in if any? If it doesn't belong in an HTML or any of the other files, how is it initialized, called or used? What is it's purpose? Please, verify, ensure that this file is updated to use ES Modals and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly.
 
 
-const { getLineups } = require('./localStorage.js');
+import { getLineups } from './localStorage.js';
 
 // Initialize Print Lineup button functionality
-function initPrintLineupButton(printLineupButton) {
+export function initPrintLineupButton(printLineupButton) {
     if (printLineupButton) {
         printLineupButton.addEventListener("click", () => {
             let printContent = "";
@@ -57,8 +57,3 @@ function initPrintLineupButton(printLineupButton) {
         console.error("Print Lineup button not found.");
     }
 }
-
-// Export the function for use in other files
-module.exports = {
-    initPrintLineupButton
-};
