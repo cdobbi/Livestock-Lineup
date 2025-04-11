@@ -1,6 +1,5 @@
 /**
  * LocalStorage handler for Lineup management
- * Provides functions to save, retrieve, and clear lineups in browser storage
  */
 
 // Key used to store lineups in localStorage
@@ -10,7 +9,7 @@ const LINEUP_STORAGE_KEY = 'livestock-lineups';
  * Save a new lineup to localStorage
  * @param {Object} lineup - The lineup object to save
  */
-function saveLineup(lineup) {
+export function saveLineup(lineup) {
     // Get existing lineups
     const lineups = getLineups();
     
@@ -26,7 +25,7 @@ function saveLineup(lineup) {
  * Get all saved lineups from localStorage
  * @returns {Array} Array of lineup objects
  */
-function getLineups() {
+export function getLineups() {
     const lineupsJson = localStorage.getItem(LINEUP_STORAGE_KEY);
     return lineupsJson ? JSON.parse(lineupsJson) : [];
 }
@@ -35,14 +34,14 @@ function getLineups() {
  * Check if there are any saved lineups
  * @returns {Boolean} True if lineups exist in storage
  */
-function hasLineups() {
+export function hasLineups() {
     return getLineups().length > 0;
 }
 
 /**
  * Clear all lineups from localStorage
  */
-function clearLineups() {
+export function clearLineups() {
     localStorage.removeItem(LINEUP_STORAGE_KEY);
     console.log('All lineups cleared from localStorage');
 }
@@ -51,15 +50,6 @@ function clearLineups() {
  * Get the count of saved lineups
  * @returns {Number} Number of saved lineups
  */
-function getLineupCount() {
+export function getLineupCount() {
     return getLineups().length;
 }
-
-// Export all functions
-export {
-    saveLineup,
-    getLineups,
-    hasLineups,
-    clearLineups,
-    getLineupCount
-};
