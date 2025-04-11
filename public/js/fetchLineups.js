@@ -1,4 +1,7 @@
-export async function fetchAndRenderLineups(lineupContainer, showSelectorId) {
+
+// <!-- // Verify, ensure that require and module.exports are used and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly. also, does this file need to go into the uiHandlers.bundle.js file ? -->
+
+const fetchAndRenderLineups = async (lineupContainer, showSelectorId) => {
     // Verify lineup-container exists
     if (!lineupContainer) {
         console.error("lineup-container element not found in the DOM.");
@@ -42,9 +45,9 @@ export async function fetchAndRenderLineups(lineupContainer, showSelectorId) {
         console.error("Error fetching or rendering lineups:", error);
         lineupContainer.innerHTML = "<p>Failed to load lineups. Please try again later.</p>";
     }
-}
+};
 
-function renderLineups(lineupContainer, showLineups) {
+const renderLineups = (lineupContainer, showLineups) => {
     lineupContainer.innerHTML = ""; // Clear the container
 
     showLineups.forEach((lineup, index) => {
@@ -78,4 +81,9 @@ function renderLineups(lineupContainer, showLineups) {
     });
 
     console.log("Lineups rendered successfully!");
-}
+};
+
+// Export the functions for use in other files
+module.exports = {
+    fetchAndRenderLineups,
+};
