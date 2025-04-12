@@ -42,13 +42,13 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.log("Payload being prepared:", {
                 categoryId,
                 showId,
-                breedId: selectedBreeds,
+                breedIds: selectedBreeds,
             });
 
             // Validate the payload before sending to the backend
             if (!categoryId || !showId || selectedBreeds.length === 0) {
                 alert("Please select a category, show, and at least one breed.");
-                console.error("Invalid payload:", { categoryId, showId: selectedBreeds });
+                console.error("Invalid payload:", { categoryId, showId, breedIds: selectedBreeds });
                 return;
             }
 

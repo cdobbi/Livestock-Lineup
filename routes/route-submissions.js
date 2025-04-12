@@ -5,20 +5,20 @@ const router = express.Router(); // Initialize the router
 
 // Save a lineup
 router.post("/", async (req, res) => {
-    const { showId, categoryId, breedId } = req.body; // Expect integers or an array of integers
+    const { showId, categoryId, breedIds } = req.body; // Expect integers or an array of integers
 
     // Debugging: Log the received request body
     console.log("Request body received for saving lineup:", req.body);
 
     try {
-        if (!showId || !categoryId || !Array.isArray(breedId) || breedId.length === 0) {
+        if (!showId || !categoryId || !Array.isArray(breedIds) || breedIds.length === 0) {
             return res.status(400).json({
-                message: "Invalid payload. Ensure 'showId', 'categoryId', and 'breedId' are provided.",
+                message: "Invalid payload. Ensure 'showId', 'categoryId', and 'breedIds' are provided.",
             });
         }
 
         // Insert each breed ID as a separate row in the database
-        const queries = breedId.map(async (breedId) => {
+        const queries = breedIds.map(async (breedId) => {
             try {
                 return await pool.query(
                     "INSERT INTO lineups (show_id, category_id, breed_id) VALUES ($1, $2, $3) RETURNING *",
