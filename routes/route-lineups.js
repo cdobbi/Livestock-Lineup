@@ -7,19 +7,19 @@ const router = express.Router();
 
 // Save a lineup
 router.post("/", async (req, res) => {
-  const { showId, categoryId, breedIds } = req.body;
+  const { showId, categoryId, breedId } = req.body;
 
   console.log("Received payload for lineup:", req.body);
 
-  if (!showId || !categoryId || !Array.isArray(breedIds) || breedIds.length === 0) {
+  if (!showId || !categoryId || !Array.isArray(breedId) || breedId.length === 0) {
     return res.status(400).json({
-      message: "Invalid payload. Please provide showId, categoryId, and a non-empty array of breedIds.",
+      message: "Invalid payload. Please provide showId, categoryId, and a non-empty array of breedId.",
     });
   }
 
   try {
     // Insert each breed ID as a separate row in the database
-    const queries = breedIds.map(async (breedId) => {
+    const queries = breedId.map(async (breedId) => {
       try {
         return await pool.query(
           "INSERT INTO lineups (show_id, category_id, breed_id) VALUES ($1, $2, $3) RETURNING *",
@@ -95,19 +95,19 @@ export default router;
 
 // // Save a lineup
 // router.post("/", async (req, res) => {
-//   const { showId, categoryId, breedIds } = req.body; // Expect showId, categoryId, and an array of breedIds
+//   const { showId, categoryId, breedId } = req.body; // Expect showId, categoryId, and an array of breedId
 
 //   console.log("Received payload for lineup:", req.body);
 
 //   try {
-//     if (!showId || !categoryId || !Array.isArray(breedIds) || breedIds.length === 0) {
+//     if (!showId || !categoryId || !Array.isArray(breedId) || breedId.length === 0) {
 //       return res.status(400).json({
-//         message: "Invalid payload. Please provide showId, categoryId, and a non-empty array of breedIds.",
+//         message: "Invalid payload. Please provide showId, categoryId, and a non-empty array of breedId.",
 //       });
 //     }
 
 //     // Insert each breed ID as a separate row in the database
-//     const queries = breedIds.map(async (breedId) => {
+//     const queries = breedId.map(async (breedId) => {
 //       try {
 //         return await pool.query(
 //           "INSERT INTO lineups (show_id, category_id, breed_id) VALUES ($1, $2, $3) RETURNING *",
@@ -174,21 +174,21 @@ export default router;
 
 
 // // router.post("/", async (req, res) => {
-// //     const { showId, categoryId, breedIds } = req.body;
+// //     const { showId, categoryId, breedId } = req.body;
 
 // //     // Debugging logs
 // //     console.log("Payload received:", req.body);
 
 // //     try {
 // //         // Validate the payload structure
-// //         if (!showId || !categoryId || !Array.isArray(breedIds) || breedIds.length === 0) {
+// //         if (!showId || !categoryId || !Array.isArray(breedId) || breedId.length === 0) {
 // //             return res.status(400).json({
-// //                 message: "Invalid payload. Ensure 'showId', 'categoryId', and 'breedIds' are provided.",
+// //                 message: "Invalid payload. Ensure 'showId', 'categoryId', and 'breedId' are provided.",
 // //             });
 // //         }
 
 // //         // Insert each breedId into the lineups table
-// //         const queries = breedIds.map(async (breedId) => {
+// //         const queries = breedId.map(async (breedId) => {
 // //             try {
 // //                 console.log(`Inserting: showId=${showId}, categoryId=${categoryId}, breedId=${breedId}`);
 // //                 return await pool.query(
