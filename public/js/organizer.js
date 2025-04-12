@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
 
             // Save lineup using saveLineup
-            await saveLineup(category, show, selectedBreeds, `${apiBaseUrl}/lineups`, "Organizer123");
+            await saveLineusp(category, show, selectedBreeds, `${apiBaseUrl}/lineups`, "Organizer123");
 
             // Reset selections for next lineup
             document.querySelectorAll(".breed-button.active").forEach((btn) => {
