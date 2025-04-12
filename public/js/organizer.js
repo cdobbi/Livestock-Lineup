@@ -1,4 +1,4 @@
-import { fetchBreeds, saveLineup } from './uiHandlers.bundle.js';
+import { fetchBreeds, saveLineup } from './fetchBreeds.js, ./fetchLineups.js';
 import { initClearLineupButton } from './clearLineups.js';
 import { initFinishedButton } from './finishLineups.js';
 import { initPrintLineupButton } from './printLineups.js';
