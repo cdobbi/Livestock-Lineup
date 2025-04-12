@@ -1,4 +1,3 @@
-// Does this file need to go into the uiHandlers.bundle.js file? Also which html file does it belong in if any? If it doesn't belong in an HTML or any of the other files, how is it initialized, called or used? What is it's purpose? Please, verify, ensure that this file is updated to use ES Modals and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly.
 
 const NOTIFICATION_SOUND_PATH = "/sounds/alert.mp3";
 const NOTIFICATION_ICON_PATH = "/images/notification-icon.png";
