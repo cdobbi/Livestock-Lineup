@@ -1,24 +1,25 @@
 export const fetchAndRenderBreeds = async (apiEndpoint, rabbitList) => {
     try {
-        // Fetch the breeds API endpoint
+        // Fetch the API endpoint
         const response = await fetch(apiEndpoint);
         if (!response.ok) {
             throw new Error("Failed to fetch rabbit breeds.");
         }
         // Parse the JSON response
-        const breeds = await response.json();
-        
-        // Log the API response to inspect its structure
-        console.log(breeds);
-        
-        // Clear any existing content
+        const result = await response.json();
+        console.log(result); // Inspect the API response structure
+
+        // If the API returns an array directly, use it; otherwise, adjust as needed.
+        const breeds = Array.isArray(result) ? result : (result.breeds || []);
+
+        // Clear out any previous content
         rabbitList.innerHTML = "";
 
-        // Loop through each breed and create a button
+        // Loop through each breed from the API response
         breeds.forEach((breed) => {
-            // Use a fallback name if breed.name is missing
-            const breedName = breed.name || "breeds";
-            
+            // Use breed.breed_name instead of breed.name -- trim in case of extra spaces
+            const breedName = breed.breed_name ? breed.breed_name.trim() : "Unnamed";
+
             const button = document.createElement("button");
             button.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
             button.dataset.breed = breedName;
