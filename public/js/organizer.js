@@ -30,25 +30,34 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Initialize Save Lineup button
     if (saveLineupButton) {
         saveLineupButton.addEventListener("click", async () => {
+            // Get selected category, show, and breeds
             const categoryEl = document.getElementById("category");
             const showEl = document.getElementById("show");
-            const category = categoryEl ? categoryEl.value : "";
-            const show = showEl ? showEl.value : "";
-            const selectedBreeds = Array.from(document.querySelectorAll(".breed-button.active")).map(
-                (btn) => btn.dataset.breed
-            );
+            const categoryId = categoryEl ? categoryEl.value : ""; // Changed to categoryId to match backend
+            const showId = showEl ? showEl.value : ""; // Changed to showId to match backend
+            const breedCheckboxes = document.querySelectorAll(".breed-checkbox:checked"); // Checkbox selectors
+            const selectedBreeds = Array.from(breedCheckboxes).map((checkbox) => checkbox.value);
 
-            if (!category || !show || selectedBreeds.length === 0) {
+            // Debugging: Log the payload to ensure the correct structure before sending
+            console.log("Payload being prepared:", {
+                categoryId,
+                showId,
+                breedIds: selectedBreeds, // Changed to breedIds to match backend
+            });
+
+            // Validate the payload before calling saveLineup
+            if (!categoryId || !showId || selectedBreeds.length === 0) {
                 alert("Please select a category, show, and at least one breed.");
+                console.error("Invalid payload:", { categoryId, showId, breedIds: selectedBreeds });
                 return;
             }
 
-            // Call the saveLineup function (fixed typo: not saveLineusp)
-            await saveLineup(category, show, selectedBreeds, `${apiBaseUrl}/lineups`, "Organizer123");
+            // Call the saveLineup function and pass the validated payload
+            await saveLineup(categoryId, showId, selectedBreeds, `${apiBaseUrl}/lineups`);
 
             // Reset selections for next lineup
-            document.querySelectorAll(".breed-button.active").forEach((btn) => {
-                btn.classList.remove("active");
+            document.querySelectorAll(".breed-checkbox:checked").forEach((checkbox) => {
+                checkbox.checked = false;
             });
         });
     }
