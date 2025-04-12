@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../public")));
 
 // PostgreSQL Pool Configuration
-const pool = new Pool({
+const pool = new pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }, // Required for Render-hosted PostgreSQL
 });
