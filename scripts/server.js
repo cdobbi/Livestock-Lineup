@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Debug: log the resolved path for clarity
-const appPath = path.join(__dirname, "./src/app.js");
+const appPath = path.join(__dirname, "../src/app.js");
 console.log("Loading Express app from:", appPath);
 
 // Convert the absolute path to a file:// URL
