@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // import { fileURLToPath, pathToFileURL } from "url";
-import path from "../src/app.js";";"
+import app from "../src/app.js"
 
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
