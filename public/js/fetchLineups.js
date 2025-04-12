@@ -26,6 +26,7 @@ export const fetchAndRenderLineups = async (lineupContainer, showSelectorId) => 
         if (!response.ok) {
             throw new Error(`Failed to fetch lineups: ${response.statusText}`);
         }
+        console.log("Retrieved lineups:", showLineups);
 
         const showLineups = await response.json();
         console.log("Retrieved lineups from backend:", showLineups);
