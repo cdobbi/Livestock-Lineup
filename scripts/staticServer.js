@@ -1,5 +1,5 @@
-// Serve static files from "public".
-
+// filepath: c:\Livestock-Lineup\scripts\staticServer.js
+// Serve static files from the "public" directory
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -12,9 +12,11 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, "../public")));
 
-// Fallback route to serve index.html for any unmatched routes (useful for SPAs)
+// Add fallback route to serve index.html for unmatched routes (after all other routes)
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/index.html"));
+    if (!req.originalUrl.startsWith("/api")) {
+        res.sendFile(path.join(__dirname, "../public/index.html"));
+    }
 });
 
 export default app;
