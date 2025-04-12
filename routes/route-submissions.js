@@ -1,72 +1,82 @@
-/**
- * This file handles all operations related to submissions.
- * It provides routes to retrieve all submissions, match exhibitors based on category, show, and breed,
- * and add new submissions to the database.
- * The routes defined here are used to manage submission-related data in the frontend.
- * It relies on the centralized database connection from db.js.
- */
-
 import express from "express";
 import pool from "../src/db.js"; // Import the centralized database connection
 
 const router = express.Router(); // Initialize the router
 
-// Retrieve all submissions
-router.get("/", async (req, res) => {
-    try {
-        const result = await pool.query("SELECT * FROM Submissions");
-        res.status(200).json(result.rows); // Send the fetched data as JSON
-    } catch (error) {
-        console.error("Error retrieving submissions:", error);
-        res.status(500).json({ message: "An error occurred. Please try again." });
-    }
-});
+// Save a lineup
+router.post("/", async (req, res) => {
+    const { showId, categoryId, breedIds } = req.body; // Expect integers or an array of integers
 
-// Retrieve exhibitors for a specific category, show, and breed
-router.get("/match", async (req, res) => {
-    const { category_id, show_id, breed_id } = req.query;
-
-    // Validate input
-    if (!category_id || !show_id || !breed_id) {
-        return res.status(400).json({ message: "All fields are required." });
-    }
+    // Debugging: Log the received request body
+    console.log("Request body received for saving lineup:", req.body);
 
     try {
-        const result = await pool.query(
-            "SELECT exhibitor_id FROM Submissions WHERE category_id = $1 AND show_id = $2 AND breed_id = $3",
-            [category_id, show_id, breed_id]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({ message: "No matching exhibitors found." });
+        if (!showId || !categoryId || !Array.isArray(breedIds) || breedIds.length === 0) {
+            return res.status(400).json({
+                message: "Invalid payload. Ensure 'showId', 'categoryId', and 'breedIds' are provided.",
+            });
         }
 
-        res.status(200).json(result.rows); // Send the fetched data as JSON
+        // Insert each breed ID as a separate row in the database
+        const queries = breedIds.map(async (breedId) => {
+            try {
+                return await pool.query(
+                    "INSERT INTO lineups (show_id, category_id, breed_id) VALUES ($1, $2, $3) RETURNING *",
+                    [showId, categoryId, breedId]
+                );
+            } catch (queryError) {
+                console.error(`Error inserting breedId ${breedId}:`, queryError.message);
+                throw queryError; // Re-throw to propagate error
+            }
+        });
+
+        const results = await Promise.all(queries); // Execute all queries
+        const savedLineups = results.map((result) => result.rows[0]); // Collect saved rows
+
+        res.status(201).json(savedLineups);
     } catch (error) {
-        console.error("Error retrieving matching exhibitors:", error);
-        res.status(500).json({ message: "An error occurred. Please try again." });
+        console.error("Error saving lineup:", error.message);
+        res.status(500).json({ message: "Failed to save lineup.", error: error.message });
     }
 });
 
-// Add a new submission
-router.post("/", async (req, res) => {
-    const { exhibitor_id, category_id, show_id, breed_id } = req.body;
-
-    // Validate input
-    if (!exhibitor_id || !category_id || !show_id || !breed_id) {
-        return res.status(400).json({ message: "All fields are required." });
-    }
-
+// Fetch all lineups
+router.get("/", async (req, res) => {
     try {
-        const result = await pool.query(
-            "INSERT INTO Submissions (exhibitor_id, category_id, show_id, breed_id) VALUES ($1, $2, $3, $4) RETURNING id",
-            [exhibitor_id, category_id, show_id, breed_id]
-        );
-
-        res.status(201).json({ message: "Submission added successfully!", submissionId: result.rows[0].id });
+        const result = await pool.query(`
+            SELECT 
+                l.id AS lineup_id,
+                l.show_id,
+                l.category_id,
+                b.breed_name,
+                c.name AS category_name, 
+                s.name AS show_name
+            FROM 
+                lineups l
+            JOIN 
+                breeds b ON l.breed_id = b.id
+            JOIN 
+                categories c ON l.category_id = c.id
+            JOIN 
+                shows s ON l.show_id = s.id
+            ORDER BY 
+                l.id
+        `);
+        res.status(200).json(result.rows);
     } catch (error) {
-        console.error("Error adding submission:", error);
-        res.status(500).json({ message: "An error occurred. Please try again." });
+        console.error("Error fetching lineups:", error.message);
+        res.status(500).json({ message: "Failed to fetch lineups.", error: error.message });
+    }
+});
+
+// Clear all lineups
+router.delete("/", async (req, res) => {
+    try {
+        await pool.query("DELETE FROM lineups"); // Delete all entries in the 'lineups' table
+        res.status(200).json({ message: "All lineups cleared successfully." });
+    } catch (error) {
+        console.error("Error clearing lineups:", error.message);
+        res.status(500).json({ message: "Failed to clear lineups.", error: error.message });
     }
 });
 
