@@ -1,23 +1,23 @@
 // Contains the routes for saving, fetching, and deleting lineups.
 
 import express from "express";
-import pool from "../src/db.js"; // Adjust the path as needed based on your project structure
+import pool from "../src/db.js"; // Make sure this path is correct for your project structure
 
 const router = express.Router();
 
 // Save a lineup
 router.post("/", async (req, res) => {
-  const { showId, categoryId, breedIds } = req.body; // Expect showId, categoryId, and an array of breedIds
+  const { showId, categoryId, breedIds } = req.body;
 
   console.log("Received payload for lineup:", req.body);
 
-  try {
-    if (!showId || !categoryId || !Array.isArray(breedIds) || breedIds.length === 0) {
-      return res.status(400).json({
-        message: "Invalid payload. Please provide showId, categoryId, and a non-empty array of breedIds.",
-      });
-    }
+  if (!showId || !categoryId || !Array.isArray(breedIds) || breedIds.length === 0) {
+    return res.status(400).json({
+      message: "Invalid payload. Please provide showId, categoryId, and a non-empty array of breedIds.",
+    });
+  }
 
+  try {
     // Insert each breed ID as a separate row in the database
     const queries = breedIds.map(async (breedId) => {
       try {
@@ -81,46 +81,134 @@ router.delete("/", async (req, res) => {
   }
 });
 
-// Provide the default export so that app.js can import it as a default module.
-// export default router;
+// Export the router as a default export so that it can be imported with:
+// import lineupsRoutes from "../routes/route-lineups.js";
+export default router;
 
 
+// // Contains the routes for saving, fetching, and deleting lineups.
+
+// import express from "express";
+// import pool from "../src/db.js"; // Adjust the path as needed based on your project structure
+
+// const router = express.Router();
+
+// // Save a lineup
 // router.post("/", async (req, res) => {
-//     const { showId, categoryId, breedIds } = req.body;
+//   const { showId, categoryId, breedIds } = req.body; // Expect showId, categoryId, and an array of breedIds
 
-//     // Debugging logs
-//     console.log("Payload received:", req.body);
+//   console.log("Received payload for lineup:", req.body);
 
-//     try {
-//         // Validate the payload structure
-//         if (!showId || !categoryId || !Array.isArray(breedIds) || breedIds.length === 0) {
-//             return res.status(400).json({
-//                 message: "Invalid payload. Ensure 'showId', 'categoryId', and 'breedIds' are provided.",
-//             });
-//         }
-
-//         // Insert each breedId into the lineups table
-//         const queries = breedIds.map(async (breedId) => {
-//             try {
-//                 console.log(`Inserting: showId=${showId}, categoryId=${categoryId}, breedId=${breedId}`);
-//                 return await pool.query(
-//                     "INSERT INTO lineups (show_id, category_id, breed_id) VALUES ($1, $2, $3) RETURNING *",
-//                     [showId, categoryId, breedId]
-//                 );
-//             } catch (queryError) {
-//                 console.error(`Error inserting for breedId=${breedId}:`, queryError.message);
-//                 throw queryError;
-//             }
-//         });
-
-//         // Await all queries
-//         const results = await Promise.all(queries);
-//         const savedLineups = results.map((result) => result.rows[0]);
-
-//         console.log("Successfully saved lineups:", savedLineups);
-//         res.status(201).json(savedLineups);
-//     } catch (error) {
-//         console.error("Error saving lineup:", error.stack);
-//         res.status(500).json({ message: "Failed to save lineup.", error: error.message });
+//   try {
+//     if (!showId || !categoryId || !Array.isArray(breedIds) || breedIds.length === 0) {
+//       return res.status(400).json({
+//         message: "Invalid payload. Please provide showId, categoryId, and a non-empty array of breedIds.",
+//       });
 //     }
+
+//     // Insert each breed ID as a separate row in the database
+//     const queries = breedIds.map(async (breedId) => {
+//       try {
+//         return await pool.query(
+//           "INSERT INTO lineups (show_id, category_id, breed_id) VALUES ($1, $2, $3) RETURNING *",
+//           [showId, categoryId, breedId]
+//         );
+//       } catch (queryError) {
+//         console.error(`Error inserting lineup for breedId ${breedId}:`, queryError.message);
+//         throw queryError;
+//       }
+//     });
+
+//     const results = await Promise.all(queries);
+//     const savedLineups = results.map((result) => result.rows[0]);
+//     console.log("Successfully saved lineups:", savedLineups);
+//     res.status(201).json(savedLineups);
+//   } catch (error) {
+//     console.error("Error saving lineup:", error.stack);
+//     res.status(500).json({ message: "Failed to save lineup.", error: error.message });
+//   }
 // });
+
+// // Fetch all lineups
+// router.get("/", async (req, res) => {
+//   try {
+//     const result = await pool.query(`
+//       SELECT 
+//         l.id AS lineup_id,
+//         l.show_id,
+//         l.category_id,
+//         b.breed_name,
+//         c.name AS category_name,
+//         s.name AS show_name
+//       FROM 
+//         lineups l
+//       JOIN 
+//         breeds b ON l.breed_id = b.id
+//       JOIN 
+//         categories c ON l.category_id = c.id
+//       JOIN 
+//         shows s ON l.show_id = s.id
+//       ORDER BY 
+//         l.id
+//     `);
+//     res.status(200).json(result.rows);
+//   } catch (error) {
+//     console.error("Error fetching lineups:", error.message);
+//     res.status(500).json({ message: "Failed to fetch lineups.", error: error.message });
+//   }
+// });
+
+// // Clear all lineups
+// router.delete("/", async (req, res) => {
+//   try {
+//     await pool.query("DELETE FROM lineups");
+//     res.status(200).json({ message: "All lineups cleared successfully." });
+//   } catch (error) {
+//     console.error("Error clearing lineups:", error.message);
+//     res.status(500).json({ message: "Failed to clear lineups.", error: error.message });
+//   }
+// });
+
+// // Provide the default export so that app.js can import it as a default module.
+// // export default router;
+
+
+// // router.post("/", async (req, res) => {
+// //     const { showId, categoryId, breedIds } = req.body;
+
+// //     // Debugging logs
+// //     console.log("Payload received:", req.body);
+
+// //     try {
+// //         // Validate the payload structure
+// //         if (!showId || !categoryId || !Array.isArray(breedIds) || breedIds.length === 0) {
+// //             return res.status(400).json({
+// //                 message: "Invalid payload. Ensure 'showId', 'categoryId', and 'breedIds' are provided.",
+// //             });
+// //         }
+
+// //         // Insert each breedId into the lineups table
+// //         const queries = breedIds.map(async (breedId) => {
+// //             try {
+// //                 console.log(`Inserting: showId=${showId}, categoryId=${categoryId}, breedId=${breedId}`);
+// //                 return await pool.query(
+// //                     "INSERT INTO lineups (show_id, category_id, breed_id) VALUES ($1, $2, $3) RETURNING *",
+// //                     [showId, categoryId, breedId]
+// //                 );
+// //             } catch (queryError) {
+// //                 console.error(`Error inserting for breedId=${breedId}:`, queryError.message);
+// //                 throw queryError;
+// //             }
+// //         });
+
+// //         // Await all queries
+// //         const results = await Promise.all(queries);
+// //         const savedLineups = results.map((result) => result.rows[0]);
+
+// //         console.log("Successfully saved lineups:", savedLineups);
+// //         res.status(201).json(savedLineups);
+// //     } catch (error) {
+// //         console.error("Error saving lineup:", error.stack);
+// //         res.status(500).json({ message: "Failed to save lineup.", error: error.message });
+// //     }
+// // });
