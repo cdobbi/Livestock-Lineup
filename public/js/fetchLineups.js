@@ -29,6 +29,7 @@ export const fetchAndRenderLineups = async (lineupContainer, showSelectorId) => 
 
         const showLineups = await response.json();
         console.log("Retrieved lineups from backend:", showLineups);
+        console.log("Retrieved lineups:", showLineups);
 
         if (showLineups.length === 0) {
             lineupContainer.innerHTML = "<p>No lineups saved.</p>";
