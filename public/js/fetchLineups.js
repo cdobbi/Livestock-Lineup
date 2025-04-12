@@ -56,26 +56,26 @@ export const renderLineups = (lineupContainer, showLineups) => {
         showName.textContent = `Lineup ${index + 1}: Category: ${lineup.category} - Show: ${lineup.show}`;
         showDiv.appendChild(showName);
 
-        // Create a breed list
+        // Create a breeds list
         const breedList = document.createElement("ul");
 
-        lineup.breeds.forEach((breed) => {
+        lineup.breeds.forEach((breeds) => {
             const breedItem = document.createElement("li");
 
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
-            checkbox.classList.add("breed-checkbox");
-            checkbox.dataset.breed = breed;
+            checkbox.classList.add("breeds-checkbox");
+            checkbox.dataset.breeds = breeds;
 
             const label = document.createElement("label");
-            label.textContent = breed;
+            label.textContent = breeds;
             label.style.cursor = "pointer"; // Indicates it's clickable
 
             // Minimal change: Add an event listener to the label to trigger a notification.
             label.addEventListener("click", (event) => {
                 event.stopPropagation(); // Prevents toggling the checkbox if not desired
-                console.log(`Breed ${breed} clicked in lineup: Category ${lineup.category}, Show ${lineup.show}`);
-                validateAndSendNotification(breed, lineup.category, lineup.show);
+                console.log(`breeds ${breeds} clicked in lineup: Category ${lineup.category}, Show ${lineup.show}`);
+                validateAndSendNotification(breeds, lineup.category, lineup.show);
             });
 
             breedItem.appendChild(checkbox);
