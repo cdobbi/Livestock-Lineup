@@ -82,7 +82,7 @@ router.delete("/", async (req, res) => {
 });
 
 // Provide the default export so that app.js can import it as a default module.
-export default router;
+// export default router;
 
 
 // router.post("/", async (req, res) => {
