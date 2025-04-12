@@ -25,7 +25,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../public")));
 
-const { pool } = pkg;
+// const { pool } = pkg;
 app.locals.pool = pool;
 const pusher = new Pusher({
     appId: process.env.app_id,
