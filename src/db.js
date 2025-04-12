@@ -1,4 +1,5 @@
 import pkg from "pg"; // Import the pg module as a default import
+const { Pool } = pkg; // Destructure Pool from the imported module
 
 // Create a new pool instance with the database connection details
 const pool = new Pool({
