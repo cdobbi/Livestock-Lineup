@@ -15,7 +15,6 @@ import breedsRoutes from "../routes/route-breeds.js";
 import notificationsRoutes from "../routes/route-notifications.js";
 import categoriesRoutes from "../routes/route-categories.js";
 
-// Resolve __dirname for ES 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
