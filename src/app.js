@@ -1,3 +1,4 @@
+
 // Contains the main Express application logic, including middleware, routes, and static file serving.
 // Uses express() to initialize the app and exports it as the default export.
 
@@ -13,7 +14,7 @@ import authRoutes from "../routes/route-auth.js";
 import codeRoutes from "../routes/route-codes.js";
 import submissionsRoutes from "../routes/route-submissions.js";
 import showsRoutes from "../routes/route-shows.js";
-import lineupsRoutes from "../routes/route-lineups.js"; // Now imports a default export
+import lineupsRoutes from "../routes/route-lineups.js"; // This now imports the default export
 import breedsRoutes from "../routes/route-breeds.js";
 import notificationsRoutes from "../routes/route-notifications.js";
 import categoriesRoutes from "../routes/route-categories.js";
@@ -56,9 +57,7 @@ app.use("/api/categories", categoriesRoutes);
 app.get("/api/test-db", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW()");
-    res
-      .status(200)
-      .json({ message: "Database connection successful!", time: result.rows[0] });
+    res.status(200).json({ message: "Database connection successful!", time: result.rows[0] });
   } catch (error) {
     console.error("Database connection error:", error);
     res.status(500).json({ message: "Database connection failed." });
@@ -81,7 +80,7 @@ app.use((err, req, res, next) => {
 export default app;
 
 
-// // Contains the main Express application logic, including middleware, routes, and static file serving.Uses express() to initialize the app and exports it as the default export.
+// // Contains the main Express application logic, including middleware, routes, and static file serving.
 
 // import express from "express";
 // import cors from "cors";
