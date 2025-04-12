@@ -1,10 +1,10 @@
 import { clearLineups } from './localStorage.js';
 
 // Initialize Clear Lineup button functionality
-export function clearLineups(clearLineupButton) {
+export function initClearLineupButton(clearLineupButton) {
     if (clearLineupButton) {
         clearLineupButton.addEventListener("click", () => {
-            // Clear lineups from localStorage
+            // Clear lineups from localStorage using the imported function
             clearLineups();
 
             // Remove the "active" class from all breed buttons
