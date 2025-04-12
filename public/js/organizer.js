@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.log("Payload being prepared:", {
                 categoryId,
                 showId,
-                breedIds: selectedBreeds,
+                breedId: selectedBreeds,
             });
 
             // Validate the payload before sending to the backend
