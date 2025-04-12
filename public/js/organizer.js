@@ -1,5 +1,5 @@
 import { fetchBreeds } from './fetchBreeds.js';
-import { saveLineup } from './saveLineup.js';
+import { saveLineup } from './saveLineups.js';
 import { initClearLineupButton } from './clearLineups.js';
 import { initFinishedButton } from './finishLineups.js';
 import { initPrintLineupButton } from './printLineups.js';
