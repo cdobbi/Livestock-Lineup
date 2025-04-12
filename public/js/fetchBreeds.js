@@ -17,7 +17,7 @@ export const fetchAndRenderBreeds = async (apiEndpoint, rabbitList) => {
         // Loop through each breed and create a button
         breeds.forEach((breed) => {
             // Use a fallback name if breed.name is missing
-            const breedName = breed.name || "breed_name";
+            const breedName = breed.name || "breeds";
             
             const button = document.createElement("button");
             button.className = "btn btn-outline-secondary btn-sm mx-1 my-1 breed-button";
