@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       alert(message);
 
-      activeBreedButtons.forEach((btn) => btn.classList.remove("active"));
+    //   activeBreedButtons.forEach((btn) => btn.classList.remove("active"));
     } catch (error) {
       console.error("Error saving lineup:", error);
       alert("Failed to save lineup. Please try again.");
