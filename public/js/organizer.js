@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       const message = `Category: ${categoryText}\nShow: ${showText}\nBreeds: ${selectedBreedNames.join(
         ", "
-      )}\nhas been saved. Create another lineup or click finished to continue.`;
+      )}\n\nSaved! Create another lineup or click finished to continue.`;
 
       alert(message);
 
