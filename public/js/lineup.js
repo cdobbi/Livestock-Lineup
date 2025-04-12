@@ -1,4 +1,7 @@
+import { fetchAndRenderLineups } from "./fetchLineups.js";
 import { validateAndSendNotification } from "./notifications.js";
+
+// This function displays the lineups given a container element and showLineups data.
 export function displayLineups(lineupContainer, showLineups) {
     console.log("Clearing lineup container...");
     lineupContainer.innerHTML = "";
@@ -29,9 +32,9 @@ export function displayLineups(lineupContainer, showLineups) {
                 const label = document.createElement("label");
                 label.htmlFor = `checkbox-${breed}`;
                 label.textContent = breed;
-                label.style.cursor = "pointer"; // Added to indicate the label is clickable
+                label.style.cursor = "pointer"; // Indicates the label is clickable
 
-                // Added event listener to trigger notification on label click
+                // When the label is clicked, trigger a notification.
                 label.addEventListener("click", (event) => {
                     event.stopPropagation(); // Prevent checkbox toggle if not desired
                     console.log(`Breed ${breed} clicked in lineup: Category ${category}, Show ${show}`);
@@ -48,3 +51,14 @@ export function displayLineups(lineupContainer, showLineups) {
         });
     });
 }
+
+// Automatically fetch and render lineups on lineup.html when the DOM is loaded.
+document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("lineup-container");
+    if (!container) {
+        console.error("lineup-container not found on lineup.html");
+        return;
+    }
+    // Since lineup.html likely doesn't include a show selector, we pass null as the second argument.
+    fetchAndRenderLineups(container, null);
+});
