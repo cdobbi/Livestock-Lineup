@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Fetch and display breeds using fetchBreeds
     const apiBaseUrl = "https://livestock-lineup.onrender.com/api";
-    fetchBreeds(`${apiBaseUrl}/breeds`, rabbitList);
+    fetchAndRenderBreeds(`${apiBaseUrl}/breeds`, rabbitList);
 
     // Initialize Save Lineup button
     if (saveLineupButton) {
