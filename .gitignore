@@ -29,7 +29,7 @@ Thumbs.db
 *.cache
 .cache/
 
-*data
+/data/
 
 /data/data.js
 /data/organizer.js
