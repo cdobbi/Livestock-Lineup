@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
-
     // Show error if any elements weren't found
     if (!saveLineupButton) console.error("Save Lineup button not found");
     if (!printLineupButton) console.error("Print Preview button not found");

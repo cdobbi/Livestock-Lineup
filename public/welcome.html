@@ -16,31 +16,10 @@
         <p class="lead">Please choose an option to continue:</p>
         <div class="row justify-content-center my-4 align-items-center">
             <div class="col-md-4">
-                <button id="organizer-button" class="btn btn-info btn-block" data-toggle="modal"
-                    data-target="#organizerModal">Organizer</button>
+                <a href="organizer.html" class="btn btn-secondary btn-block" id="organizer-button">Organizer</a>
             </div>
             <div class="col-md-4">
                 <a href="exhibitor.html" class="btn btn-secondary btn-block" id="exhibitor-button">Exhibitor</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Existing Organizer Modal remains unchanged -->
-    <div class="modal fade" id="organizerModal" tabindex="-1" role="dialog" aria-labelledby="organizerModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="organizerModalLabel">Organizer Code</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="password" id="organizer-code" class="form-control" placeholder="Enter code">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="verify-code">Verify</button>
-                </div>
             </div>
         </div>
     </div>
@@ -58,15 +37,9 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="./js/verify.js" type="module"></script>
 </body>
 
 </html>
-
-
-
-<!-- // Does this file need to go into the uiHandlers.bundle.js file? Also which html file does it belong in if any? If it doesn't belong in an HTML or any of the other files, how is it initialized, called or used? What is it's purpose? Please, verify, ensure that this file is updated to use ES Modals and dont use the weird notations. ensure that all variables, functions, and wording are consistent across files and that everything links properly. -->
