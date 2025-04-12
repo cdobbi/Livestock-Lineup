@@ -1,3 +1,5 @@
+import { validateAndSendNotification } from "./notifications.js";
+
 export function displayLineups(lineupContainer, showLineups) {
     console.log("Clearing lineup container...");
     lineupContainer.innerHTML = "";
@@ -28,6 +30,14 @@ export function displayLineups(lineupContainer, showLineups) {
                 const label = document.createElement("label");
                 label.htmlFor = `checkbox-${breed}`;
                 label.textContent = breed;
+                label.style.cursor = "pointer"; // Added to indicate the label is clickable
+
+                // Added event listener to trigger notification on label click
+                label.addEventListener("click", (event) => {
+                    event.stopPropagation(); // Prevent checkbox toggle if not desired
+                    console.log(`Breed ${breed} clicked in lineup: Category ${category}, Show ${show}`);
+                    validateAndSendNotification(breed, category, show);
+                });
 
                 breedItem.appendChild(checkbox);
                 breedItem.appendChild(label);
