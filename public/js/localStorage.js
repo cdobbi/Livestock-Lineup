@@ -1,4 +1,18 @@
-import { hasLineups, getLineups, clearLineups } from './localStorage.js';
+export function hasLineups() {
+    // Check if "lineups" exists in localStorage.
+    return localStorage.getItem("lineups") !== null;
+}
+
+export function getLineups() {
+    // Retrieve and parse the "lineups" data
+    const lineups = localStorage.getItem("lineups");
+    return lineups ? JSON.parse(lineups) : [];
+}
+
+export function clearLineups() {
+    // Remove the "lineups" data from localStorage.
+    localStorage.removeItem("lineups");
+}
 
 // Initialize Finished button functionality
 export function initFinishedButton(finishedButton) {
