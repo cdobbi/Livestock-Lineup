@@ -5,82 +5,75 @@ import { initFinishedButton } from './finishLineups.js';
 import { initPrintLineupButton } from './printLineups.js';
 
 document.addEventListener("DOMContentLoaded", async function () {
-    const apiBaseUrl = "https://livestock-lineup.onrender.com/api";
+  const apiBaseUrl = "https://livestock-lineup.onrender.com/api";
 
-    // Select required DOM elements
-    const saveLineupButton = document.getElementById("save-lineup");
-    const printLineupButton = document.getElementById("print-lineup");
-    const clearLineupButton = document.getElementById("clear-lineup");
-    const finishedButton = document.getElementById("finished");
-    const rabbitList = document.getElementById("rabbit-list");
+  // Select required DOM elements
+  const saveLineupButton = document.getElementById("save-lineup");
+  const printLineupButton = document.getElementById("print-lineup");
+  const clearLineupButton = document.getElementById("clear-lineup");
+  const finishedButton = document.getElementById("finished");
+  const rabbitList = document.getElementById("rabbit-list");
 
-    // Check if required elements exist
-    if (!rabbitList) {
-        console.error("Rabbit list element not found");
-        return;
-    }
-    if (!saveLineupButton) console.error("Save Lineup button not found");
-    if (!printLineupButton) console.error("Print Preview button not found");
-    if (!clearLineupButton) console.error("Clear Lineup button not found");
-    if (!finishedButton) console.error("Finished button not found");
+  // Check if required elements exist
+  if (!rabbitList) {
+    console.error("Rabbit list element not found");
+    return;
+  }
+  if (!saveLineupButton) {
+    console.error("Save Lineup button not found");
+    return;
+  }
+  if (!printLineupButton) console.error("Print Preview button not found");
+  if (!clearLineupButton) console.error("Clear Lineup button not found");
+  if (!finishedButton) console.error("Finished button not found");
 
-    // Fetch and display breeds using the imported fetchAndRenderBreeds function
-    fetchAndRenderBreeds(`${apiBaseUrl}/breeds`, rabbitList);
+  // Fetch and display breeds using the imported fetchAndRenderBreeds function
+  // (Ensure this endpoint is valid and returns a proper breeds array)
+  fetchAndRenderBreeds(`${apiBaseUrl}/breeds`, rabbitList);
 
-    // Initialize Save Lineup button
-    if (saveLineupButton) {
-        saveLineupButton.addEventListener("click", async () => {
-            // Get selected category, show, and breeds
-            const categoryEl = document.getElementById("category"); // Dropdown for category
-            const showEl = document.getElementById("show"); // Dropdown for show
-            const categoryId = categoryEl ? categoryEl.value : ""; // Get selected category ID
-            const showId = showEl ? showEl.value : ""; // Get selected show ID
-            const breedCheckboxes = document.querySelectorAll("input[type='checkbox']:checked"); // Checked breeds
-            const selectedBreeds = Array.from(breedCheckboxes).map((checkbox) => checkbox.value);
+  // Initialize Save Lineup button
+  saveLineupButton.addEventListener("click", async () => {
+    // Get selected category and show values from dropdowns
+    const categoryEl = document.getElementById("category");
+    const showEl = document.getElementById("show");
+    const categoryId = categoryEl ? categoryEl.value : "";
+    const showId = showEl ? showEl.value : "";
 
-            // Debugging: Log the prepared payload
-            console.log("Payload being prepared:", {
-                categoryId,
-                showId,
-                breedIds: selectedBreeds,
-            });
+    // IMPORTANT:
+    // Select breed buttons that have the "active" class.
+    const breedButtons = document.querySelectorAll(".breed-button.active");
+    const selectedBreeds = Array.from(breedButtons).map((btn) => btn.dataset.breed);
 
-            // Validate the payload before sending to the backend
-            if (!categoryId || !showId || selectedBreeds.length === 0) {
-                alert("Please select a category, show, and at least one breed.");
-                console.error("Invalid payload:", { categoryId, showId, breedIds: selectedBreeds });
-                return;
-            }
+    // Debugging: Log the prepared payload
+    console.log("Payload being prepared:", {
+      categoryId,
+      showId,
+      breedIds: selectedBreeds,
+    });
 
-            // Call the saveLineup function with validated data
-            try {
-                await saveLineup(categoryId, showId, selectedBreeds, `${apiBaseUrl}/lineups`);
-                alert("Lineup saved successfully!");
-                // Reset selections for next lineup
-                breedCheckboxes.forEach((checkbox) => (checkbox.checked = false));
-            } catch (error) {
-                console.error("Error saving lineup:", error);
-                alert("Failed to save lineup. Please try again.");
-            }
-        });
+    // Validate the payload before sending to the backend
+    if (!categoryId || !showId || selectedBreeds.length === 0) {
+      alert("Please select a category, show, and at least one breed.");
+      console.error("Invalid payload:", { categoryId, showId, breedIds: selectedBreeds });
+      return;
     }
 
-    
-    if (saveLineupButton) {
-        fetchAndRenderBreeds(saveLineupButton, rabbitList);
+    // Call the saveLineup function with validated data
+    try {
+      await saveLineup(categoryId, showId, selectedBreeds, `${apiBaseUrl}/lineups`);
+      alert("Lineup saved successfully!");
+      // Reset active state on breed buttons for next lineup
+      document.querySelectorAll(".breed-button.active").forEach((btn) => {
+        btn.classList.remove("active");
+      });
+    } catch (error) {
+      console.error("Error saving lineup:", error);
+      alert("Failed to save lineup. Please try again.");
     }
-    // Initialize Print Preview button
-    if (printLineupButton) {
-        initPrintLineupButton(printLineupButton);
-    }
+  });
 
-    // Initialize Clear Lineup button
-    if (clearLineupButton) {
-        initClearLineupButton(clearLineupButton);
-    }
-
-    // Initialize Finished button
-    if (finishedButton) {
-        initFinishedButton(finishedButton);
-    }
+  // Initialize other buttons
+  if (printLineupButton) initPrintLineupButton(printLineupButton);
+  if (clearLineupButton) initClearLineupButton(clearLineupButton);
+  if (finishedButton) initFinishedButton(finishedButton);
 });
