@@ -1,17 +1,17 @@
 // pusher-config.js
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-// In a production system, you’ll want to use environment variables for these values.
+// Read public Pusher configuration from environment variables.
+// Render will supply PUSHER_APP_KEY and PUSHER_APP_CLUSTER via the environment.
 const pusherConfig = {
-  key: process.env.PUSHER_APP_KEY || 'your-pusher-key-here',
-  cluster: process.env.PUSHER_APP_CLUSTER || 'your-pusher-cluster-here'
+  key: process.env.PUSHER_APP_KEY,      // Public Pusher key
+  cluster: process.env.PUSHER_APP_CLUSTER // Pusher cluster (e.g. "mt1")
 };
 
-// When the frontend makes a GET request to /pusher-config,
-// send back the configuration details.
+// Define the GET route for /pusher-config.
 router.get('/', (req, res) => {
   res.json(pusherConfig);
 });
 
-module.exports = router;
+export default router;
