@@ -1,9 +1,10 @@
-import { fetchBreeds, saveLineup } from './fetchBreeds.js, ./fetchLineups.js';
+import { fetchAndRenderBreeds } from './fetchBreeds.js';
+import { saveLineup } from './saveLineup.js';
 import { initClearLineupButton } from './clearLineups.js';
 import { initFinishedButton } from './finishLineups.js';
 import { initPrintLineupButton } from './printLineups.js';
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     // Select all button elements
     const apiEndpoint = "https://livestock-lineup.onrender.com/api/breeds";
     const saveLineupButton = document.getElementById("save-lineup");
@@ -11,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const clearLineupButton = document.getElementById("clear-lineup");
     const finishedButton = document.getElementById("finished");
     const rabbitList = document.getElementById("rabbit-list");
-    const fetchAndRenderBreeds = async (apiEndpoint, rabbitList) => {
 
         try {
             const response = await fetch(apiEndpoint);
@@ -39,10 +39,9 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error fetching rabbit breeds:", error);
             rabbitList.innerHTML = "<div class='text-danger'>Failed to load rabbit breeds.</div>";
         }
-    };
-
+    
     // Show error if any elements weren't found
-    if (!saveLineupButton) console.error("Save Lineup button not found");
+    if (!saveLineupButton) console.error("Save Lineup button not found");   
     if (!printLineupButton) console.error("Print Preview button not found");
     if (!clearLineupButton) console.error("Clear Lineup button not found");
     if (!finishedButton) console.error("Finished button not found");
