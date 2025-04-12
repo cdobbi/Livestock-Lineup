@@ -4,13 +4,13 @@
     "main": "scripts/server.cjs",
     "scripts": {
         "build": "webpack",
-        "start": "node scripts/server.cjs",
+        "start": "node scripts/server.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "description": "Table-Time 🐇📣\r Welcome to Table-Time, the premier app for organizing rabbit shows and ensuring seamless communication between organizers and exhibitors. Manage schedules, send alerts, and streamline the lineup process to make every rabbit show a success!",
+    "description": "Livestock-Lineup 🐇📣\r Welcome to Livestock-Lineup, the premier app for organizing rabbit shows and ensuring seamless communication between organizers and exhibitors. Manage schedules, send alerts, and streamline the lineup process to make every rabbit show a success!",
     "dependencies": {
         "bcrypt": "^5.1.1",
         "body-parser": "^2.2.0",
@@ -29,5 +29,7 @@
     "devDependencies": {
         "webpack": "^5.99.5",
         "webpack-cli": "^6.0.1"
-    }
+    },
+    
+        "type": "module"
 }
