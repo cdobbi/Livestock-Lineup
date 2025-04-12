@@ -65,6 +65,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
+    
+    if (saveLineupButton) {
+        fetchAndRenderBreeds(saveLineupButton, rabbitList);
+    }
     // Initialize Print Preview button
     if (printLineupButton) {
         initPrintLineupButton(printLineupButton);
