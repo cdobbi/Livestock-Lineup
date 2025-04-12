@@ -7,7 +7,7 @@ import { initPrintLineupButton } from './printLineups.js';
 document.addEventListener("DOMContentLoaded", async function () {
     const apiBaseUrl = "https://livestock-lineup.onrender.com/api";
 
-    // Select the required DOM elements
+    // Select required DOM elements
     const saveLineupButton = document.getElementById("save-lineup");
     const printLineupButton = document.getElementById("print-lineup");
     const clearLineupButton = document.getElementById("clear-lineup");
@@ -31,39 +31,52 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (saveLineupButton) {
         saveLineupButton.addEventListener("click", async () => {
             // Get selected category, show, and breeds
-            const categoryEl = document.getElementById("category");
-            const showEl = document.getElementById("show");
-            const categoryId = categoryEl ? categoryEl.value : ""; // Changed to categoryId to match backend
-            const showId = showEl ? showEl.value : ""; // Changed to showId to match backend
-            const breedCheckboxes = document.querySelectorAll(".breed-checkbox:checked"); // Checkbox selectors
+            const categoryEl = document.getElementById("category"); // Dropdown for category
+            const showEl = document.getElementById("show"); // Dropdown for show
+            const categoryId = categoryEl ? categoryEl.value : ""; // Get selected category ID
+            const showId = showEl ? showEl.value : ""; // Get selected show ID
+            const breedCheckboxes = document.querySelectorAll("input[type='checkbox']:checked"); // Checked breeds
             const selectedBreeds = Array.from(breedCheckboxes).map((checkbox) => checkbox.value);
 
-            // Debugging: Log the payload to ensure the correct structure before sending
+            // Debugging: Log the prepared payload
             console.log("Payload being prepared:", {
                 categoryId,
                 showId,
-                breedIds: selectedBreeds, // Changed to breedIds to match backend
+                breedIds: selectedBreeds,
             });
 
-            // Validate the payload before calling saveLineup
+            // Validate the payload before sending to the backend
             if (!categoryId || !showId || selectedBreeds.length === 0) {
                 alert("Please select a category, show, and at least one breed.");
                 console.error("Invalid payload:", { categoryId, showId, breedIds: selectedBreeds });
                 return;
             }
 
-            // Call the saveLineup function and pass the validated payload
-            await saveLineup(categoryId, showId, selectedBreeds, `${apiBaseUrl}/lineups`);
-
-            // Reset selections for next lineup
-            document.querySelectorAll(".breed-checkbox:checked").forEach((checkbox) => {
-                checkbox.checked = false;
-            });
+            // Call the saveLineup function with validated data
+            try {
+                await saveLineup(categoryId, showId, selectedBreeds, `${apiBaseUrl}/lineups`);
+                alert("Lineup saved successfully!");
+                // Reset selections for next lineup
+                breedCheckboxes.forEach((checkbox) => (checkbox.checked = false));
+            } catch (error) {
+                console.error("Error saving lineup:", error);
+                alert("Failed to save lineup. Please try again.");
+            }
         });
     }
 
-    // Initialize other buttons
-    initPrintLineupButton(printLineupButton);
-    initClearLineupButton(clearLineupButton);
-    initFinishedButton(finishedButton);
+    // Initialize Print Preview button
+    if (printLineupButton) {
+        initPrintLineupButton(printLineupButton);
+    }
+
+    // Initialize Clear Lineup button
+    if (clearLineupButton) {
+        initClearLineupButton(clearLineupButton);
+    }
+
+    // Initialize Finished button
+    if (finishedButton) {
+        initFinishedButton(finishedButton);
+    }
 });
