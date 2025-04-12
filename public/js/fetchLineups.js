@@ -1,91 +1,70 @@
-import { validateAndSendNotification } from "./notifications.js";
+document.addEventListener("DOMContentLoaded", function () {
+    const notificationSound = new Audio("../sounds/alert.mp3");
+    const displayedNotifications = new Set();
 
-export const fetchAndRenderLineups = async (lineupContainer, showSelectorId) => {
-    // Verify lineup-container exists
-    if (!lineupContainer) {
-        console.error("lineup-container element not found in the DOM.");
-        return;
-    }
-
-    // Try to get a selected show ID if a showSelectorId was provided
-    let selectedShowId = null;
-    if (showSelectorId) {
-        const showSelector = document.getElementById(showSelectorId);
-        if (showSelector) {
-            selectedShowId = showSelector.value;
-        } else {
-            console.warn("Show-selector element not found. Fetching all lineups.");
-        }
-    }
-
-    // Build the URL – if no show is specified, fetch all lineups.
-    const url = selectedShowId ? `/api/lineups?showId=${selectedShowId}` : `/api/lineups`;
-
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch lineups: ${response.statusText}`);
-        }
-        console.log("Retrieved lineups:", showLineups);
-
-        const showLineups = await response.json();
-        console.log("Retrieved lineups from backend:", showLineups);
-        console.log("Retrieved lineups:", showLineups);
-
-        if (showLineups.length === 0) {
-            lineupContainer.innerHTML = "<p>No lineups saved.</p>";
-            console.warn("No lineups found in the backend.");
+    function showModal(message) {
+        const modal = document.getElementById("notificationModal");
+        if (!modal) {
+            alert(message);
             return;
         }
+        document.getElementById("modalMessage").innerText = message;
+        modal.style.display = "block";
 
-        // Render the lineups
-        renderLineups(lineupContainer, showLineups);
-    } catch (error) {
-        console.error("Error fetching or rendering lineups:", error);
-        lineupContainer.innerHTML = "<p>Failed to load lineups. Please try again later.</p>";
+        // Auto-dismiss after 5 seconds (5000ms)
+        setTimeout(() => {
+            modal.style.display = "none";
+        }, 5000);
     }
-};
 
-export const renderLineups = (lineupContainer, showLineups) => {
-    lineupContainer.innerHTML = ""; // Clear the container
+    function notifyUser(breed) {
+        notificationSound.play();
+        setTimeout(() => {
+            showModal(`${breed} is up next!\n Take  ${breed} to ${show}.\nGood luck!`);
+        }, 500);
+    }
 
-    showLineups.forEach((lineup, index) => {
-        const showDiv = document.createElement("div");
+    async function checkForNotifications() {
+        try {
+            const exhibitorResponse = await fetch("https://livestock-lineup.onrender.com/api/shows");
+            if (!exhibitorResponse.ok) {
+                throw new Error("Failed to fetch exhibitor entries.");
+            }
+            const exhibitorEntries = await exhibitorResponse.json();
+            console.log("Exhibitor entries fetched:", exhibitorEntries);
 
-        const showName = document.createElement("h3");
-        showName.textContent = `Lineup ${index + 1}: Category: ${lineup.category} - Show: ${lineup.show}`;
-        showDiv.appendChild(showName);
+            if (!exhibitorEntries || exhibitorEntries.length === 0) {
+                console.warn("No exhibitor entries found.");
+                return;
+            }
 
-        // Create a breeds list
-        const breedList = document.createElement("ul");
+            // Fetch notifications from the backend
+            const response = await fetch("https://livestock-lineup.onrender.com/api/notifications");
+            if (!response.ok) {
+                throw new Error("Failed to fetch notifications.");
+            }
+            const notifications = await response.json();
 
-        lineup.breeds.forEach((breeds) => {
-            const breedItem = document.createElement("li");
+            // Check for matching notifications
+            notifications.forEach((notification) => {
+                const isBreedSelectedByExhibitor = exhibitorEntries.show((exhibitor) =>
+                    exhibitor.submissions.show((submission) =>
+                        submission.breeds.includes(notification.breed)
+                    )
+                );
 
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.classList.add("breeds-checkbox");
-            checkbox.dataset.breeds = breeds;
-
-            const label = document.createElement("label");
-            label.textContent = breeds;
-            label.style.cursor = "pointer"; // Indicates it's clickable
-
-            // Minimal change: Add an event listener to the label to trigger a notification.
-            label.addEventListener("click", (event) => {
-                event.stopPropagation(); // Prevents toggling the checkbox if not desired
-                console.log(`breeds ${breeds} clicked in lineup: Category ${lineup.category}, Show ${lineup.show}`);
-                validateAndSendNotification(breeds, lineup.category, lineup.show);
+                if (isBreedSelectedByExhibitor && !displayedNotifications.has(notification.breed)) {
+                    displayedNotifications.add(notification.breed);
+                    notifyUser(notification.breed);
+                }
             });
+        } catch (error) {
+            console.error("Error fetching notifications:", error);
+        }
+    }
 
-            breedItem.appendChild(checkbox);
-            breedItem.appendChild(label);
-            breedList.appendChild(breedItem);
-        });
+    setInterval(checkForNotifications, 30000);
 
-        showDiv.appendChild(breedList);
-        lineupContainer.appendChild(showDiv);
-    });
-
-    console.log("Lineups rendered successfully!");
-};
+    // Expose notifyUser globally so other files (like exhibitor.js and displayLineup.js) can use it
+    window.notifyUser = notifyUser;
+});

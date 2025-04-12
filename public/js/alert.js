@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Check for matching notifications
             notifications.forEach((notification) => {
-                const isBreedSelectedByExhibitor = exhibitorEntries.show((exhibitor) =>
-                    exhibitor.submissions.show((submission) =>
+                const isBreedSelectedByExhibitor = exhibitorEntries.some((exhibitor) =>
+                    exhibitor.submissions.some((submission) =>
                         submission.breeds.includes(notification.breed)
                     )
                 );
