@@ -3,19 +3,23 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import express from "express";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 
 // Resolve __dirname for ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Debug: log the resolved path for clarity
-const appPath = path.join(__dirname, "../src/app.js");
+const appPath = path.join(__dirname, "./src/app.js");
 console.log("Loading Express app from:", appPath);
 
+// Convert the absolute path to a file:// URL
+const appUrl = pathToFileURL(appPath).href;
+
 // Dynamically import the app module
-const { default: app } = await import(appPath);
+const { default: app } = await import(appUrl);
 
 const port = process.env.PORT || 3000; // Use the port from environment variables or default to 3000
 
