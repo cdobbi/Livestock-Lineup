@@ -1,3 +1,5 @@
+import { validateAndSendNotification } from "./notifications.js";
+
 export const fetchAndRenderLineups = async (lineupContainer, showSelectorId) => {
     // Verify lineup-container exists
     if (!lineupContainer) {
@@ -67,6 +69,14 @@ export const renderLineups = (lineupContainer, showLineups) => {
 
             const label = document.createElement("label");
             label.textContent = breed;
+            label.style.cursor = "pointer"; // Indicates it's clickable
+
+            // Minimal change: Add event listener to label to trigger a notification.
+            label.addEventListener("click", (event) => {
+                event.stopPropagation(); // Prevents toggling the checkbox if not desired
+                console.log(`Breed ${breed} clicked in lineup: Category ${lineup.category}, Show ${lineup.show}`);
+                validateAndSendNotification(breed, lineup.category, lineup.show);
+            });
 
             breedItem.appendChild(checkbox);
             breedItem.appendChild(label);
