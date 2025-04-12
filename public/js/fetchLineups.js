@@ -7,24 +7,22 @@ export const fetchAndRenderLineups = async (lineupContainer, showSelectorId) => 
         return;
     }
 
-    // Verify show-selector exists and get its value
-    const showSelector = document.getElementById(showSelectorId);
-    if (!showSelector) {
-        console.error("Error: show-selector element not found.");
-        lineupContainer.innerHTML = "<p>Please select a show to view its lineups.</p>";
-        return;
+    // Try to get a selected show ID if a showSelectorId was provided
+    let selectedShowId = null;
+    if (showSelectorId) {
+        const showSelector = document.getElementById(showSelectorId);
+        if (showSelector) {
+            selectedShowId = showSelector.value;
+        } else {
+            console.warn("Show-selector element not found. Fetching all lineups.");
+        }
     }
-    const selectedShowId = showSelector.value;
+
+    // Build the URL – if no show is specified, fetch all lineups.
+    const url = selectedShowId ? `/api/lineups?showId=${selectedShowId}` : `/api/lineups`;
 
     try {
-        // Fetch lineup data based on the selected showId
-        if (!selectedShowId) {
-            console.warn("No show selected.");
-            lineupContainer.innerHTML = "<p>Please select a show to view its lineups.</p>";
-            return;
-        }
-
-        const response = await fetch(`/api/lineups?showId=${selectedShowId}`);
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Failed to fetch lineups: ${response.statusText}`);
         }
@@ -71,7 +69,7 @@ export const renderLineups = (lineupContainer, showLineups) => {
             label.textContent = breed;
             label.style.cursor = "pointer"; // Indicates it's clickable
 
-            // Minimal change: Add event listener to label to trigger a notification.
+            // Minimal change: Add an event listener to the label to trigger a notification.
             label.addEventListener("click", (event) => {
                 event.stopPropagation(); // Prevents toggling the checkbox if not desired
                 console.log(`Breed ${breed} clicked in lineup: Category ${lineup.category}, Show ${lineup.show}`);
