@@ -1,7 +1,7 @@
 {
     "name": "livestock-lineup",
     "version": "1.0.0",
-    "main": "scripts/server.cjs",
+    "main": "scripts/server.js",
     "scripts": {
         "build": "webpack",
         "start": "node scripts/server.js",
@@ -30,6 +30,5 @@
         "webpack": "^5.99.5",
         "webpack-cli": "^6.0.1"
     },
-    
-        "type": "module"
+    "type": "module"
 }
