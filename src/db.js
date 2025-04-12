@@ -1,13 +1,10 @@
-import pkg from "pg"; // Import the pg module as a default import
-const { Pool } = pkg; // Destructure Pool from the imported module
-
-// Create a new pool instance with the database connection details
+import pkg from "pg";
+const { Pool } = pkg; 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL, // Use the DATABASE_URL from the .env file
+    connectionString: process.env.DATABASE_URL,
     ssl: {
-        rejectUnauthorized: false, // Allow self-signed certificates for SSL
+        rejectUnauthorized: false,
     },
 });
 
-// Export the pool object for use in other files
 export default pool;

@@ -1,10 +1,3 @@
-/**
- * This file provides utility functions and event handlers to manage user interactions and dynamically update the user interface (UI) on the exhibitor.html page.
- * It includes reusable functions for rendering UI elements, handling user input, and managing dynamic content such as breed options or notifications.
- * These handlers ensure a responsive and interactive experience for exhibitors by updating the page based on user actions or backend data.
- */
-
-// Use `require` to import dependencies
 const fetchAndRenderBreeds = require("./fetchBreeds.js").fetchAndRenderBreeds;
 const saveLineup = require("../scripts/lineupActions.js").saveLineup;
 
