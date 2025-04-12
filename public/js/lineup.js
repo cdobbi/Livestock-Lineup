@@ -1,5 +1,4 @@
 import { validateAndSendNotification } from "./notifications.js";
-
 export function displayLineups(lineupContainer, showLineups) {
     console.log("Clearing lineup container...");
     lineupContainer.innerHTML = "";
