@@ -5,8 +5,7 @@
 import express from "express";
 import cors from "cors";
 import path from "path";
-import Pusher from "pusher";
-import pool from "./db.js";
+import pusherConfigRouter from "./routes/pusher-config.js";import pool from "./db.js";
 import { fileURLToPath } from "url";
 import routeEx from "../routes/route-ex.js";
 import routeOr from "../routes/route-or.js";
@@ -43,6 +42,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/pusher-config", pusherConfigRouter);
 app.use("/api/exhibitors", routeEx);
 app.use("/api/organizers", routeOr);
 app.use("/api/auth", authRoutes);
