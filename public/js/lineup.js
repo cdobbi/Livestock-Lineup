@@ -63,32 +63,64 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchAndRenderLineups(container, null);
 });
 
+// document.addEventListener("DOMContentLoaded", () => {
+//     // Add click event listeners to all breed elements
+//     document.querySelectorAll(".breed-item").forEach((breedElement) => {
+//       breedElement.addEventListener("click", async () => {
+//         const breedId = breedElement.dataset.breedId; // Assuming breedId is stored in a data attribute
+//         const showId = breedElement.dataset.showId; // Assuming showId is stored in a data attribute
+//         const categoryId = breedElement.dataset.categoryId; // Assuming categoryId is stored in a data attribute
+  
+//         try {
+//           const response = await fetch("/api/lineups/notify", {
+//             method: "POST",
+//             headers: {
+//               "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({ breedId, showId, categoryId }),
+//           });
+  
+//           if (!response.ok) {
+//             throw new Error("Failed to send notification.");
+//           }
+  
+//           const data = await response.json();
+//           console.log("Notification sent successfully:", data.message);
+//         } catch (error) {
+//           console.error("Error sending notification:", error);
+//         }
+//       });
+//     });
+
 document.addEventListener("DOMContentLoaded", () => {
-    // Add click event listeners to all breed elements
-    document.querySelectorAll(".breed-item").forEach((breedElement) => {
-      breedElement.addEventListener("click", async () => {
-        const breedId = breedElement.dataset.breedId; // Assuming breedId is stored in a data attribute
-        const showId = breedElement.dataset.showId; // Assuming showId is stored in a data attribute
-        const categoryId = breedElement.dataset.categoryId; // Assuming categoryId is stored in a data attribute
-  
-        try {
-          const response = await fetch("/api/lineups/notify", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ breedId, showId, categoryId }),
-          });
-  
-          if (!response.ok) {
-            throw new Error("Failed to send notification.");
-          }
-  
-          const data = await response.json();
-          console.log("Notification sent successfully:", data.message);
-        } catch (error) {
-          console.error("Error sending notification:", error);
-        }
-      });
+    const breedButtons = document.querySelectorAll(".breed-button");
+
+    breedButtons.forEach((button) => {
+        button.addEventListener("click", async () => {
+            const breedId = button.dataset.breedId;
+            const categoryId = button.dataset.categoryId;
+            const showId = button.dataset.showId;
+
+            if (!breedId || !categoryId || !showId) {
+                console.error("Missing data attributes for breed button.");
+                return;
+            }
+
+            try {
+                const response = await fetch("https://livestock-lineup.onrender.com/api/notify", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ breed_id: breedId, category_id: categoryId, show_id: showId }),
+                });
+
+                if (response.ok) {
+                    console.log(`Notification sent for Breed ID: ${breedId}`);
+                } else {
+                    console.error("Failed to send notification:", await response.text());
+                }
+            } catch (error) {
+                console.error("Error sending notification:", error);
+            }
+        });
     });
-  });
+});

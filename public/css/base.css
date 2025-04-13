@@ -1,4 +1,16 @@
-/* General Styles */
+    /* General Styles */
+*
+html {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: cursive;
+    align-items: center;
+    justify-content: center;
+}
+
+
 body {
     background-color: #f3efe7f7;
     margin: 0;
@@ -145,11 +157,7 @@ h1.bg-secondary {
     border: 2px solid red;
 }
 
-.tablet-container {
-    width: 90%;
-    max-width: 768px;
-    margin: 0 auto;
-}
+
 
 #flipping-card {
     display: none;
@@ -164,9 +172,11 @@ h1.bg-secondary {
 }
 
 .flipping-card {
-    width: 250px;
-    height: 100px;
-    perspective: 1000px;
+    width: 300px;
+    height: 150px;
+    margin: 0 auto;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
 }
 
 .flipping-card-inner {
@@ -186,7 +196,7 @@ h1.bg-secondary {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 16px;
+    font-size: 1.2rem;
     font-weight: bold;
     color: black;
     background-color: #d1c6aef7;
@@ -195,7 +205,7 @@ h1.bg-secondary {
 
 .flipping-card-back {
     transform: rotateY(180deg);
-    background-color: #418082;
+    background-color: #25484a;
     color: white;
 }
 
