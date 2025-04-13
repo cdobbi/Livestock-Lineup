@@ -1,5 +1,4 @@
-import Pusher from "pusher-js";
-
+import Pusher from "../node_modules/pusher-js/dist/web/pusher.js";
 const NOTIFICATION_SOUND_PATH = "/sounds/alert.mp3";
 const NOTIFICATION_ICON_PATH = "/images/notification-icon.png";
 const PUSHER_CHANNEL_NAME = "livestock-lineup";
