@@ -97,6 +97,7 @@ h1.bg-secondary {
 .main-content {
     width: 80%;
     max-width: 1200px;
+    left: 50%;
     margin: 0 auto;
     padding: 20px;
 }
@@ -405,4 +406,13 @@ h4,
 
 #printContainer {
     white-space: pre-wrap;
+}
+
+html {
+    scroll-behavior: smooth;
+    max-width: 1200px;
+    padding: 0;
+    left: 50%;
+    margin: 0 auto;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
