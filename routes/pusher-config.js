@@ -1,17 +1,39 @@
-// pusher-config.js
-import express from 'express';
+import express from "express";
+import Pusher from "pusher";
+
 const router = express.Router();
 
-// Read public Pusher configuration from environment variables.
-// Render will supply PUSHER_APP_KEY and PUSHER_APP_CLUSTER via the environment.
+// Public Pusher configuration for frontend clients
 const pusherConfig = {
-  key: process.env.PUSHER_APP_KEY,      // Public Pusher key
-  cluster: process.env.PUSHER_APP_CLUSTER // Pusher cluster (e.g. "mt1")
+  key: process.env.PUSHER_APP_KEY, // Public Pusher key
+  cluster: process.env.PUSHER_APP_CLUSTER, // Pusher cluster (e.g., "mt1")
 };
 
-// Define the GET route for /pusher-config.
-router.get('/', (req, res) => {
+// Private Pusher instance for server-side operations
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID, // Private Pusher app ID
+  key: process.env.PUSHER_APP_KEY, // Public Pusher key
+  secret: process.env.PUSHER_APP_SECRET, // Private Pusher secret
+  cluster: process.env.PUSHER_APP_CLUSTER, // Pusher cluster (e.g., "mt1")
+  useTLS: true,
+});
+
+// Define the GET route for /pusher-config (for frontend clients)
+router.get("/", (req, res) => {
   res.json(pusherConfig);
+});
+
+// Example POST route to trigger a Pusher event
+router.post("/trigger", (req, res) => {
+  const { channel, event, data } = req.body;
+
+  try {
+    pusher.trigger(channel, event, data);
+    res.status(200).json({ message: "Event triggered successfully!" });
+  } catch (error) {
+    console.error("Error triggering Pusher event:", error);
+    res.status(500).json({ message: "Failed to trigger event." });
+  }
 });
 
 export default router;

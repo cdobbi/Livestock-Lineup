@@ -1,6 +1,7 @@
 
 // Contains the main Express application logic, including middleware, routes, and static file serving.
 // Uses express() to initialize the app and exports it as the default export.
+import Pusher from "pusher";
 import pool from './db.js';
 import express from "express";
 import cors from "cors";
@@ -22,6 +23,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 
+app.use("/pusher-config", pusherConfigRouter);
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
