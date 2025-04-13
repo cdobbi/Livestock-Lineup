@@ -308,6 +308,20 @@ h2 {
     font-family: cursive;
 }
 
+h3.text-primary {
+    color: black;
+    font-size: 1.2em;
+    font-weight: 100;
+}
+
+div.lineup.mb-4.p-3.border.rounded {
+    background-color: none;
+    border: none;
+    border-radius: none;
+    max-width: 70%;
+    margin: 0 auto;
+}
+
 html {
     scroll-behavior: smooth;
     max-width: 1600px;
