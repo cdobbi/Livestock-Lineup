@@ -17,13 +17,24 @@
     </header>
     <div class="container">
         <form id="exhibitor-form">
+            <!-- Exhibitor Selection -->
+            <div class="form-group text-center">
+                <label for="exhibitor-select" class="h5">Select Exhibitor</label>
+                <select id="exhibitor-select" class="form-control w-50 mx-auto">
+                    <option value="" disabled selected>Select exhibitor</option>
+                    <option value="1">Exhibitor 1</option>
+                    <option value="2">Exhibitor 2</option>
+                    <!-- Add more exhibitors as needed -->
+                </select>
+            </div>
+
             <!-- Category Selection -->
             <div class="form-group text-center">
                 <label for="category-select" class="h5">Select Category</label>
                 <select id="category-select" class="form-control w-50 mx-auto">
                     <option value="" disabled selected>Select category</option>
-                    <option value="Youth">Youth</option>
-                    <option value="Open">Open</option>
+                    <option value="1">Youth</option>
+                    <option value="2">Open</option>
                 </select>
             </div>
 
@@ -32,12 +43,12 @@
                 <label for="show-select" class="h5">Select Show</label>
                 <select id="show-select" class="form-control w-50 mx-auto">
                     <option value="" disabled selected>Select show</option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="Meat Pen">Meat Pen</option>
-                    <option value="Fur">Fur</option>
+                    <option value="1">A</option>
+                    <option value="2">B</option>
+                    <option value="3">C</option>
+                    <option value="4">D</option>
+                    <option value="5">Meat Pen</option>
+                    <option value="6">Fur</option>
                 </select>
             </div>
 
@@ -53,8 +64,6 @@
                     Welcome Page</button>
             </div>
         </form>
-
-        <div id="notification-area"></div>
         <div id="lineup-container" class="lineup-card my-4">
             <h4 class="category-show-text">Category: <span id="selected-category"></span><br>Show: <span id="selected-show"></span></h4>
             <div id="lineup-breeds" class="d-flex flex-wrap justify-content-center">
@@ -73,7 +82,7 @@
                         <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
                     </p>
                 </div>
-   
+
             </footer>
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
