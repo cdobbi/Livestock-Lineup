@@ -1,5 +1,5 @@
 import express from "express";
-import pool from "../db.js";
+import pool from '../db.js';
 import pusher from "./pusher-config.js";
 const router = express.Router();
 
