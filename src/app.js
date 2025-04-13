@@ -1,7 +1,7 @@
 
 // Contains the main Express application logic, including middleware, routes, and static file serving.
 // Uses express() to initialize the app and exports it as the default export.
-
+import pool from './db.js';
 import express from "express";
 import cors from "cors";
 import path from "path";
