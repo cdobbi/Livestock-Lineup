@@ -17,7 +17,7 @@
     </header>
     <div class="container">
         <form id="exhibitor-form">
-       
+
             <!-- Category Selection -->
             <div class="form-group text-center">
                 <label for="category-select" class="h5">Select Category</label>
@@ -52,7 +52,21 @@
                 <button type="button" id="save-lineup" class="btn btn-info btn-lg mx-2">Save</button>
                 <button type="button" id="start" class="btn btn-info btn-lg mx-2">Start Application</button>
                 <button type="button" id="print-submissions" class="btn btn-info btn-lg mx-2">Print Submissions</button>
-                <button type="button" id="return" onclick="window.location.href='welcome.html'" class="btn btn-info btn-lg mx-2">Return to Welcome Page</button>
+                <button type="button" id="return" onclick="window.location.href='welcome.html'" class="btn btn-info btn-lg mx-2">Return to
+                    Welcome Page</button>
+            </div>
+            <!-- Flipping Card -->
+            <div id="flipping-card" class="flipping-card-container">
+                <div class="flipping-card">
+                    <div class="flipping-card-inner">
+                        <div class="flipping-card-back">
+                            <p>Saving...</p>
+                        </div>
+                        <div class="flipping-card-front">
+                            <p>Submission saved successfully!</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
         <div id="lineup-container" class="lineup-card my-4">
