@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const saveLineupButton = document.getElementById("save-lineup");
     const categorySelect = document.getElementById("category-select");
     const showSelect = document.getElementById("show-select");
+    const flippingCard = document.getElementById("flipping-card");
 
     // Handle Save Lineup button click
     saveLineupButton.addEventListener("click", async () => {
@@ -50,11 +51,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (response.ok) {
                 // Show flipping card animation
+                flippingCard.style.display = "block"; // Make the card visible
                 flippingCard.classList.add("flipped");
 
                 // Wait for the animation to complete, then reset
                 setTimeout(() => {
                     flippingCard.classList.remove("flipped");
+                    flippingCard.style.display = "none"; // Hide the card again
                     alert(
                         `Category: ${categorySelect.options[categorySelect.selectedIndex].text}\n` +
                         `Show: ${showSelect.options[showSelect.selectedIndex].text}\n` +
