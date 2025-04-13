@@ -5,7 +5,7 @@
 import express from "express";
 import cors from "cors";
 import path from "path";
-import pusherConfigRouter from "./routes/pusher-config.js";import pool from "./db.js";
+import pusherConfigRouter from "../routes/pusher-config.js";
 import { fileURLToPath } from "url";
 import routeEx from "../routes/route-ex.js";
 import routeOr from "../routes/route-or.js";
