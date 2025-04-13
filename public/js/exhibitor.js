@@ -1,4 +1,3 @@
-import { sendNotification } from "./notifications.js";
 import { initializePusher } from "./pusherNotifications.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -8,23 +7,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Failed to initialize Pusher. Notifications will not work.");
     }
 
-    const breedOptionsContainer = document.getElementById("breed-options");
-    const saveEntriesButton = document.getElementById("save-shows");
+    const rabbitListContainer = document.getElementById("rabbit-list");
+    const saveLineupButton = document.getElementById("save-lineup");
     const categorySelect = document.getElementById("category-select");
     const showSelect = document.getElementById("show-select");
 
-    saveEntriesButton.addEventListener("click", async () => {
-        const selectedCategory = categorySelect.value;
-        const selectedShow = showSelect.value;
+    // Handle Save Lineup button click
+    saveLineupButton.addEventListener("click", async () => {
+        const categoryId = categorySelect.value;
+        const showId = showSelect.value;
 
         // Collect selected breeds
         const selectedBreeds = [];
-        const selectedButtons = breedOptionsContainer.querySelectorAll(".breed-button.selected");
+        const selectedButtons = rabbitListContainer.querySelectorAll(".breed-button.active");
         selectedButtons.forEach((button) => {
-            selectedBreeds.push(button.textContent);
+            selectedBreeds.push(button.dataset.breed);
         });
 
-        if (!selectedCategory || !selectedShow) {
+        if (!categoryId || !showId) {
             alert("Please select both a category and a show.");
             return;
         }
@@ -34,29 +34,29 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        // Create the entry object to send to the backend
-        const shows = {
-            category: selectedCategory,
-            show: selectedShow,
-            breeds: selectedBreeds,
+        // Create the submission object
+        const submission = {
+            category_id: categoryId,
+            show_id: showId,
+            breed_ids: selectedBreeds,
         };
 
         try {
             const response = await fetch("https://livestock-lineup.onrender.com/api/submissions", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(shows),
+                body: JSON.stringify(submission),
             });
 
             if (response.ok) {
-                alert("Your shows have been saved. You will be notified when your breed is called.");
+                alert("Your lineup has been saved. You will be notified when your breed is called.");
             } else {
-                console.error("Failed to save shows:", await response.text());
-                alert("Failed to save shows. Please try again.");
+                console.error("Failed to save lineup:", await response.text());
+                alert("Failed to save lineup. Please try again.");
             }
         } catch (error) {
-            console.error("Error saving shows:", error);
-            alert("An error occurred while saving your shows.");
+            console.error("Error saving lineup:", error);
+            alert("An error occurred while saving your lineup.");
         }
     });
 
