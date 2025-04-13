@@ -62,3 +62,33 @@ document.addEventListener("DOMContentLoaded", () => {
     // Since lineup.html likely doesn't include a show selector, we pass null as the second argument.
     fetchAndRenderLineups(container, null);
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Add click event listeners to all breed elements
+    document.querySelectorAll(".breed-item").forEach((breedElement) => {
+      breedElement.addEventListener("click", async () => {
+        const breedId = breedElement.dataset.breedId; // Assuming breedId is stored in a data attribute
+        const showId = breedElement.dataset.showId; // Assuming showId is stored in a data attribute
+        const categoryId = breedElement.dataset.categoryId; // Assuming categoryId is stored in a data attribute
+  
+        try {
+          const response = await fetch("/api/lineups/notify", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ breedId, showId, categoryId }),
+          });
+  
+          if (!response.ok) {
+            throw new Error("Failed to send notification.");
+          }
+  
+          const data = await response.json();
+          console.log("Notification sent successfully:", data.message);
+        } catch (error) {
+          console.error("Error sending notification:", error);
+        }
+      });
+    });
+  });

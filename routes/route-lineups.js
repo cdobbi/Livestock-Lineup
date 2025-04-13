@@ -1,8 +1,6 @@
-// Contains the routes for saving, fetching, and deleting lineups.
-
 import express from "express";
-import pool from "../src/db.js"; // Make sure this path is correct for your project structure
-
+import pool from "../db.js";
+import pusher from "./pusher-config.js";
 const router = express.Router();
 
 // Save a lineup
@@ -80,6 +78,35 @@ router.delete("/", async (req, res) => {
     res.status(500).json({ message: "Failed to clear lineups.", error: error.message });
   }
 });
+
+// Trigger a Pusher event when a breed is clicked
+router.post("/notify", async (req, res) => {
+    const { breedId, showId, categoryId } = req.body;
+  
+    console.log("Received notification request:", req.body);
+  
+    if (!breedId || !showId || !categoryId) {
+      return res.status(400).json({
+        message: "Invalid payload. Please provide breedId, showId, and categoryId.",
+      });
+    }
+  
+    try {
+      // Trigger a Pusher event
+      pusher.trigger("exhibitor-channel", "breed-clicked", {
+        message: `A breed with ID ${breedId} has been clicked for Show ID ${showId} and Category ID ${categoryId}.`,
+        breedId,
+        showId,
+        categoryId,
+      });
+  
+      console.log(`Pusher event triggered for breedId ${breedId}`);
+      res.status(200).json({ message: "Notification sent successfully." });
+    } catch (error) {
+      console.error("Error triggering Pusher event:", error.message);
+      res.status(500).json({ message: "Failed to send notification.", error: error.message });
+    }
+  });
 
 // Export the router as a default export so that it can be imported with:
 // import lineupsRoutes from "../routes/route-lineups.js";

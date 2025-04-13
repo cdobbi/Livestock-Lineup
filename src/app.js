@@ -22,7 +22,6 @@ import categoriesRoutes from "../routes/route-categories.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-
 app.use("/pusher-config", pusherConfigRouter);
 app.use(express.json());
 app.use(cors());
@@ -30,14 +29,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.locals.pool = pool;
-
-const pusher = new Pusher({
-  appId: process.env.app_id,
-  key: process.env.key,
-  secret: process.env.secret,
-  cluster: process.env.cluster,
-  useTLS: true,
-});
 
 app.use((req, res, next) => {
   console.log(`Incoming request: ${req.method} ${req.url}`);
