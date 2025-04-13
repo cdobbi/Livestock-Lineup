@@ -1,4 +1,4 @@
-import { validateAndSendNotification } from "./notifications.js";
+import { sendNotification } from "./notifications.js";
 import { initializePusher } from "./pusherNotifications.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
