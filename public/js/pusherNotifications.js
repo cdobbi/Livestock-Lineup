@@ -1,3 +1,4 @@
+import Pusher from "pusher-js";
 
 const NOTIFICATION_SOUND_PATH = "/sounds/alert.mp3";
 const NOTIFICATION_ICON_PATH = "/images/notification-icon.png";
