@@ -95,12 +95,10 @@ h1.bg-secondary {
 .container,
 .login-container,
 .main-content {
-    width: 40%;
-    max-width: 968px;
+    width: 80%;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 #rabbit-list .breed-button {
@@ -327,7 +325,12 @@ html {
     margin-bottom: 100px;
 }
 
+
 body::before {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     content: "";
     position: fixed;
     top: 0;
@@ -335,7 +338,7 @@ body::before {
     width: 100%;
     height: 100%;
     background-image: url("../images/livestock-image.png");
-    background-size: 90%;
+    background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
