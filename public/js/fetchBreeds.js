@@ -36,4 +36,3 @@ export async function fetchAndRenderBreeds(apiUrl, containerElement) {
       console.error("Error fetching rabbit breeds:", error);
     }
   }
-  

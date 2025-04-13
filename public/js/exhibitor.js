@@ -49,7 +49,18 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
 
             if (response.ok) {
-                alert("Your lineup has been saved. You will be notified when your breed is called.");
+                // Show flipping card animation
+                flippingCard.classList.add("flipped");
+
+                // Wait for the animation to complete, then reset
+                setTimeout(() => {
+                    flippingCard.classList.remove("flipped");
+                    alert(
+                        `Category: ${categorySelect.options[categorySelect.selectedIndex].text}\n` +
+                        `Show: ${showSelect.options[showSelect.selectedIndex].text}\n` +
+                        `Breeds: ${selectedBreeds.join(", ")}\n\nSaved! Save another or 'Finish' to continue.`
+                    );
+                }, 2000);
             } else {
                 console.error("Failed to save lineup:", await response.text());
                 alert("Failed to save lineup. Please try again.");
