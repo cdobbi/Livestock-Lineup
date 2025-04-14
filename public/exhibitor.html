@@ -43,47 +43,56 @@
                 </select>
             </div>
 
-            <!-- Breed Options -->
-            <div id="rabbit-list" class="row justify-content-center">
-                <!-- Breeds will be dynamically populated here -->
-            </div>
-
-            <!-- Buttons -->
-            <div class="text-center my-4 d-flex justify-content-center">
+            <!-- Action Buttons -->
+            <div class="text-center my-4">
                 <button type="button" id="save-lineup" class="btn btn-info btn-lg mx-2">Save</button>
                 <button type="button" id="start" class="btn btn-info btn-lg mx-2">Start Application</button>
                 <button type="button" id="print-submissions" class="btn btn-info btn-lg mx-2">Print Submissions</button>
                 <button type="button" id="clear-lineup" class="btn btn-info btn-lg mx-2">Clear Submissions</button>
-                <button type="button" id="return" onclick="window.location.href='welcome.html'" class="btn btn-info btn-lg mx-2">Return to
+                <button type="button" id="return" class="btn btn-info btn-lg mx-2" onclick="window.location.href='welcome.html'">Return to
                     Welcome Page</button>
             </div>
 
+            <!-- Notification Message -->
+            <div id="notification-message" class="text-center my-3"></div>
 
-            <div id="notification-message" style="font-size:1.2em; color:blue; margin:10px 0;"></div>
-
-        </form>
-        <footer class="text-center my-4">
-            <hr>
-            </hr>
-            <div class="col-lg-4">
-                <p>&copy; Christina Dobbins 🐇🫐🥕🥬<br>
-                    <a href="https://www.rhinelander-rabbitry.com" class="text-info">www.rhinelander-rabbitry.com</a>
-                    <br>
-                    <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
-                </p>
+            <!-- Flipping Card (for Save action) -->
+            <div id="flipping-card" class="flipping-card-container">
+                <div class="flipping-card">
+                    <div class="flipping-card-inner">
+                        <div class="flipping-card-back">
+                            <p>Saving...</p>
+                        </div>
+                        <div class="flipping-card-front">
+                            <p>Lineup saved successfully!</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </footer>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="./js/exhibitorBreeds.js" type="module"></script>
-        <script src="./js/notifications.js" type="module"></script>
-        <script src="./js/checkForNotifications.js" type="module"></script>
-        <script src="./js/fetchBreeds.js" type="module"></script>
-        <script src="./js/pusherNotifications.js" type="module"></script>
-        <script src="./js/uiHelpers.js" type="module"></script>
-        <!-- Main exhibitor file which imports the others -->
-        <script src="./js/exhibitor.js" type="module"></script>
+    </div>
+    </form>
+    <footer class="text-center my-4">
+        <hr>
+        </hr>
+        <div class="col-lg-4">
+            <p>&copy; Christina Dobbins 🐇🫐🥕🥬<br>
+                <a href="https://www.rhinelander-rabbitry.com" class="text-info">www.rhinelander-rabbitry.com</a>
+                <br>
+                <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
+            </p>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./js/exhibitorBreeds.js" type="module"></script>
+    <script src="./js/notifications.js" type="module"></script>
+    <script src="./js/checkForNotifications.js" type="module"></script>
+    <script src="./js/fetchBreeds.js" type="module"></script>
+    <script src="./js/pusherNotifications.js" type="module"></script>
+    <script src="./js/uiHelpers.js" type="module"></script>
+    <!-- Main exhibitor file which imports the others -->
+    <script src="./js/exhibitor.js" type="module"></script>
 
 
 </body>
