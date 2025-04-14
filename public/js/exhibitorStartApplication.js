@@ -1,34 +1,41 @@
-// exhibitor.js
-import { initSaveLineup } from "./exhibitorSaveLineup.js";
-import { initStartApplication } from "./exhibitorStartApplication.js";
-import { initPrintSubmissions } from "./exhibitorPrintSubmissions.js";
-import { initClearSubmissions } from "./exhibitorClearSubmissions.js";
-import { initializePusher } from "./pusherNotifications.js";
-
-document.addEventListener("DOMContentLoaded", async () => {
-  // Initialize functionalities for the exhibitor page.
-  initSaveLineup();
-  initStartApplication();
-  initPrintSubmissions();
-  initClearSubmissions();
-
-  // Real-time notifications (Pusher functionality)
-  try {
-    const pusherInstance = await initializePusher();
-    if (pusherInstance) {
-      const channel = pusherInstance.channel;
-      channel.bind("breed-notification", (data) => {
-        const { breed, category, show } = data;
-        alert(`Notification for Category: ${category}, Show: ${show}, Breed: ${breed}`);
-        try {
-          const notificationSound = new Audio("/sounds/alert.mp3");
-          notificationSound.play();
-        } catch (error) {
-          console.error("Error playing notification sound:", error);
-        }
-      });
+// exhibitorStartApplication.js
+export function initStartApplication() {
+    const startButton = document.getElementById("start");
+    const flippingCard = document.getElementById("flipping-card");
+  
+    if (!startButton) {
+      console.error("Start Application button not found!");
+      return;
     }
-  } catch (error) {
-    console.error("Error initializing Pusher:", error);
+    
+    startButton.addEventListener("click", () => {
+      // Replace the simple alert with an animated card message.
+      const cardFront = flippingCard.querySelector(".flipping-card-front");
+      const cardBack = flippingCard.querySelector(".flipping-card-back");
+  
+      if (cardFront) {
+        cardFront.innerHTML = `
+          <p>
+            Leave your phone's volume up,<br>
+            and you will be notified when it's time to take your submissions<br>
+            to the judges table.
+          </p>
+        `;
+      }
+      if (cardBack) {
+        cardBack.innerHTML = `<p>Waiting for notification...</p>`;
+      }
+      
+      // Display the card and add a flipping animation.
+      flippingCard.style.display = "block";
+      flippingCard.classList.add("flipped");
+      
+      // Optionally hide the card after a delay.
+      setTimeout(() => {
+        flippingCard.classList.remove("flipped");
+        // Optionally, you could hide it:
+        // flippingCard.style.display = "none";
+      }, 5000);
+    });
   }
-});
+  
