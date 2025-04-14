@@ -15,11 +15,11 @@ export function initSaveLineup() {
       const categoryId = categorySelect.value;
       const showId = showSelect.value;
   
-      // Collect selected breeds from buttons that have the active class.
+      // Collect selected breeds from buttons with the "active" class:
       const selectedBreeds = [];
       const selectedButtons = rabbitListContainer.querySelectorAll(".breed-button.active");
       selectedButtons.forEach((button) => {
-        // Each button should have a data-breed attribute.
+        // Each button must have a "data-breed" attribute.
         selectedBreeds.push(button.dataset.breed);
       });
   
@@ -27,13 +27,12 @@ export function initSaveLineup() {
         alert("Please select both a category and a show.");
         return;
       }
-  
       if (selectedBreeds.length === 0) {
         alert("Please select at least one breed to start the application.");
         return;
       }
   
-      // Build payload with camelCase keys as expected by your API.
+      // Build payload with camelCase keys:
       const submission = {
         categoryId: categoryId,
         showId: showId,
@@ -50,7 +49,7 @@ export function initSaveLineup() {
         });
   
         if (response.ok) {
-          // Show flipping card animation on success.
+          // Show flipping card animation on success:
           flippingCard.style.display = "block";
           flippingCard.classList.add("flipped");
   
