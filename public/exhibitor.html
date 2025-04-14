@@ -18,7 +18,19 @@
     </header>
     <div class="container">
         <form id="exhibitor-form">
-            <!-- Breed Options Container (this must exist for exhibitorBreeds.js) -->
+            <div class="form-group text-center my-4">
+                <label for="show-select" class="h5">Select Show</label>
+                <select id="show-select" class="form-control w-50 mx-auto">
+                    <option value="" disabled selected>Select show</option>
+                    <option value="1">A</option>
+                    <option value="2">B</option>
+                    <option value="3">C</option>
+                    <option value="4">D</option>
+                    <option value="5">Meat Pen</option>
+                    <option value="6">Fur</option>
+                </select>
+            </div>
+            
             <div id="rabbit-list" class="row justify-content-center">
                 <!-- Breeds will be dynamically populated here -->
             </div>
@@ -30,20 +42,6 @@
                     <option value="" disabled selected>Select category</option>
                     <option value="1">Youth</option>
                     <option value="2">Open</option>
-                </select>
-            </div>
-
-            <!-- Show Selection -->
-            <div class="form-group text-center my-4">
-                <label for="show-select" class="h5">Select Show</label>
-                <select id="show-select" class="form-control w-50 mx-auto">
-                    <option value="" disabled selected>Select show</option>
-                    <option value="1">A</option>
-                    <option value="2">B</option>
-                    <option value="3">C</option>
-                    <option value="4">D</option>
-                    <option value="5">Meat Pen</option>
-                    <option value="6">Fur</option>
                 </select>
             </div>
 
