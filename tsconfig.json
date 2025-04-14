@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "module": "ESNext",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "allowJs": true, // Allow TypeScript to process .js files
+      "outDir": "dist" // Output compiled files to the "dist" directory
+    },
+    "include": [
+      "src/**/*", // Include all files in the src directory
+      "**/*.js"   // Include .js files in the project
+    ],
+    "exclude": [
+    "node_modules",
+    "dist",
+    "src/app.js",
+    "src/db.js",
+    "src/lineupActions.js"
+    ]
+  }
