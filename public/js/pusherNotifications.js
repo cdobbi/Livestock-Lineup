@@ -1,11 +1,12 @@
-import Pusher from "../node_modules/pusher-js/dist/web/pusher.js";
-const NOTIFICATION_SOUND_PATH = "/sounds/alert.mp3";
-const NOTIFICATION_ICON_PATH = "/images/notification-icon.png";
+import Pusher from "pusher-js";
+
+const NOTIFICATION_SOUND_PATH = "../sounds/alert.mp3"; // Adjusted path to match convention
+const NOTIFICATION_ICON_PATH = "../images/notification-icon.png"; // Adjusted path to match convention
 const PUSHER_CHANNEL_NAME = "livestock-lineup";
 
 export async function initializePusher() {
     try {
-        const response = await fetch("https://livestock-lineup.onrender.com/pusher-config");
+        const response = await fetch("/pusher-config"); // Simplified to relative path
         if (!response.ok) {
             throw new Error(`Failed to fetch Pusher configuration. Status: ${response.status}`);
         }

@@ -10,14 +10,14 @@ dotenv.config();
 // import { fileURLToPath, pathToFileURL } from "url";
 import app from "../src/app.js"
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// const appPath = path.join(__dirname, "./staticServer.js");
-// console.log("Loading Static Server from:", appPath);
+const appPath = path.join(__dirname, "./staticServer.js");
+console.log("Loading Static Server from:", appPath);
 
-// const appUrl = pathToFileURL(appPath).href;
-// const { default: app } = await import(appUrl);
+const appUrl = pathToFileURL(appPath).href;
+const { default: app } = await import(appUrl);
 
 const port = process.env.PORT || 3000;
 
