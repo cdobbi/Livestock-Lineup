@@ -41,3 +41,4 @@ export async function validateAndSendNotification(breed, category, show) {
         console.error(`Error validating or sending notification for breed: ${breed}`, error);
     }
 }
+
