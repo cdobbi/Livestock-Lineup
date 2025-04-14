@@ -1,4 +1,4 @@
-import Pusher from "https://cdn.jsdelivr.net/npm/pusher-js@8.4.0/dist/web/pusher.esm.js";
+import Pusher from "https://cdn.skypack.dev/pusher-js@8.4.0";
 
 const NOTIFICATION_SOUND_PATH = "../sounds/alert.mp3"; // Adjusted path to match convention
 const NOTIFICATION_ICON_PATH = "../images/notification-icon.png"; // Adjusted path to match convention
@@ -32,9 +32,6 @@ export async function initializePusher() {
         return null;
     }
 }
-
-// ... rest of your code remains unchanged ...
-
 
 function handleNotification(breed, category, show) {
     try {
