@@ -5,16 +5,16 @@ const router = express.Router();
 
 // Public Pusher configuration for frontend clients
 const pusherConfig = {
-  key: process.env.PUSHER_APP_KEY, // Public Pusher key
-  cluster: process.env.PUSHER_APP_CLUSTER, // Pusher cluster (e.g., "mt1")
+  key: process.env.PUSHER_KEY, // Public Pusher key
+  cluster: process.env.PUSHER_CLUSTER, // Pusher cluster (e.g., "mt1")
 };
 
 // Private Pusher instance for server-side operations
 const pusher = new Pusher({
-  appId: process.env.PUSHER_APP_ID, // Private Pusher app ID
-  key: process.env.PUSHER_APP_KEY, // Public Pusher key
-  secret: process.env.PUSHER_APP_SECRET, // Private Pusher secret
-  cluster: process.env.PUSHER_APP_CLUSTER, // Pusher cluster (e.g., "mt1")
+  appId: process.env.APP_ID, // Private Pusher app ID
+  key: process.env.PUSHER_KEY, // Public Pusher key
+  secret: process.env.PUSHER_SECRET, // Private Pusher secret
+  cluster: process.env.PUSHER_CLUSTER, // Pusher cluster (e.g., "mt1")
   useTLS: true,
 });
 
