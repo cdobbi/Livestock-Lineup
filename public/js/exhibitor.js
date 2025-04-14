@@ -61,23 +61,21 @@ saveLineupButton.addEventListener("click", async () => {
     }
   });
   
-
   // (Optional) Nested DOMContentLoaded block - consider merging if not needed separately.
   document.addEventListener("DOMContentLoaded", async () => {
     const notificationSound = new Audio("../sounds/alert.mp3");
-
+  
     function notifyUser(breed) {
       notificationSound.play();
       setTimeout(() => {
         alert(`${breed} is up next!\nGood luck!`);
       }, 500);
     }
-
+  
     // Example usage of notifyUser
-    // Call notifyUser when a notification is received
     // notifyUser("AMERICAN");
   });
-
+  
   // Use Pusher for real-time notifications
   const channel = pusherInstance.channel;
   channel.bind("breed-notification", (data) => {
@@ -90,4 +88,4 @@ saveLineupButton.addEventListener("click", async () => {
       console.error("Error playing notification sound:", error);
     }
   });
-});
+  
