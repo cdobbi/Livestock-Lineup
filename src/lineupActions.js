@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-import app from "../../src/app.js"; // Import your Express app
+import app from "./app.js"; // Import your Express app
 
 const port = process.env.PORT || 3000; // Use the port from environment variables or default to 3000
 
