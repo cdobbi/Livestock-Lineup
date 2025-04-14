@@ -3,16 +3,16 @@ import { initSaveLineup } from "./exhibitorSaveLineup.js";
 import { initStartApplication } from "./exhibitorStartApplication.js";
 import { initPrintSubmissions } from "./exhibitorPrintSubmissions.js";
 import { initClearSubmissions } from "./exhibitorClearSubmissions.js";
-import { initializePusher } from "./pusherNotifications.js"; // already exists
+import { initializePusher } from "./pusherNotifications.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // Initialize exhibitor functionalities:
+  // Initialize exhibitor functionalities.
   initSaveLineup();
   initStartApplication();
   initPrintSubmissions();
   initClearSubmissions();
 
-  // Real-time notifications remain in exhibitor.js:
+  // Real-time notifications (Pusher functionality).
   try {
     const pusherInstance = await initializePusher();
     if (pusherInstance) {
