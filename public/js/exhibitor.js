@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               `Show: ${showSelect.options[showSelect.selectedIndex].text}\n` +
               `Breeds: ${selectedBreeds.join(", ")}\n\nSubmission saved! Save another or click on 'Start Application'.`
             );
-          }, 2000);
+          }, 4000);
         } else {
           const errorData = await response.json();
           console.error("Failed to save lineup:", errorData);
