@@ -18,19 +18,7 @@
     </header>
     <div class="container">
         <form id="exhibitor-form">
-            <div class="form-group text-center my-4">
-                <label for="show-select" class="h5">Select Show</label>
-                <select id="show-select" class="form-control w-50 mx-auto">
-                    <option value="" disabled selected>Select show</option>
-                    <option value="1">A</option>
-                    <option value="2">B</option>
-                    <option value="3">C</option>
-                    <option value="4">D</option>
-                    <option value="5">Meat Pen</option>
-                    <option value="6">Fur</option>
-                </select>
-            </div>
-            
+            <!-- Breed Options Container (this must exist for exhibitorBreeds.js) -->
             <div id="rabbit-list" class="row justify-content-center">
                 <!-- Breeds will be dynamically populated here -->
             </div>
@@ -45,6 +33,24 @@
                 </select>
             </div>
 
+            <!-- Show Selection -->
+            <div class="form-group text-center my-4">
+                <label for="show-select" class="h5">Select Show</label>
+                <select id="show-select" class="form-control w-50 mx-auto">
+                    <option value="" disabled selected>Select show</option>
+                    <option value="1">A</option>
+                    <option value="2">B</option>
+                    <option value="3">C</option>
+                    <option value="4">D</option>
+                    <option value="5">Meat Pen</option>
+                    <option value="6">Fur</option>
+                </select>
+            </div>
+            <!-- Breed Options Container -->
+            <div id="rabbit-list" class="row justify-content-center">
+                
+                <!-- Breed options (or dropdown) will be dynamically populated by exhibitorBreeds.js -->
+            </div>
             <!-- Action Buttons -->
             <div class="text-center my-4">
                 <button type="button" id="save-lineup" class="btn btn-info btn-lg mx-2">Save</button>
@@ -71,7 +77,6 @@
                     </div>
                 </div>
             </div>
-        </form>
     </div>
     <footer class="text-center my-4">
         <hr>
