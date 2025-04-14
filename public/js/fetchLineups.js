@@ -156,17 +156,23 @@ export async function fetchAndRenderLineups(lineupContainer, selectedShowId) {
   
       // Check each notification by seeing if any exhibitor's submission includes the breed.
       notifications.forEach((notification) => {
-        const isBreedSelectedByExhibitor = exhibitorEntries.some((exhibitor) =>
-          exhibitor.submissions.some((submission) =>
-            submission.breeds.includes(notification.breed)
-          )
-        );
-  
+        const isBreedSelectedByExhibitor = exhibitorEntries.some((exhibitor) => {
+          // Ensure exhibitor.submissions is an array; otherwise use an empty array.
+          const submissions = Array.isArray(exhibitor.submissions) ? exhibitor.submissions : [];
+          return submissions.some((submission) => {
+            // Ensure submission.breeds is an array; otherwise use an empty array.
+            const breeds = Array.isArray(submission.breeds) ? submission.breeds : [];
+            return breeds.includes(notification.breed);
+          });
+        });
+      
         if (isBreedSelectedByExhibitor && !displayedNotifications.has(notification.breed)) {
           displayedNotifications.add(notification.breed);
           notifyUser(notification.breed);
         }
       });
+      
+      
     } catch (error) {
       console.error("Error fetching notifications:", error);
     }
