@@ -1,4 +1,4 @@
-import Pusher from "pusher-js";
+import Pusher from "https://cdn.jsdelivr.net/npm/pusher-js@8.4.0/dist/web/pusher.min.js";
 
 const NOTIFICATION_SOUND_PATH = "../sounds/alert.mp3"; // Adjusted path to match convention
 const NOTIFICATION_ICON_PATH = "../images/notification-icon.png"; // Adjusted path to match convention
