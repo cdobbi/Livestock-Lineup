@@ -1,46 +1,43 @@
 export function initStartApplication() {
     const startButton = document.getElementById("start");
+    const flippingCard = document.getElementById("flipping-card");
     if (!startButton) {
       console.error("Start Application button not found!");
       return;
     }
     
     startButton.addEventListener("click", () => {
-      // Instead of showing a flipping card, create a Bootstrap alert dynamically.
-      // First, see if there is an element with id "notification-container"
-      let container = document.getElementById("notification-container");
-      
-      // If one doesn't exist, create and append it to the body (or another suitable parent)
-      if (!container) {
-        container = document.createElement("div");
-        container.id = "notification-container";
-        // Optionally add some Bootstrap spacing classes
-        container.className = "mt-3";
-        document.body.prepend(container);
+      // For the start application, use the same card element,
+      // set its content to the static message, and display it without flipping.
+      if (flippingCard) {
+        // Set the card's front content:
+        const cardFront = flippingCard.querySelector(".flipping-card-front");
+        if (cardFront) {
+          cardFront.innerHTML = `
+            <p>
+              Leave your phone's volume up,<br>
+              and you will be notified when it's time to take your submissions<br>
+              to the judges table.
+            </p>
+          `;
+        }
+        
+        // Optionally, set the card's back with a static message:
+        const cardBack = flippingCard.querySelector(".flipping-card-back");
+        if (cardBack) {
+          cardBack.innerHTML = `<p>Waiting for notification...</p>`;
+        }
+        
+        // Instead of adding the 'flipped' class, simply display the card.
+        flippingCard.style.display = "block";
+        // (Do not add flippingCard.classList.add("flipped");)
+        
+        // Optionally, you may want to remove any flipping class that might be left from a previous action:
+        flippingCard.classList.remove("flipped");
+      } else {
+        // If the flipping card doesn't exist, fallback to a static alert.
+        alert("Leave your phone's volume up. Waiting for notification...");
       }
-      
-      // Clear any previous content
-      container.innerHTML = "";
-      
-      // Create the alert div
-      const alertDiv = document.createElement("div");
-      // Use Bootstrap alert classes (make sure Bootstrap CSS is loaded)
-      alertDiv.className = "alert alert-info";
-      alertDiv.textContent = "Waiting for notification...";
-      
-      container.appendChild(alertDiv);
-      
-      // Play the notification sound.
-      // (Ensure that the sound file exists at the given path and that the browser permits audio playback)
-      const notificationSound = new Audio("../sounds/alert.mp3");
-      notificationSound.play().catch(error => {
-        console.error("Error playing notification sound:", error);
-      });
-      
-      // (Optional) If you want to remove the message after a few seconds, uncomment:
-      // setTimeout(() => {
-      //   container.innerHTML = "";
-      // }, 5000);
     });
   }
   
