@@ -37,11 +37,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Create the submission object
     const submission = {
-      category_id: categoryId,
-      show_id: showId,
-      breed_ids: selectedBreeds,
-    };
-
+        categoryId: categoryId,
+        showId: showId,
+        breedIds: selectedBreeds,
+      };
     try {
       const response = await fetch("https://livestock-lineup.onrender.com/api/submissions", {
         method: "POST",
