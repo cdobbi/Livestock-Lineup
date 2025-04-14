@@ -33,6 +33,9 @@ export async function initializePusher() {
     }
 }
 
+// ... rest of your code remains unchanged ...
+
+
 function handleNotification(breed, category, show) {
     try {
         const notificationSound = new Audio(NOTIFICATION_SOUND_PATH);
