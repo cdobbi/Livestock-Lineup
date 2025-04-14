@@ -47,6 +47,8 @@ export function initSaveLineup() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(submission),
         });
+        console.log("Response from save:", await response.json());
+
   
         if (response.ok) {
           // Show flipping card animation on success:
