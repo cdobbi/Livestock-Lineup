@@ -1,18 +1,16 @@
-// exhibitorStartApplication.js
 export function initStartApplication() {
     const startButton = document.getElementById("start");
     const flippingCard = document.getElementById("flipping-card");
-  
     if (!startButton) {
       console.error("Start Application button not found!");
       return;
     }
     
     startButton.addEventListener("click", () => {
-      // Replace the simple alert with an animated card message.
+      // This is the current code that triggers the flipping card:
       const cardFront = flippingCard.querySelector(".flipping-card-front");
       const cardBack = flippingCard.querySelector(".flipping-card-back");
-  
+      
       if (cardFront) {
         cardFront.innerHTML = `
           <p>
@@ -26,14 +24,12 @@ export function initStartApplication() {
         cardBack.innerHTML = `<p>Waiting for notification...</p>`;
       }
       
-      // Display the card and add a flipping animation.
       flippingCard.style.display = "block";
       flippingCard.classList.add("flipped");
       
-      // Optionally hide the card after a delay.
       setTimeout(() => {
         flippingCard.classList.remove("flipped");
-        // Optionally, you could hide it:
+        // Optionally, to hide the card after a delay:
         // flippingCard.style.display = "none";
       }, 5000);
     });
