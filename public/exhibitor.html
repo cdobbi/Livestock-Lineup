@@ -13,7 +13,8 @@
 <body>
     <header class="text-center my-4" id="intro">
         <h1 class="text-center my-4">Exhibitor Entries</h1>
-        <hr></hr>
+        <hr>
+        </hr>
     </header>
     <div class="container">
         <form id="exhibitor-form">
@@ -71,36 +72,39 @@
                 </div>
             </div>
         </form>
-    <footer class="text-center my-4">
-        <hr></hr>
-        <div class="col-lg-4">
-            <p>&copy; Christina Dobbins 🐇🫐🥕🥬<br>
-                <a href="https://www.rhinelander-rabbitry.com" class="text-info">www.rhinelander-rabbitry.com</a>
-                <br>
-                <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
-            </p>
-        </div>
-    </footer>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="./js/exhibitor.js" type="module"></script>
-    <script src="./js/exhibitorBreeds.js" type="module"></script>
-    <script src="./js/notifications.js" type="module"></script>
-    <script src="./js/checkForNotifications.js" type="module"></script>
-    <script src="./js/fetchBreeds.js" type="module"></script>
-    <script src="https://js.pusher.com/8.4/pusher.min.js"></script>
-    <script src="./js/pusherNotifications.js" type="module"></script>
-    <script src="./js/uiHelpers.js" type="module"></script><script type="module">
-        import { initializePusher } from "./js/pusherNotifications.js";
-    
-        document.addEventListener("DOMContentLoaded", async () => {
-            const pusherInstance = await initializePusher();
-            if (!pusherInstance) {
-                console.error("Failed to initialize Pusher. Notifications will not work.");
-            }
-        });
-    </script>
+        <footer class="text-center my-4">
+            <hr>
+            </hr>
+            <div class="col-lg-4">
+                <p>&copy; Christina Dobbins 🐇🫐🥕🥬<br>
+                    <a href="https://www.rhinelander-rabbitry.com" class="text-info">www.rhinelander-rabbitry.com</a>
+                    <br>
+                    <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
+                </p>
+            </div>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="./js/exhibitor.js" type="module"></script>
+        <script src="./js/exhibitorBreeds.js" type="module"></script>
+        <script src="./js/notifications.js" type="module"></script>
+        <script src="./js/checkForNotifications.js" type="module"></script>
+        <script src="./js/fetchBreeds.js" type="module"></script>
+        <script src="https://js.pusher.com/8.4/pusher.min.js"></script>
+        <script src="./js/pusherNotifications.js" type="module"></script>
+        <script src="./js/uiHelpers.js" type="module"></script>
+
+        <script type="module">
+            import { initializePusher } from "./js/pusherNotifications.js";
+
+            document.addEventListener("DOMContentLoaded", async () => {
+                const pusherInstance = await initializePusher();
+                if (!pusherInstance) {
+                    console.error("Failed to initialize Pusher. Notifications will not work.");
+                }
+            });
+        </script>
 
 </body>
 
