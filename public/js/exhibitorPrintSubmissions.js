@@ -4,28 +4,22 @@ export function initPrintSubmissions() {
     if (!printButton) {
       console.error("Print Submissions button not found!");
       return;
-    }
+    }  
   
     printButton.addEventListener("click", async () => {
       try {
-        // Make a request to the API endpoint for submissions.
-        // Adjust the URL as necessary for your API.
         const response = await fetch("https://livestock-lineup.onrender.com/api/submissions");
-  
         if (!response.ok) {
           alert("Error fetching submissions.");
           return;
         }
-  
         const submissions = await response.json();
-  
-        // If there are no submissions, alert the user.
         if (!submissions || submissions.length === 0) {
           alert("There are no submissions to print.");
           return;
         }
-  
-        // Otherwise, build a print preview. This example creates a simple HTML table.
+        
+        // Build a minimal HTML document for printing
         let htmlContent = `
           <html>
             <head>
@@ -46,27 +40,26 @@ export function initPrintSubmissions() {
                     <th>Submission ID</th>
                     <th>Category</th>
                     <th>Show</th>
-                    <th>Breeds</th>
+                    <th>Breed</th>
                   </tr>
                 </thead>
                 <tbody>`;
-  
-        // Loop through the submissions and add each as a table row.
+        
         submissions.forEach((submission) => {
           htmlContent += `<tr>
-            <td>${submission.id || ""}</td>
-            <td>${submission.categoryName || submission.categoryId || ""}</td>
-            <td>${submission.showName || submission.showId || ""}</td>
-            <td>${submission.breedIds ? submission.breedIds.join(", ") : ""}</td>
+            <td>${submission.lineup_id || ""}</td>
+            <td>${submission.category_name || submission.category_id || ""}</td>
+            <td>${submission.show_name || submission.show_id || ""}</td>
+            <td>${submission.breed_name || ""}</td>
           </tr>`;
         });
+        
         htmlContent += `
                 </tbody>
               </table>
             </body>
           </html>`;
-  
-        // Open a new window, write the HTML content, then trigger printing.
+          
         const printWindow = window.open("", "_blank");
         printWindow.document.open();
         printWindow.document.write(htmlContent);
