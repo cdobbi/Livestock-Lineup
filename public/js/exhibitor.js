@@ -1,4 +1,3 @@
-import Pusher from "https://cdn.jsdelivr.net/npm/pusher-js@8.4.0/dist/web/pusher.min.js";
 import { initializePusher } from "./pusherNotifications.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
