@@ -13,8 +13,8 @@ app.use(express.static('public'));
 // Add the /pusher-config endpoint so the client can fetch the public config.
 app.get("/pusher-config", (req, res) => {
   res.json({
-    key: process.env.key,
-    cluster: process.env.cluster
+    key: process.env.PUSHER_KEY,
+    cluster: process.env.PUSHER_CLUSTER,
   });
 });
 
