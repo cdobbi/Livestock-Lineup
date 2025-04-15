@@ -5,6 +5,8 @@ export function initSaveLineup() {
     const showSelect = document.getElementById("show-select");
     const rabbitListContainer = document.getElementById("rabbit-list");
     const flippingCard = document.getElementById("flipping-card");
+    // Attempt to get exhibitor_id from a hidden element; adjust as needed.
+    const exhibitorIdElement = document.getElementById("exhibitor-id");
   
     if (!saveLineupButton) {
       console.error("Save Lineup button not found!");
@@ -32,15 +34,14 @@ export function initSaveLineup() {
         return;
       }
   
-      // For exhibitor submissions, we must include an exhibitor_id.
-      // Replace this with the actual exhibitor ID from your application logic.
-      const exhibitor_id = 1;
+      // Get exhibitor_id value; if not available, adjust accordingly.
+      const exhibitor_id = exhibitorIdElement ? exhibitorIdElement.value : "1"; // Replace "1" with a real value if possible
   
-      // Build payload using the keys expected by the server:
-      // The server route validates these keys: exhibitor_id, showId, categoryId, breedIds.
+      // Build payload with the keys the server expects:
+      // The server validations expect: exhibitor_id, showId, categoryId, breedIds
       const submission = {
-        exhibitor_id,    // using snake_case as required by the server validation
-        showId: showId,  // the server expects 'showId' (camelCase) per its validation
+        exhibitor_id,       // now included!
+        showId: showId,
         categoryId: categoryId,
         breedIds: selectedBreeds,
       };
@@ -58,24 +59,26 @@ export function initSaveLineup() {
         const responseData = await response.json();
         console.log("Response from save:", responseData);
   
-        if (response.ok) {
-          // Show flipping card animation on success:
-          flippingCard.style.display = "block";
-          flippingCard.classList.add("flipped");
-  
-          setTimeout(() => {
-            flippingCard.classList.remove("flipped");
-            flippingCard.style.display = "none";
-            alert(
-              `Category: ${categorySelect.options[categorySelect.selectedIndex].text}\n` +
-              `Show: ${showSelect.options[showSelect.selectedIndex].text}\n` +
-              `Breeds: ${selectedBreeds.join(", ")}\n\nSubmission saved successfully! Save another or click on 'Start Application'.`
-            );
-          }, 2000);
-        } else {
+        if (!response.ok) {
+          // If the server returns a 400 error, it will likely include details about the missing or invalid field(s)
           console.error("Failed to save lineup:", responseData);
-          alert("Failed to save lineup: " + responseData.message);
+          alert("Failed to save lineup: " + (responseData.message || "Validation error"));
+          return;
         }
+  
+        // On success, show the flipping card animation:
+        flippingCard.style.display = "block";
+        flippingCard.classList.add("flipped");
+  
+        setTimeout(() => {
+          flippingCard.classList.remove("flipped");
+          flippingCard.style.display = "none";
+          alert(
+            `Category: ${categorySelect.options[categorySelect.selectedIndex].text}\n` +
+            `Show: ${showSelect.options[showSelect.selectedIndex].text}\n` +
+            `Breeds: ${selectedBreeds.join(", ")}\n\nSubmission saved successfully! Save another or click on 'Start Application'.`
+          );
+        }, 2000);
       } catch (error) {
         console.error("Error saving lineup:", error);
         alert("An error occurred while saving your lineup.");
