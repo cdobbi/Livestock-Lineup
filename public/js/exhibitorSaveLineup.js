@@ -32,10 +32,16 @@ export function initSaveLineup() {
         return;
       }
   
-      // Build payload with camelCase keys:
+      // For exhibitor submissions, we must include an exhibitor_id.
+      // Replace this with the actual exhibitor ID from your application logic.
+      const exhibitor_id = 1;
+  
+      // Build payload using the keys expected by the server:
+      // The server route validates these keys: exhibitor_id, showId, categoryId, breedIds.
       const submission = {
+        exhibitor_id,    // using snake_case as required by the server validation
+        showId: showId,  // the server expects 'showId' (camelCase) per its validation
         categoryId: categoryId,
-        showId: showId,
         breedIds: selectedBreeds,
       };
   
@@ -47,8 +53,10 @@ export function initSaveLineup() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(submission),
         });
-        console.log("Response from save:", await response.json());
-
+  
+        // Read the response body only once.
+        const responseData = await response.json();
+        console.log("Response from save:", responseData);
   
         if (response.ok) {
           // Show flipping card animation on success:
@@ -65,9 +73,8 @@ export function initSaveLineup() {
             );
           }, 2000);
         } else {
-          const errorData = await response.json();
-          console.error("Failed to save lineup:", errorData);
-          alert("Failed to save lineup: " + errorData.message);
+          console.error("Failed to save lineup:", responseData);
+          alert("Failed to save lineup: " + responseData.message);
         }
       } catch (error) {
         console.error("Error saving lineup:", error);
