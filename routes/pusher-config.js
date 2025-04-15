@@ -10,6 +10,11 @@ const pusherConfig = {
   cluster: process.env.PUSHER_CLUSTER, // Pusher cluster (e.g., "mt1")
 };
 
+// GET route for /pusher-config (for frontend clients)
+router.get("/", (req, res) => {
+    res.json(pusherConfig);
+  });
+
 // Private Pusher instance for server-side operations
 const pusher = new Pusher({
     appId: process.env.APP_ID,
@@ -20,7 +25,7 @@ const pusher = new Pusher({
 });
 
 
-// Define the GET route for /pusher-config (for frontend clients)
+// Define the POST route for /pusher-config (for frontend clients)
 router.post("/trigger", (req, res) => {
     console.log("Received trigger request:", req.body);
     const { channel, event, data } = req.body;
