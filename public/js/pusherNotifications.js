@@ -27,13 +27,11 @@ export async function initializePusher() {
     const channel = pusher.subscribe(PUSHER_CHANNEL_NAME);
     console.log(`Subscribed to channel: ${PUSHER_CHANNEL_NAME}`);
 
-    // Bind to the "breed-notification" event on the channel
     channel.bind("breed-notification", (data) => {
-      console.log("Received breed-notification event with data:", data);
-      const { breed, category, show } = data;
-      console.log(`Notification received for Category: ${category}, Show: ${show}, Breed: ${breed}`);
-      handleNotification(breed, category, show);
-    });
+        console.log("Received breed-notification event with data:", data);
+        handleNotification(data.breed, data.category, data.show);
+      });
+      
 
     return { pusher, channel };
   } catch (error) {
