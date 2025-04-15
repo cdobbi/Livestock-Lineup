@@ -120,5 +120,6 @@ export function testNotificationSound() {
     .catch((err) => console.error("Manual test: error playing notification sound:", err));
 }
 
+// IMPORTANT: Attach testNotificationSound to the global scope for testing
 console.log("Attaching testNotificationSound to window:", testNotificationSound);
 window.testNotificationSound = testNotificationSound;
