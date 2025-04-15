@@ -12,12 +12,13 @@ const pusherConfig = {
 
 // Private Pusher instance for server-side operations
 const pusher = new Pusher({
-    APP_ID: process.env.APP_ID, // Private Pusher app ID
-    PUSHER_KEY: process.env.PUSHER_KEY, // Public Pusher key
-    PUSHER_SECRET: process.env.PUSHER_SECRET, // Private Pusher secret
-    PUSHER_CLUSTER: process.env.PUSHER_CLUSTER, // Pusher cluster (e.g., "mt1")
+    appId: process.env.APP_ID,
+    key: process.env.PUSHER_KEY,
+    secret: process.env.PUSHER_SECRET,
+    cluster: process.env.PUSHER_CLUSTER,
     useTLS: true,
 });
+
 
 // Define the GET route for /pusher-config (for frontend clients)
 router.get("/", (req, res) => {
