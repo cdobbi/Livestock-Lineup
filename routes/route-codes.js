@@ -1,10 +1,3 @@
-/**
- * This file handles all operations related to organizer codes.
- * It provides routes to verify codes stored in the database.
- * The routes defined here are used to validate organizer codes in the frontend.
- * It relies on the centralized database connection from db.js.
- */
-
 import express from "express";
 import pool from "../src/db.js"; // Import the centralized database connection
 

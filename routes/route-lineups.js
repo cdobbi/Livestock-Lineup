@@ -3,18 +3,7 @@ import pool from "../src/db.js";  // Adjust the path as needed
 import { body, validationResult } from "express-validator";
 
 const router = express.Router();
-
-/**
- * POST /api/lineups
- * Save organizer lineups – each breed in the lineup becomes its own row.
- *
- * Expected payload:
- * {
- *   "show_id": <number>,
- *   "category_id": <number>,
- *   "breed_ids": [<number>, …]
- * }
- */
+  
 router.post(
   "/",
   [
@@ -71,10 +60,6 @@ router.post(
   }
 );
 
-/**
- * GET /api/lineups
- * Fetch all lineups, joining with related tables for human-readable names.
- */
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -102,10 +87,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-/**
- * DELETE /api/lineups
- * Clear all lineups (for testing purposes only).
- */
 router.delete("/", async (req, res) => {
   try {
     await pool.query("DELETE FROM lineups");

@@ -1,8 +1,3 @@
-/**
- * This file handles all operations related to exhibitors submissions.
- * It provides routes to fetch all exhibitors submissions and save new exhibitor submission data.
- */
-
 import express from "express";
 import pool from "../src/db.js"; // Centralized database connection
 

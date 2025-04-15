@@ -1,9 +1,3 @@
-/**
- * This file handles user authentication, including registration and login.
- * It uses bcrypt for password hashing and PostgreSQL for database operations.
- * The routes defined here are used for user-related actions such as creating accounts
- * and logging in. It relies on the centralized database connection from db.js.
- */
 
 import express from "express";
 import bcrypt from "bcrypt";

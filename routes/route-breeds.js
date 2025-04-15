@@ -1,10 +1,3 @@
-/**
- * This file handles all operations related to breeds.
- * It provides routes to fetch all breeds from the database.
- * The routes defined here are used to populate breed-related data in the frontend.
- * It relies on the centralized database connection from db.js.
- */
-
 import express from "express";
 import pool from "../src/db.js"; // Assuming you're using PostgreSQL with a pool
 

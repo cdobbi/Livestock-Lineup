@@ -7,15 +7,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        // Fetch saved lineups from the backend
-        const apiEndpoint = "/api/lineups"; // Adjust this endpoint if necessary
+        const apiEndpoint = "/api/lineups";
         const response = await fetch(apiEndpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                category_id: null, // Optional: Adjust if you need to filter by category
-                show_id: null, // Optional: Adjust if you need to filter by show
-                breed_ids: [], // Optional: Adjust if you need to filter by specific breeds
+                category_id: null, 
+                show_id: null,
+                breed_ids: [],
             }),
         });
 

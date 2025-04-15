@@ -8,8 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // Call fetchAndRenderBreeds with the API URL and container element
-  const apiUrl = "https://livestock-lineup.onrender.com/api/breeds"; // Replace with your actual API endpoint
+  const apiUrl = "https://livestock-lineup.onrender.com/api/breeds";
   await fetchAndRenderBreeds(apiUrl, rabbitListContainer);
 
   console.log("Breeds have been rendered for the exhibitor.");

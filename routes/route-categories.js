@@ -1,10 +1,3 @@
-/**
- * This file handles all operations related to categories.
- * It provides routes to fetch all categories and add new categories to the database.
- * The routes defined here are used to populate category-related data in the frontend.
- * It relies on the centralized database connection from db.js.
- */
-
 import express from "express";
 import pool from "../src/db.js"; // Import the centralized database connection
 
