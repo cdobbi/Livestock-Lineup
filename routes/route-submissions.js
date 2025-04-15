@@ -4,67 +4,59 @@ import { body, validationResult } from "express-validator";
 
 const router = express.Router();
 
-/**
- * POST /api/submissions
- * Save exhibitor submissions – each breed in the submission becomes its own row.
- *
- * Expected payload (as sent by the client):
- * {
- *    "exhibitor_id": <number>,
- *    "showId": <number>,
- *    "categoryId": <number>,
- *    "breedIds": [<number>, ...]
- * }
- */
+//  POST /api/submissions
+//  {
+//     "exhibitor_id"; 123,
+//         "show_id"; 2,
+//         "category_id"; 1,
+//         "breed_ids"; [4, 5, 9]
+//   }
+ 
 router.post(
   "/",
   [
     body("exhibitor_id")
       .exists()
-      .withMessage("Exhibitor ID is required."),
-    body("showId")
+      .withMessage("Exhibitor_id is required."),
+    body("show_id")
       .exists()
-      .withMessage("Show ID is required."),
-    body("categoryId")
+      .withMessage("Show_id is required."),
+    body("category_id")
       .exists()
-      .withMessage("Category ID is required."),
-    body("breedIds")
+      .withMessage("Category_id is required."),
+    body("breed_ids")
       .isArray({ min: 1 })
-      .withMessage("breedIds must be a non-empty array."),
+      .withMessage("breed_ids must be a non-empty array."),
   ],
   async (req, res) => {
-    // Validate request payload
+    // Validate request payload.
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // Destructure the payload exactly as received
-    const { exhibitor_id, showId, categoryId, breedIds } = req.body;
+    const { exhibitor_id, show_id, category_id, breed_ids } = req.body;
     console.log("Received submission payload:", req.body);
 
-    // Get a client from the pool and start a transaction
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
 
       const savedSubmissions = [];
-      // Insert each breed ID as a separate row in the submissions table
-      for (const breedId of breedIds) {
+      // Insert each breed ID as a separate row.
+      for (const breed_id of breed_ids) {
         const result = await client.query(
           `INSERT INTO submissions 
              (exhibitor_id, show_id, category_id, breed_id)
            VALUES ($1, $2, $3, $4) RETURNING *`,
-          [exhibitor_id, showId, categoryId, breedId]
+          [exhibitor_id, show_id, category_id, breed_id]
         );
         savedSubmissions.push(result.rows[0]);
       }
 
-      // Commit the transaction after all successful inserts
       await client.query("COMMIT");
       return res.status(201).json(savedSubmissions);
     } catch (error) {
-      // Roll back the transaction if any error occurs
       await client.query("ROLLBACK");
       console.error("Error saving submission:", error.message);
       return res.status(500).json({
@@ -77,10 +69,6 @@ router.post(
   }
 );
 
-/**
- * GET /api/submissions
- * Fetch all submissions (with additional human-readable names by joining related tables).
- */
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -93,8 +81,7 @@ router.get("/", async (req, res) => {
         s.category_id,
         c.name AS category_name,
         s.breed_id,
-        b.breed_name,
-        s.submission_time
+        b.breed_name
       FROM submissions s
       LEFT JOIN exhibitors e ON s.exhibitor_id = e.id
       LEFT JOIN shows sh ON s.show_id = sh.id
