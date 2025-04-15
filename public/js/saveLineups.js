@@ -1,13 +1,12 @@
-// saveLineups.js
-export const saveLineup = async (categoryId, showId, selectedBreeds, apiEndpoint) => {
+export const saveLineup = async (category_id, show_id, breed_ids, apiEndpoint) => {
     try {
       const response = await fetch(apiEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          categoryId,
-          showId,
-          breedIds: selectedBreeds,
+          category_id,
+          show_id,
+          breed_ids,
         }),
       });
   
