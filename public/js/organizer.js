@@ -8,74 +8,82 @@ document.addEventListener("DOMContentLoaded", async function () {
   const apiBaseUrl = "https://livestock-lineup.onrender.com/api";
 
   // Select required DOM elements
-  const saveLineupButton = document.getElementById("save-lineup");
-  const printLineupButton = document.getElementById("print-lineup");
-  const clearLineupButton = document.getElementById("clear-lineup");
-  const finishedButton = document.getElementById("finished");
-  const rabbitList = document.getElementById("rabbit-list");
+  // (IDs in the HTML remain kebab-case as defined in your markup.)
+  const save_lineup_button = document.getElementById("save-lineup");
+  const print_lineup_button = document.getElementById("print-lineup");
+  const clear_lineup_button = document.getElementById("clear-lineup");
+  const finished_button = document.getElementById("finished");
+  const rabbit_list = document.getElementById("rabbit-list");
   const categoryEl = document.getElementById("category");
   const showEl = document.getElementById("show");
 
   // Check if required elements exist
-  if (!rabbitList) {
+  if (!rabbit_list) {
     console.error("Rabbit list element not found");
     return;
   }
-  if (!saveLineupButton) {
+  if (!save_lineup_button) {
     console.error("Save Lineup button not found");
     return;
   }
-  if (!printLineupButton) console.error("Print Preview button not found");
-  if (!clearLineupButton) console.error("Clear Lineup button not found");
-  if (!finishedButton) console.error("Finished button not found");
+  if (!print_lineup_button) console.error("Print Preview button not found");
+  if (!clear_lineup_button) console.error("Clear Lineup button not found");
+  if (!finished_button) console.error("Finished button not found");
 
-  fetchAndRenderBreeds(`${apiBaseUrl}/breeds`, rabbitList);
+  // Fetch and render breeds into the rabbit list element.
+  fetchAndRenderBreeds(`${apiBaseUrl}/breeds`, rabbit_list);
 
   // Initialize Save Lineup button event listener.
-  saveLineupButton.addEventListener("click", async () => {
-    // Get selected category and show values and their text (for the alert)
-    const categoryId = categoryEl ? categoryEl.value : "";
-    const showId = showEl ? showEl.value : "";
-    const categoryText = categoryEl ? categoryEl.options[categoryEl.selectedIndex].text : "";
-    const showText = showEl ? showEl.options[showEl.selectedIndex].text : "";
+  save_lineup_button.addEventListener("click", async () => {
+    // Get selected category and show values and their display text for alerts.
+    const category_id = categoryEl ? categoryEl.value : "";
+    const show_id = showEl ? showEl.value : "";
+    const category_text = categoryEl
+      ? categoryEl.options[categoryEl.selectedIndex].text
+      : "";
+    const show_text = showEl
+      ? showEl.options[showEl.selectedIndex].text
+      : "";
 
-    // Get active breed buttons; we use both their dataset (ID) and text (for display).
-    const activeBreedButtons = document.querySelectorAll(".breed-button.active");
-    const selectedBreedIDs = Array.from(activeBreedButtons).map((btn) => btn.dataset.breed);
-    const selectedBreedNames = Array.from(activeBreedButtons).map((btn) => btn.textContent.trim());
+    // Get active breed buttons and extract their data attributes and text.
+    const active_breed_buttons = document.querySelectorAll(".breed-button.active");
+    const breed_ids = Array.from(active_breed_buttons).map((btn) => btn.dataset.breed);
+    const breed_names = Array.from(active_breed_buttons).map((btn) =>
+      btn.textContent.trim()
+    );
 
-    // Debugging: Log the payload being sent to the server.
+    // Debug: log the payload being sent to the server.
     console.log("Payload being prepared:", {
-      categoryId,
-      showId,
-      breedIds: selectedBreedIDs,
+      category_id,
+      show_id,
+      breed_ids,
     });
 
-    // Validate the payload.
-    if (!categoryId || !showId || selectedBreedIDs.length === 0) {
+    // Validate that all required fields are provided.
+    if (!category_id || !show_id || breed_ids.length === 0) {
       alert("Please select a category, show, and at least one breed.");
-      console.error("Invalid payload:", { categoryId, showId, breedIds: selectedBreedIDs });
+      console.error("Invalid payload:", { category_id, show_id, breed_ids });
       return;
     }
 
     try {
-      await saveLineup(categoryId, showId, selectedBreedIDs, `${apiBaseUrl}/lineups`);
+      await saveLineup(category_id, show_id, breed_ids, `${apiBaseUrl}/lineups`);
 
-      const message = `Category: ${categoryText}\nShow: ${showText}\nBreeds: ${selectedBreedNames.join(
+      const message = `Category: ${category_text}\nShow: ${show_text}\nBreeds: ${breed_names.join(
         ", "
       )}\n\nSaved! Create another lineup or click finished to continue.`;
 
       alert(message);
 
-    //   activeBreedButtons.forEach((btn) => btn.classList.remove("active"));
+      // Optionally, you can remove the active state from the breed buttons here.
     } catch (error) {
       console.error("Error saving lineup:", error);
       alert("Failed to save lineup. Please try again.");
     }
   });
 
-  // Initialize other buttons.
-  if (printLineupButton) initPrintLineupButton(printLineupButton);
-  if (clearLineupButton) initClearLineupButton(clearLineupButton);
-  if (finishedButton) initFinishedButton(finishedButton);
+  // Initialize additional buttons.
+  if (print_lineup_button) initPrintLineupButton(print_lineup_button);
+  if (clear_lineup_button) initClearLineupButton(clear_lineup_button);
+  if (finished_button) initFinishedButton(finished_button);
 });
