@@ -22,4 +22,3 @@ export const saveLineup = async (category_id, show_id, breed_ids, apiEndpoint) =
       throw error;
     }
   };
-  
