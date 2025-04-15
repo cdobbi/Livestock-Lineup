@@ -25,12 +25,8 @@ export function initPrintLineupButton(printLineupButton) {
             };
         }
         groupedLineups[key].breed_names.push(row.breed_name);
-        });
+});
 
-              
-          }
-          groupedLineups[key].breedNames.push(row.breed_name);
-        });
   
         // Open a new window for the print preview.
         const printWindow = window.open("", "_blank");
