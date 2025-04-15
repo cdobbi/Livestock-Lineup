@@ -12,18 +12,22 @@ export function initPrintLineupButton(printLineupButton) {
         // We assume that a save action inserts multiple rows (one per breed)
         // that share the same show and category. We group them so that the preview
         // shows a single "Lineup" entry with a list of breeds.
+        // Group the lineups by a composite key (show_id and category_id).
         const groupedLineups = {};
         lineups.forEach((row) => {
-          // For grouping, use show_id and category_id.
-          const key = `${row.show_id}|${row.category_id}`;
-          if (!groupedLineups[key]) {
+        const key = `${row.show_id}|${row.category_id}`;
+        if (!groupedLineups[key]) {
             groupedLineups[key] = {
-              // Use the first row’s lineup_id for display
-              lineupId: row.lineup_id,
-              showName: row.show_name,
-              categoryName: row.category_name,
-              breedNames: []
+            lineup_id: row.lineup_id,
+            show_name: row.show_name,
+            category_name: row.category_name,
+            breed_names: []
             };
+        }
+        groupedLineups[key].breed_names.push(row.breed_name);
+        });
+
+              
           }
           groupedLineups[key].breedNames.push(row.breed_name);
         });
