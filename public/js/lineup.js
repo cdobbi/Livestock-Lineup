@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         container.innerHTML = `<p class="text-danger">Failed to load lineups. Please try again later.</p>`;
     }
 });
-
 function renderLineups(container, data) {
     container.innerHTML = "";
 
@@ -63,7 +62,7 @@ function renderLineups(container, data) {
 
             // Breed list
             const breedList = document.createElement("ul");
-            breedList.classList.add("list-group", "ps-4"); // Add padding for indentation
+            breedList.classList.add("list-group");
 
             grouped[show][category].forEach((breed) => {
                 const breedItem = document.createElement("li");
@@ -83,7 +82,6 @@ function renderLineups(container, data) {
         container.appendChild(showDiv);
     });
 }
-
 async function sendNotification(breed, category, show) {
     try {
         const response = await fetch("/pusher-config/trigger", {
