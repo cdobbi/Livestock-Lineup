@@ -21,21 +21,22 @@ const pusher = new Pusher({
 
 
 // Define the GET route for /pusher-config (for frontend clients)
-router.get("/", (req, res) => {
-  res.json(pusherConfig);
-});
-
-// Example POST route to trigger a Pusher event
 router.post("/trigger", (req, res) => {
-  const { channel, event, data } = req.body;
-
-  try {
-    pusher.trigger(channel, event, data);
-    res.status(200).json({ message: "Event triggered successfully!" });
-  } catch (error) {
-    console.error("Error triggering Pusher event:", error);
-    res.status(500).json({ message: "Failed to trigger event." });
-  }
-});
+    console.log("Received trigger request:", req.body);
+    const { channel, event, data } = req.body;
+  
+    try {
+      pusher.trigger(channel, event, data);
+      console.log(
+        `Triggered event on channel "${channel}" with event "${event}" and data:`,
+        data
+      );
+      res.status(200).json({ message: "Event triggered successfully!" });
+    } catch (error) {
+      console.error("Error triggering Pusher event:", error);
+      res.status(500).json({ message: "Failed to trigger event." });
+    }
+  });
+  
 
 export default router;
