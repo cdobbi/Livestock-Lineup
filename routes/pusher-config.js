@@ -6,8 +6,8 @@ Pusher.logToConsole = true;
 
 // Public Pusher configuration for frontend clients
 const pusherConfig = {
-    PUSHER_KEY: process.env.PUSHER_KEY, // Public Pusher key
-    PUSHER_CLUSTER: process.env.PUSHER_CLUSTER, // Pusher cluster (e.g., "mt1")
+  key: process.env.PUSHER_KEY, // Public Pusher key
+  cluster: process.env.PUSHER_CLUSTER, // Pusher cluster (e.g., "mt1")
 };
 
 // Private Pusher instance for server-side operations
