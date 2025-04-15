@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // SAMPLE DATA: This simulates what your API should return.
     const sampleData = [
-      { category_name: "Lop", show_id: 1, breed_name: "American Lop" },
-      { category_name: "Lop", show_id: 1, breed_name: "Dutch Lop" },
-      { category_name: "Lop", show_id: 2, breed_name: "English Lop" }
+      { category_id: "Youth", show_id: 5, breed_name: "Mini Lop" },
+      { category_id: "Open", show_id: 1, breed_name: "Rex" },
+      { category_id: "Youth", show_id: 4, breed_name: "Rhinelander" }
     ];
     
     // Render the lineup using the sample data
