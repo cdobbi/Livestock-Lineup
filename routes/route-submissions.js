@@ -11,9 +11,15 @@ const router = express.Router();
 router.post(
   "/",
   [
-    body("exhibitor_id").exists().withMessage("Exhibitor ID is required."),
-    body("show_id").exists().withMessage("Show ID is required."),
-    body("category_id").exists().withMessage("Category ID is required."),
+    body("exhibitor_id")
+      .exists()
+      .withMessage("Exhibitor ID is required."),
+    body("show_id")
+      .exists()
+      .withMessage("Show ID is required."),
+    body("category_id")
+      .exists()
+      .withMessage("Category ID is required."),
     body("breed_ids")
       .isArray({ min: 1 })
       .withMessage("breed_ids must be a non-empty array."),
@@ -65,39 +71,29 @@ router.post(
  * Fetch all submissions, joining with related tables for human-readable names.
  */
 router.get("/", async (req, res) => {
-    try {
-      const result = await pool.query(`
-        SELECT 
-          s.id AS submission_id,
-          s.exhibitor_id,
-          e.name AS exhibitor_name,
-          s.show_id,
-          sh.name AS show_name,
-          s.category_id,
-          c.name AS category_name,
-          s.breed_id,
-          b.breed_name
-        FROM submissions s
-        LEFT JOIN exhibitors e ON s.exhibitor_id = e.id
-        LEFT JOIN shows sh ON s.show_id = sh.id
-        LEFT JOIN categories c ON s.category_id = c.id
-        LEFT JOIN breeds b ON s.breed_id = b.id
-        ORDER BY s.id
-      `);
-      res.status(200).json(result.rows);
-    } catch (error) {
-      console.error("Error fetching submissions:", error);
-      res.status(500).json({ message: "Failed to fetch submissions." });
-    }
-  });
-  
-    return res.status(200).json(result.rows);
+  try {
+    const result = await pool.query(`
+      SELECT 
+        s.id AS submission_id,
+        s.exhibitor_id,
+        e.name AS exhibitor_name,
+        s.show_id,
+        sh.name AS show_name,
+        s.category_id,
+        c.name AS category_name,
+        s.breed_id,
+        b.breed_name
+      FROM submissions s
+      LEFT JOIN exhibitors e ON s.exhibitor_id = e.id
+      LEFT JOIN shows sh ON s.show_id = sh.id
+      LEFT JOIN categories c ON s.category_id = c.id
+      LEFT JOIN breeds b ON s.breed_id = b.id
+      ORDER BY s.id
+    `);
+    res.status(200).json(result.rows);
   } catch (error) {
-    console.error("Error fetching submissions:", error.message);
-    return res.status(500).json({
-      message: "Failed to fetch submissions.",
-      error: error.message,
-    });
+    console.error("Error fetching submissions:", error);
+    res.status(500).json({ message: "Failed to fetch submissions." });
   }
 });
 
@@ -108,7 +104,9 @@ router.get("/", async (req, res) => {
 router.delete("/", async (req, res) => {
   try {
     await pool.query("DELETE FROM submissions");
-    return res.status(200).json({ message: "All submissions cleared successfully." });
+    return res.status(200).json({
+      message: "All submissions cleared successfully.",
+    });
   } catch (error) {
     console.error("Error clearing submissions:", error.message);
     return res.status(500).json({
