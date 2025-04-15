@@ -13,39 +13,67 @@
 <body>
     <header class="text-center my-4" id="intro">
         <h1 class="text-center my-4">Show Lineup & Alert</h1>
-        <hr></hr>
+        <hr>
+        </hr>
         <div class="text-center my-4">
             <p>Welcome to the Show Lineup & Alert system!
             </p>
             <p>This system allows you to view the show lineup and send a notification to the exhibitor.
-            <br>Click on a breed when you're ready for them and the notification will be sent.</p>
-            <hr></hr>
-        </header>
-        <div class="container mt-5">
-            <div id="lineup-container"></div>
-            </div>
-
-
-    <footer class="text-center my-4">
-        <hr></hr>
-        <div class="col-lg-4">
-            <p>&copy; Christina Dobbins 🐇🫐🥕🥬<br>
-                <a href="https://www.rhinelander-rabbitry.com" class="text-info">www.rhinelander-rabbitry.com</a>
-                <br>
-                <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
+                <br>Click on a breed when you're ready for them and the notification will be sent.
             </p>
+            <hr>
+            </hr>
+    </header>
+    <div class="container">
+        <div class="lineup mb-4">
+            <h2 class="mb-2">Show: A</h2>
+            <h3 class="mb-2">Category: Youth</h3>
+            <ul class="list-group">
+                <li class="list-group-item">AMERICAN</li>
+                <li class="list-group-item">SILVER FOX</li>
+            </ul>
         </div>
-    </footer>
+        <div class="lineup mb-4">
+            <h2 class="mb-2">Show: D</h2>
+            <h3 class="mb-2">Category: Open</h3>
+            <ul class="list-group">
+                <li class="list-group-item">REX</li>
+                <li class="list-group-item">TAN</li>
+            </ul>
+        </div>
+        <div id="flipping-card" class="flipping-card-container">
+            <div class="flipping-card">
+              <div class="flipping-card-inner">
+                <div class="flipping-card-front">
+                  <p>Lineup saved!</p>
+                </div>
+                <div class="flipping-card-back">
+                  <p>Loading data...</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    <script src="./js/lineup.js" type="module"></script>
-    <script src="./js/notifications.js" type="module"></script>
-    <script src="./js/pusherNotifications.js" type="module"></script>
-    <script src="https://js.pusher.com/8.4/pusher.min.js"></script>
-    <script src="./js/sendNotification.js" type="module"></script>
-    <script src="./js/validateAndSendNotification.js" type="module"></script>
-    <script src="./js/uiHelpers.js" type="module"></script>
-    <script src="./js/localStorage.js" type="module"></script>
-    <script src="./js/showLineup.js" type="module"></script>
+        <footer class="text-center my-4">
+            <hr></hr>
+            <div class="col-lg-4">
+                <p>&copy; Christina Dobbins 🐇🫐🥕🥬<br>
+                    <a href="https://www.rhinelander-rabbitry.com" class="text-info">www.rhinelander-rabbitry.com</a>
+                    <br>
+                    <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
+                </p>
+            </div>
+        </footer>
+
+        <script src="./js/lineup.js" type="module"></script>
+        <script src="./js/notifications.js" type="module"></script>
+        <script src="./js/pusherNotifications.js" type="module"></script>
+        <script src="https://js.pusher.com/8.4/pusher.min.js"></script>
+        <script src="./js/sendNotification.js" type="module"></script>
+        <script src="./js/validateAndSendNotification.js" type="module"></script>
+        <script src="./js/uiHelpers.js" type="module"></script>
+        <script src="./js/localStorage.js" type="module"></script>
+        <script src="./js/showLineup.js" type="module"></script>
 
 
 </body>

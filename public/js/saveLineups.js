@@ -22,4 +22,18 @@ export const saveLineup = async (category_id, show_id, breed_ids, apiEndpoint) =
       throw error;
     }
 };
+
+// Trigger the flipping card animation once the lineups render successfully.
+function triggerFlippingCard() {
+    const flippingCard = document.getElementById("flipping-card");
+    if (!flippingCard) return;
+  
+    // Add the "flipped" class for the animation
+    flippingCard.classList.add("flipped");
+  
+    // Remove the "flipped" class after 3 seconds
+    setTimeout(() => {
+      flippingCard.classList.remove("flipped");
+    }, 3000);
+  }
   
