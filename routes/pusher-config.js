@@ -2,6 +2,7 @@ import express from "express";
 import Pusher from "pusher";
 
 const router = express.Router();
+Pusher.logToConsole = true;
 
 // Public Pusher configuration for frontend clients
 const pusherConfig = {
