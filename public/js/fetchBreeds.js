@@ -6,24 +6,24 @@ export async function fetchAndRenderBreeds(apiUrl, containerElement) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const breeds = await response.json();
-      console.log("Breeds fetched:", breeds); // Debug: log the breed array
+      console.log("Breeds fetched:", breeds); // Debug output
   
-      // Clear the container
+      // Clear container
       containerElement.innerHTML = "";
   
-      // For each breed, create a button element.
+      // For each breed, create a button element
       breeds.forEach((breed) => {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "breed-button btn btn-outline-secondary m-2";
   
-        // Use breed's name; adjust property names if necessary
+        // Use the breed's name with fallback to "Unknown Breed"
         btn.textContent = breed.breed_name || breed.name || "Unknown Breed";
   
-        // Use the correct breed identifier from the API (check both snake_case and camelCase)
-        btn.dataset.breed = breed.breed_id || breed.id;
+        // Set data attribute using breed_id if exists, otherwise id
+        btn.dataset.breed = breed.breed_id || breed.id || "";
   
-        // Toggle active state on click.
+        // Toggle active state on click
         btn.addEventListener("click", function () {
           btn.classList.toggle("active");
           console.log(`Breed ${btn.textContent} is now ${btn.classList.contains("active") ? 'selected' : 'deselected'}.`);
