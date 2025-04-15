@@ -4,4 +4,5 @@ export function initFinishedButton(finishedButton) {
       // Redirect the user to the lineup viewing page.
       window.location.href = "/lineup.html";
     });
-  }
+}
+  

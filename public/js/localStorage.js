@@ -34,3 +34,4 @@ export function initFinishedButton(finishedButton) {
         console.error("Finished button not found.");
     }
 }
+

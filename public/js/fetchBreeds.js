@@ -36,3 +36,4 @@ export async function fetchAndRenderBreeds(apiUrl, containerElement) {
     }
   }
   
+  

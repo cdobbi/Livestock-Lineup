@@ -67,6 +67,7 @@ export function initPrintLineupButton(printLineupButton) {
           printWindow.document.write("</table>");
         }
   
+          
         // Add a Print button.
         printWindow.document.write(`<button onclick="window.print()">Print Lineup</button>`);
         printWindow.document.write(`

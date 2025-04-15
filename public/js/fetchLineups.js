@@ -24,7 +24,6 @@ export async function fetchAndRenderLineups(lineupContainer, selectedShowId) {
         "<p>Failed to load lineups. Please try again later.</p>";
     }
   }
-  
   /**
    * renderLineups:
    *  - Expects showLineups to be an array of objects.

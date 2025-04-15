@@ -9,5 +9,6 @@ export async function submitExhibitorLineup(payload) {
       throw new Error(data.message);
     }
     return data;
-  }
+}
+  
   
