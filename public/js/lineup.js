@@ -1,4 +1,7 @@
 // ---------- BEGIN FRONT-END CODE (lineup.js) ----------
+
+// When the DOM is ready, render the lineup using hardcoded sample data.
+// (Once your backend is working, you can replace this with a real API call.)
 document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("lineup-container");
     if (!container) {
@@ -16,14 +19,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // Render the lineup using the sample data
     renderLineups(container, sampleData);
   });
- 
+  
+  /**
+   * Renders the lineup.
+   * Groups the data by category and show, then creates clickable breed labels.
+   */
   function renderLineups(container, data) {
     container.innerHTML = "";
     
     // Group the sample data by category and then by show.
     const grouped = {};
     data.forEach(entry => {
-      const category = entry.category_name;
+      const category = entry.category_id;
       const show = "Show " + entry.show_id;
       if (!grouped[category]) {
         grouped[category] = {};
@@ -92,4 +99,3 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error sending notification:", error);
     }
   }
-  
