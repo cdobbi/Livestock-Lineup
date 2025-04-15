@@ -7,6 +7,9 @@ const router = express.Router();
 /**
  * POST /api/submissions
  * Save exhibitor submissions – each breed in the submission becomes its own row.
+ *
+ * Expected payload keys (all in snake_case):
+ *   exhibitor_id, show_id, category_id, breed_ids (an array)
  */
 router.post(
   "/",
@@ -30,12 +33,10 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
-    // Destructure using snake_case keys.
     const { exhibitor_id, show_id, category_id, breed_ids } = req.body;
     console.log("Received submission payload:", req.body);
 
-    // Use a transaction so that we insert either all rows or none.
+    // Get a client from the pool and start a transaction.
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
@@ -68,7 +69,9 @@ router.post(
 
 /**
  * GET /api/submissions
- * Fetch all submissions, joining with related tables for human-readable names.
+ * Fetch all submissions, joining with related tables for human‑readable names.
+ *
+ * Note: Removed 's.submission_time' from the SELECT list since that column does not exist.
  */
 router.get("/", async (req, res) => {
   try {
@@ -90,23 +93,24 @@ router.get("/", async (req, res) => {
       LEFT JOIN breeds b ON s.breed_id = b.id
       ORDER BY s.id
     `);
-    res.status(200).json(result.rows);
+    return res.status(200).json(result.rows);
   } catch (error) {
-    console.error("Error fetching submissions:", error);
-    res.status(500).json({ message: "Failed to fetch submissions." });
+    console.error("Error fetching submissions:", error.message);
+    return res.status(500).json({
+      message: "Failed to fetch submissions.",
+      error: error.message,
+    });
   }
 });
 
 /**
  * DELETE /api/submissions
- * Clear all submissions (for testing purposes).
+ * Clear all submissions (for testing purposes only).
  */
 router.delete("/", async (req, res) => {
   try {
     await pool.query("DELETE FROM submissions");
-    return res.status(200).json({
-      message: "All submissions cleared successfully.",
-    });
+    return res.status(200).json({ message: "All submissions cleared successfully." });
   } catch (error) {
     console.error("Error clearing submissions:", error.message);
     return res.status(500).json({
