@@ -3,6 +3,7 @@ import Pusher from "pusher";
 
 const router = express.Router();
 Pusher.logToConsole = true;
+console.log("const log receiving")
 
 // Public Pusher configuration for frontend clients
 const pusherConfig = {
