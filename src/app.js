@@ -58,6 +58,16 @@ app.get("/api/test-db", async (req, res) => {
   }
 });
 
+app.get("/api/submissions", async (req, res) => {
+    try {
+      const submissions = await db.query("SELECT * FROM submissions"); // Example query
+      res.json(submissions.rows);
+    } catch (error) {
+      console.error("Error fetching submissions:", error);
+      res.status(500).json({ error: "Failed to fetch submissions" });
+    }
+  });
+
 // Root route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public", "index.html"));
