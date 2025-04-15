@@ -1,23 +1,26 @@
-// ---------- BEGIN FRONT-END CODE (lineup.js) ----------
-
-// When the DOM is ready, render the lineup using hardcoded sample data.
-// (Once your backend is working, you can replace this with a real API call.)
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("lineup-container");
+  
     if (!container) {
       console.error("lineup-container not found");
       return;
     }
-    
-    // SAMPLE DATA: This simulates what your API should return.
-    const sampleData = [
-      { category_id: "Youth", show_id: 5, breed_name: "Mini Lop" },
-      { category_id: "Open", show_id: 1, breed_name: "Rex" },
-      { category_id: "Youth", show_id: 4, breed_name: "Rhinelander" }
-    ];
-    
-    // Render the lineup using the sample data
-    renderLineups(container, sampleData);
+  
+    try {
+      // Fetch saved lineups from the backend
+      const response = await fetch("/api/submissions");
+      if (!response.ok) {
+        throw new Error("Failed to fetch lineups");
+      }
+  
+      const lineups = await response.json();
+  
+      // Render the fetched lineups
+      renderLineups(container, lineups);
+    } catch (error) {
+      console.error("Error fetching or rendering lineups:", error);
+      container.innerHTML = `<p class="text-danger">Failed to load lineups. Please try again later.</p>`;
+    }
   });
   
   /**
@@ -26,69 +29,91 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   function renderLineups(container, data) {
     container.innerHTML = "";
-    
-    // Group the sample data by category and then by show.
+  
+    // Group the data by show and category
     const grouped = {};
-    data.forEach(entry => {
-      const category = entry.category_name;
-      const show = "Show " + entry.show_id;
-      if (!grouped[category]) {
-        grouped[category] = {};
+    data.forEach((entry) => {
+      const show = entry.show_name || `Show ${entry.show_id}`;
+      const category = entry.category_name || `Category ${entry.category_id}`;
+      if (!grouped[show]) {
+        grouped[show] = {};
       }
-      if (!grouped[category][show]) {
-        grouped[category][show] = [];
+      if (!grouped[show][category]) {
+        grouped[show][category] = [];
       }
-      grouped[category][show].push(entry.breed_name);
+      grouped[show][category].push(entry.breed_name);
     });
-    
-    // Create HTML for each group.
-    Object.keys(grouped).forEach(category => {
-      Object.keys(grouped[category]).forEach(show => {
-        // Container for this category and show
-        const groupDiv = document.createElement("div");
-        groupDiv.classList.add("lineup", "mb-4", "p-3", "border", "rounded");
-        
-        // Title for the group
-        const title = document.createElement("h3");
-        title.textContent = `Category: ${category} - ${show}`;
-        title.classList.add("text-primary");
-        groupDiv.appendChild(title);
-        
-        // Create a list of breeds
-        const ul = document.createElement("ul");
-        ul.classList.add("list-group");
-        
-        grouped[category][show].forEach(breed => {
-          const li = document.createElement("li");
-          li.classList.add("list-group-item");
-          
-          const label = document.createElement("label");
-          label.textContent = breed;
-          label.style.cursor = "pointer";
-          // When a breed label is clicked, send a remote notification request.
-          label.addEventListener("click", (event) => {
-            event.stopPropagation();
-            console.log(`Breed ${breed} clicked in lineup: Category ${category}, ${show}`);
-            sendNotification(breed, category, show);
+  
+    // Create HTML for each group
+    Object.keys(grouped).forEach((show) => {
+      const showDiv = document.createElement("div");
+      showDiv.classList.add("mb-4");
+  
+      // Show title
+      const showTitle = document.createElement("h2");
+      showTitle.textContent = `Lineup: ${show}`;
+      showTitle.classList.add("mb-3");
+      showDiv.appendChild(showTitle);
+  
+      Object.keys(grouped[show]).forEach((category) => {
+        // Category title
+        const categoryTitle = document.createElement("h2");
+        categoryTitle.textContent = `Category: ${category}`;
+        categoryTitle.classList.add("mb-3");
+        showDiv.appendChild(categoryTitle);
+  
+        // Breed list
+        const breedList = document.createElement("ul");
+        breedList.classList.add("list-group");
+  
+        grouped[show][category].forEach((breed) => {
+          const breedItem = document.createElement("li");
+          breedItem.classList.add("list-group-item", "d-flex", "align-items-center");
+  
+          // Checkbox
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.classList.add("form-check-input", "me-2");
+          checkbox.style.marginRight = "10px";
+  
+          // Notification logic
+          checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+              sendNotification(breed, category, show);
+            }
           });
-          
-          li.appendChild(label);
-          ul.appendChild(li);
+  
+          // Breed name
+          const breedName = document.createElement("span");
+          breedName.textContent = breed;
+  
+          breedItem.appendChild(checkbox);
+          breedItem.appendChild(breedName);
+          breedList.appendChild(breedItem);
         });
-        
-        groupDiv.appendChild(ul);
-        container.appendChild(groupDiv);
+  
+        showDiv.appendChild(breedList);
       });
+  
+      container.appendChild(showDiv);
     });
   }
   
+  /**
+   * Sends a notification when a breed is selected.
+   */
   async function sendNotification(breed, category, show) {
     try {
       const response = await fetch("/pusher-config/trigger", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ channel: "livestock-lineup", event: "breed-notification", data: { breed, category, show } })
+        body: JSON.stringify({
+          channel: "livestock-lineup",
+          event: "breed-notification",
+          data: { breed, category, show },
+        }),
       });
+  
       if (!response.ok) {
         const text = await response.text();
         console.error("Failed to trigger notification:", text);
@@ -99,4 +124,3 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error sending notification:", error);
     }
   }
-  
