@@ -47,28 +47,31 @@ export function initStartApplication() {
       alert("Leave your phone's volume up. Waiting for notification...");
     }
     
-    // --- NEW: Trigger the submission logic ---
-    // Replace the following hardcoded values with data gathered from the UI as needed:
-    const exhibitorId = 1;         // Example: the current exhibitor's ID (should come dynamically)
-    const showId = 6;              // Example show id; adjust according to your app logic
-    const categoryId = 2;          // Example category id (for instance, Open)
+        // --- NEW: Trigger the submission logic ---
+    // Replace these hardcoded values with data gathered dynamically as needed.
+    const exhibitorId = 1;         // Example: current exhibitor's ID (should be dynamic)
+    const showId = 6;              // Example show ID; adjust according to your app logic
+    const categoryId = 2;          // Example category ID (for instance, Open)
     const breedIds = [5, 8, 12];     // Example selected breed IDs array
 
+    // Build a payload object with snake_case keys
+    const payload = {
+    exhibitor_id: exhibitorId,
+    show_id: showId,
+    category_id: categoryId,
+    breed_ids: breedIds,
+    };
+
     try {
-      const submissionResponse = await submitExhibitorLineup(
-        exhibitorId,
-        showId,
-        categoryId,
-        breedIds
-      );
-      console.log("Submission response:", submissionResponse);
-      
-      // Optional: store the submission in local storage for additional retrieval,
-      // but note that for cross-device persistence you want the backend to be the source of truth.
-      localStorage.setItem("exhibitorSubmission", JSON.stringify(submissionResponse));
+    const submissionResponse = await submitExhibitorLineup(payload);
+    console.log("Submission response:", submissionResponse);
+    
+    // Optionally store the submission in localStorage.
+    localStorage.setItem("exhibitorSubmission", JSON.stringify(submissionResponse));
     } catch (error) {
-      console.error("Error submitting exhibitor lineup:", error);
+    console.error("Error submitting exhibitor lineup:", error);
     }
+
     
     // --- End submission logic ---
     
