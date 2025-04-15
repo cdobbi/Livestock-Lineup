@@ -1,83 +1,80 @@
 import express from "express";
-import pool from "../src/db.js"; // Import the centralized database connection
+import pool from "../src/db.js"; // Adjust the path as needed
 
-const router = express.Router(); // Initialize the router
+const router = express.Router();
 
-// Save a lineup
+// Save exhibitor submissions – each breed in the submission becomes its own row
 router.post("/", async (req, res) => {
-    const { showId, categoryId, breedIds } = req.body; // Expect integers or an array of integers
+  const { exhibitor_id, showId, categoryId, breedIds } = req.body;
 
-    // Debugging: Log the received request body
-    console.log("Request body received for saving lineup:", req.body);
+  console.log("Received submission payload:", req.body);
 
-    try {
-        if (!showId || !categoryId || !Array.isArray(breedIds) || breedIds.length === 0) {
-            return res.status(400).json({
-                message: "Invalid payload. Ensure 'showId', 'categoryId', and 'breedIds' are provided.",
-            });
-        }
+  // Validate the payload
+  if (!exhibitor_id || !showId || !categoryId || !Array.isArray(breedIds) || breedIds.length === 0) {
+    return res.status(400).json({
+      message:
+        "Invalid payload. Ensure that exhibitor_id, showId, categoryId, and breedIds (as a non-empty array) are provided.",
+    });
+  }
 
-        // Insert each breed ID as a separate row in the database
-        const queries = breedIds.map(async (breedId) => {
-            try {
-                return await pool.query(
-                    "INSERT INTO lineups (show_id, category_id, breed_id) VALUES ($1, $2, $3) RETURNING *",
-                    [showId, categoryId, breedId]
-                );
-            } catch (queryError) {
-                console.error(`Error inserting breedId ${breedId}:`, queryError.message);
-                throw queryError; // Re-throw to propagate error
-            }
-        });
+  try {
+    // Insert each breed ID as a separate row in the submissions table
+    const queries = breedIds.map(async (breedId) => {
+      return await pool.query(
+        "INSERT INTO submissions (exhibitor_id, show_id, category_id, breed_id) VALUES ($1, $2, $3, $4) RETURNING *",
+        [exhibitor_id, showId, categoryId, breedId]
+      );
+    });
 
-        const results = await Promise.all(queries); // Execute all queries
-        const savedLineups = results.map((result) => result.rows[0]); // Collect saved rows
+    const results = await Promise.all(queries);
+    const savedSubmissions = results.map((result) => result.rows[0]);
 
-        res.status(201).json(savedLineups);
-    } catch (error) {
-        console.error("Error saving lineup:", error.message);
-        res.status(500).json({ message: "Failed to save lineup.", error: error.message });
-    }
+    res.status(201).json(savedSubmissions);
+  } catch (error) {
+    console.error("Error saving submission:", error.message);
+    res.status(500).json({ message: "Failed to save submission.", error: error.message });
+  }
 });
 
-// Fetch all lineups
+// Fetch all submissions
 router.get("/", async (req, res) => {
-    try {
-        const result = await pool.query(`
-            SELECT 
-                l.id AS lineup_id,
-                l.show_id,
-                l.category_id,
-                b.breed_name,
-                c.name AS category_name, 
-                s.name AS show_name
-            FROM 
-                lineups l
-            JOIN 
-                breeds b ON l.breed_id = b.id
-            JOIN 
-                categories c ON l.category_id = c.id
-            JOIN 
-                shows s ON l.show_id = s.id
-            ORDER BY 
-                l.id
-        `);
-        res.status(200).json(result.rows);
-    } catch (error) {
-        console.error("Error fetching lineups:", error.message);
-        res.status(500).json({ message: "Failed to fetch lineups.", error: error.message });
-    }
+  try {
+    // Join submissions with related tables to include human-readable names
+    const result = await pool.query(`
+      SELECT 
+        s.id AS submission_id,
+        s.exhibitor_id,
+        e.name AS exhibitor_name,
+        s.show_id,
+        sh.name AS show_name,
+        s.category_id,
+        c.name AS category_name,
+        s.breed_id,
+        b.breed_name,
+        s.submission_time
+      FROM submissions s
+      LEFT JOIN exhibitors e ON s.exhibitor_id = e.id
+      LEFT JOIN shows sh ON s.show_id = sh.id
+      LEFT JOIN categories c ON s.category_id = c.id
+      LEFT JOIN breeds b ON s.breed_id = b.id
+      ORDER BY s.id
+    `);
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error("Error fetching submissions:", error.message);
+    res.status(500).json({ message: "Failed to fetch submissions.", error: error.message });
+  }
 });
 
-// Clear all lineups
+// Clear all submissions (for testing purposes)
 router.delete("/", async (req, res) => {
-    try {
-        await pool.query("DELETE FROM lineups"); // Delete all entries in the 'lineups' table
-        res.status(200).json({ message: "All lineups cleared successfully." });
-    } catch (error) {
-        console.error("Error clearing lineups:", error.message);
-        res.status(500).json({ message: "Failed to clear lineups.", error: error.message });
-    }
+  try {
+    await pool.query("DELETE FROM submissions");
+    res.status(200).json({ message: "All submissions cleared successfully." });
+  } catch (error) {
+    console.error("Error clearing submissions:", error.message);
+    res.status(500).json({ message: "Failed to clear submissions.", error: error.message });
+  }
 });
 
-export default router; // Export the router
+export default router;
