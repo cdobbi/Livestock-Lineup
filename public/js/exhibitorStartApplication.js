@@ -1,28 +1,21 @@
-// exhibitorStartApplication.js
-
-// Import your submission function (adjust the path as necessary)
-import { submitExhibitorLineup } from "./lineupSubmission.js"; 
-// For example, lineupSubmission.js contains your runtime code to call the /api/submissions endpoint.
+import { submitExhibitorLineup } from "./lineupSubmission.js";
 
 export function initStartApplication() {
   const startButton = document.getElementById("start");
   const flippingCard = document.getElementById("flipping-card");
-  
+
   if (!startButton) {
     console.error("Start Application button not found!");
     return;
   }
-  
+
   startButton.addEventListener("click", async () => {
-    // If the flipping card element exists, update its content
+    // Update the flipping card content
     if (flippingCard) {
       const cardInner = flippingCard.querySelector(".flipping-card-inner");
       if (cardInner) {
-        // Temporarily disable animation so the card remains static.
         cardInner.style.animation = "none";
       }
-      
-      // Update the card content
       const cardFront = flippingCard.querySelector(".flipping-card-front");
       if (cardFront) {
         cardFront.innerHTML = `
@@ -33,55 +26,50 @@ export function initStartApplication() {
           </p>
         `;
       }
-      
-      // Optionally update the card back too
       const cardBack = flippingCard.querySelector(".flipping-card-back");
       if (cardBack) {
         cardBack.innerHTML = `<p>Waiting...</p>`;
       }
-      
-      // Display the card (without the flip animation)
       flippingCard.style.display = "block";
     } else {
-      // Fallback in case the card element doesn't exist
       alert("Leave your phone's volume up. Waiting for notification...");
     }
-    
-        // --- NEW: Trigger the submission logic ---
-    // Replace these hardcoded values with data gathered dynamically as needed.
-    const exhibitorId = 1;         // Example: current exhibitor's ID (should be dynamic)
-    const showId = 6;              // Example show ID; adjust according to your app logic
-    const categoryId = 2;          // Example category ID (for instance, Open)
-    const breedIds = [5, 8, 12];     // Example selected breed IDs array
 
-    // Build a payload object with snake_case keys
+    // Gather dynamic data for the submission
+    const exhibitor_id = document.getElementById("exhibitor-id").value; // Example: hidden input field
+    const show_id = document.getElementById("show-select").value;
+    const category_id = document.getElementById("category-select").value;
+    const breed_ids = Array.from(document.querySelectorAll(".breed-button.active"))
+      .map((button) => button.dataset.breed);
+
+    if (!exhibitor_id || !show_id || !category_id || breed_ids.length === 0) {
+      alert("Please ensure all fields are filled and at least one breed is selected.");
+      return;
+    }
+
     const payload = {
-    exhibitor_id: exhibitorId,
-    show_id: showId,
-    category_id: categoryId,
-    breed_ids: breedIds,
+      exhibitor_id,
+      show_id,
+      category_id,
+      breed_ids,
     };
 
     try {
-    const submissionResponse = await submitExhibitorLineup(payload);
-    console.log("Submission response:", submissionResponse);
-    
-    // Optionally store the submission in localStorage.
-    localStorage.setItem("exhibitorSubmission", JSON.stringify(submissionResponse));
+      const submissionResponse = await submitExhibitorLineup(payload);
+      console.log("Submission response:", submissionResponse);
+
+      // Optionally store the submission in localStorage.
+      localStorage.setItem("exhibitorSubmission", JSON.stringify(submissionResponse));
     } catch (error) {
-    console.error("Error submitting exhibitor lineup:", error);
+      console.error("Error submitting exhibitor lineup:", error);
     }
 
-    
-    // --- End submission logic ---
-    
     // Hide the card after a few seconds and restore animations
     setTimeout(() => {
       if (flippingCard) {
         flippingCard.style.display = "none";
         const cardInner = flippingCard.querySelector(".flipping-card-inner");
         if (cardInner) {
-          // Restore the normal animation
           cardInner.style.animation = "";
         }
       }

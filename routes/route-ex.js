@@ -30,7 +30,7 @@ router.post("/save-exhibitor", async (req, res) => {
         }
 
         const result = await pool.query(
-            "INSERT INTO submissions (exhibitor_is, category_id, show_id, breed_is) VALUES ($1, $2, $3, $4) RETURNING *",
+            "INSERT INTO submissions (exhibitor_id, category_id, show_id, breed_id) VALUES ($1, $2, $3, $4) RETURNING *",
             [exhibitor_id, category_id, show_id, breed_id]
         );
 

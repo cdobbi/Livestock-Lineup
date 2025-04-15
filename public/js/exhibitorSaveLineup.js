@@ -40,13 +40,25 @@ export function initSaveLineup() {
       // Build payload using snake_case keys
       // The payload is now: { exhibitor_id, show_id, category_id, breed_ids }
       const submission = {
-        exhibitor_id: exhibitor_id,
-        show_id: show_id,
-        category_id: category_id,
-        breed_ids: selected_breeds
-      };
-  
-      console.log("Sending payload:", submission);
+        exhibitor_id: exhibitorId, // Get this from the form or user session
+        show_id: relatedShow,      // Derived from the breeds table
+        category_id: category,     // Derived from the breeds table
+        breed_ids: selectedBreeds  // Array of selected breed IDs
+    };
+    
+    // Send the submission to the backend
+    fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submission),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Submission saved:", data);
+        })
+        .catch((error) => {
+            console.error("Error saving submission:", error);
+        });
   
       try {
         const response = await fetch("https://livestock-lineup.onrender.com/api/submissions", {

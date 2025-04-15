@@ -26,12 +26,12 @@ export async function checkForNotifications() {
 
             const isBreedSelectedByExhibitor = hardCodedExhibitorSubmissions.some((exhibitor) =>
                 (exhibitor.submissions || []).some((submission) =>
-                    submission.breeds.includes(notification.breed)
+                    submission.breeds.includes(notification.breeds)
                 )
             );
 
             if (isBreedSelectedByExhibitor) {
-                notifyUser(notification.breed);
+                notifyUser(notification.breeds);
             }
         });
     } catch (error) {

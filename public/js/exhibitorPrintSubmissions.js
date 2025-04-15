@@ -71,5 +71,4 @@ export function initPrintSubmissions() {
         alert("An error occurred while fetching submissions for print preview.");
       }
     });
-  }
-  
+  }  
