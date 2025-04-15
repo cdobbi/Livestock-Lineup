@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const { breed, category, show } = data;
         alert(`Notification for Category: ${category}, Show: ${show}, Breed: ${breed}`);
         try {
-          const notificationSound = new Audio("./sounds/alert.mp3");
+          const notificationSound = new Audio("/sounds/alert.mp3");
           notificationSound.play();
         } catch (error) {
           console.error("Error playing notification sound:", error);

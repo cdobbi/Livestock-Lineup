@@ -1,5 +1,5 @@
 export function notifyUser(breed) {
-    const notificationSound = new Audio("./sounds/alrt.mp3");
+    const notificationSound = new Audio("/sounds/alrt.mp3");
     notificationSound.play();
 
     setTimeout(() => {

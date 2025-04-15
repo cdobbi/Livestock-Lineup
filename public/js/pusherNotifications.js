@@ -1,6 +1,6 @@
 import Pusher from "https://cdn.skypack.dev/pusher-js@8.4.0";
 
-const NOTIFICATION_SOUND_PATH = "./sounds/alert.mp3"; // Adjusted path to match convention
+const NOTIFICATION_SOUND_PATH = "/sounds/alert.mp3"; // Adjusted path to match convention
 const NOTIFICATION_ICON_PATH = "../images/notification-icon.png"; // Adjusted path to match convention
 const PUSHER_CHANNEL_NAME = "livestock-lineup";
 

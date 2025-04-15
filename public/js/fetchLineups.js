@@ -109,7 +109,7 @@ export function renderLineups(lineupContainer, showLineups) {
 // ========================
 
 // Create the notification sound and a Set to track notified breeds.
-const notificationSound = new Audio("./sounds/alert.mp3");
+const notificationSound = new Audio("/sounds/alert.mp3");
 const displayedNotifications = new Set();
 
 function showModal(message) {
