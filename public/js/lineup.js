@@ -25,63 +25,76 @@ document.addEventListener("DOMContentLoaded", async () => {
         container.innerHTML = `<p class="text-danger">Failed to load lineups. Please try again later.</p>`;
     }
 });
+
 function renderLineups(container, data) {
     container.innerHTML = "";
 
-    // Group the data by show and category
-    const grouped = {};
-    data.forEach((entry) => {
-        const show = entry.show_name || `Show ${entry.show_id}`;
-        const category = entry.category_name || `Category ${entry.category_id || "Unknown"}`;
-        if (!grouped[show]) {
-            grouped[show] = {};
+    // Group the lineups by a composite key (show_id and category_id)
+    const groupedLineups = {};
+    data.forEach((row) => {
+        const key = `${row.show_id}|${row.category_id}`;
+        if (!groupedLineups[key]) {
+            groupedLineups[key] = {
+                lineup_id: row.lineup_id,
+                show_name: row.show_name,
+                category_name: row.category_name,
+                breed_names: [],
+            };
         }
-        if (!grouped[show][category]) {
-            grouped[show][category] = [];
-        }
-        grouped[show][category].push(entry.breed_name);
+        groupedLineups[key].breed_names.push(row.breed_name);
     });
 
-    // Create HTML for each group
-    Object.keys(grouped).forEach((show) => {
-        const showDiv = document.createElement("div");
-        showDiv.classList.add("mb-4");
+    // Create a table to display the lineups
+    const table = document.createElement("table");
+    table.classList.add("table", "table-striped", "table-bordered", "mt-4");
 
-        // Show title
-        const showTitle = document.createElement("h2");
-        showTitle.textContent = `Lineup: ${show}`;
-        showTitle.classList.add("mb-3");
-        showDiv.appendChild(showTitle);
+    // Create the table header
+    const thead = document.createElement("thead");
+    thead.innerHTML = `
+      <tr>
+        <th>Lineup</th>
+        <th>Show</th>
+        <th>Category</th>
+        <th>Breeds</th>
+      </tr>
+    `;
+    table.appendChild(thead);
 
-        Object.keys(grouped[show]).forEach((category) => {
-            // Category title
-            const categoryTitle = document.createElement("h3");
-            categoryTitle.textContent = `Category: ${category}`;
-            categoryTitle.classList.add("mb-3");
-            showDiv.appendChild(categoryTitle);
+    // Create the table body
+    const tbody = document.createElement("tbody");
 
-            // Breed list
-            const breedList = document.createElement("ul");
-            breedList.classList.add("list-group");
+    // Populate the table body with grouped data
+    Object.keys(groupedLineups).forEach((key) => {
+        const group = groupedLineups[key];
+        const row = document.createElement("tr");
 
-            grouped[show][category].forEach((breed) => {
-                const breedItem = document.createElement("li");
-                breedItem.classList.add("list-group-item");
+        // Lineup ID
+        const lineupCell = document.createElement("td");
+        lineupCell.textContent = group.lineup_id;
+        row.appendChild(lineupCell);
 
-                // Breed name
-                const breedName = document.createElement("span");
-                breedName.textContent = breed;
+        // Show Name
+        const showCell = document.createElement("td");
+        showCell.textContent = group.show_name;
+        row.appendChild(showCell);
 
-                breedItem.appendChild(breedName);
-                breedList.appendChild(breedItem);
-            });
+        // Category Name
+        const categoryCell = document.createElement("td");
+        categoryCell.textContent = group.category_name;
+        row.appendChild(categoryCell);
 
-            showDiv.appendChild(breedList);
-        });
+        // Breeds (joined with line breaks)
+        const breedsCell = document.createElement("td");
+        breedsCell.innerHTML = group.breed_names.join("<br>");
+        row.appendChild(breedsCell);
 
-        container.appendChild(showDiv);
+        tbody.appendChild(row);
     });
+
+    table.appendChild(tbody);
+    container.appendChild(table);
 }
+
 async function sendNotification(breed, category, show) {
     try {
         const response = await fetch("/pusher-config/trigger", {
