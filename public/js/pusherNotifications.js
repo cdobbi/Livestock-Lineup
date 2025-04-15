@@ -112,7 +112,6 @@ function updateNotificationArea(breed, category, show) {
   }, 10000);
 }
 
-// A manual test function to play the notification sound on demand
 export function testNotificationSound() {
   console.log("Testing notification sound manually.");
   const testSound = new Audio(NOTIFICATION_SOUND_PATH);
@@ -120,4 +119,6 @@ export function testNotificationSound() {
     .then(() => console.log("Manual test: notification sound played successfully."))
     .catch((err) => console.error("Manual test: error playing notification sound:", err));
 }
-// At the end of your pusherNotifications.js file
+
+// Expose testNotificationSound to the global scope so you can call it from the console
+window.testNotificationSound = testNotificationSound;
