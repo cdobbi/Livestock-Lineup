@@ -40,10 +40,10 @@ export function initSaveLineup() {
       // Build payload using snake_case keys
       // The payload is now: { exhibitor_id, show_id, category_id, breed_ids }
       const submission = {
-        exhibitor_id: exhibitorId, // Get this from the form or user session
-        show_id: relatedShow,      // Derived from the breeds table
-        category_id: category,     // Derived from the breeds table
-        breed_ids: selectedBreeds  // Array of selected breed IDs
+        exhibitor_id: exhibitor_id, // Get this from the form or user session
+        show_id: related_show,      // Derived from the breeds table
+        category_id: category-id,     // Derived from the breeds table
+        breed_ids: selected_breeds  // Array of selected breed IDs
     };
     
     // Send the submission to the backend
