@@ -56,7 +56,7 @@ function renderLineups(container, data) {
 
         Object.keys(grouped[show]).forEach((category) => {
             // Category title
-            const categoryTitle = document.createElement("h2");
+            const categoryTitle = document.createElement("h3");
             categoryTitle.textContent = `Category: ${category}`;
             categoryTitle.classList.add("mb-3");
             showDiv.appendChild(categoryTitle);
@@ -67,25 +67,12 @@ function renderLineups(container, data) {
 
             grouped[show][category].forEach((breed) => {
                 const breedItem = document.createElement("li");
-                breedItem.classList.add("list-group-item", "d-flex", "align-items-center");
-
-                // Checkbox
-                const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.classList.add("form-check-input", "me-2");
-
-                // Notification logic
-                checkbox.addEventListener("change", () => {
-                    if (checkbox.checked) {
-                        sendNotification(breed, category, show);
-                    }
-                });
+                breedItem.classList.add("list-group-item");
 
                 // Breed name
                 const breedName = document.createElement("span");
                 breedName.textContent = breed;
 
-                breedItem.appendChild(checkbox);
                 breedItem.appendChild(breedName);
                 breedList.appendChild(breedItem);
             });
@@ -96,6 +83,7 @@ function renderLineups(container, data) {
         container.appendChild(showDiv);
     });
 }
+
 async function sendNotification(breed, category, show) {
     try {
         const response = await fetch("/pusher-config/trigger", {
