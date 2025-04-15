@@ -57,11 +57,11 @@ export function initPrintLineupButton(printLineupButton) {
           for (const key in groupedLineups) {
             const group = groupedLineups[key];
             printWindow.document.write("<tr>");
-            printWindow.document.write(`<td>${group.lineupId}</td>`);
-            printWindow.document.write(`<td>${group.showName}</td>`);
-            printWindow.document.write(`<td>${group.categoryName}</td>`);
+            printWindow.document.write(`<td>${group.lineup_id}</td>`);
+            printWindow.document.write(`<td>${group.show_name}</td>`);
+            printWindow.document.write(`<td>${group.category_name}</td>`);
             // Join breed names with a <br> for line breaks.
-            printWindow.document.write(`<td>${group.breedNames.join("<br>")}</td>`);
+            printWindow.document.write(`<td>${group.breed_names.join("<br>")}</td>`);
             printWindow.document.write("</tr>");
           }
           printWindow.document.write("</table>");
