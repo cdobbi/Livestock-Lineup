@@ -60,7 +60,7 @@ app.get("/api/test-db", async (req, res) => {
 
 app.get("/api/submissions", async (req, res) => {
     try {
-      const submissions = await db.query("SELECT * FROM submissions"); // Example query
+      const submissions = await app.locals.pool.query("SELECT * FROM submissions");
       res.json(submissions.rows);
     } catch (error) {
       console.error("Error fetching submissions:", error);
