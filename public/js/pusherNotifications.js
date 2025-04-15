@@ -120,3 +120,5 @@ export function testNotificationSound() {
     .then(() => console.log("Manual test: notification sound played successfully."))
     .catch((err) => console.error("Manual test: error playing notification sound:", err));
 }
+// At the end of your pusherNotifications.js file
+window.testNotificationSound = testNotificationSound;
