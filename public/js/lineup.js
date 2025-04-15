@@ -3,6 +3,15 @@ import { validateAndSendNotification } from "./notifications.js";
 
 // This function displays the lineups given a container element and showLineups data.
 export function displayLineups(lineupContainer, showLineups) {
+    console.log("displayLineups called with showLineups:", showLineups);
+
+    // Check if showLineups has valid content
+    if (!showLineups || Object.keys(showLineups).length === 0) {
+        console.warn("No lineup data received. Displaying fallback message.");
+        lineupContainer.innerHTML = "<p class='text-center'>No lineups available at this time.</p>";
+        return;
+    }
+
     console.log("Clearing lineup container...");
     lineupContainer.innerHTML = "";
 
@@ -51,6 +60,7 @@ export function displayLineups(lineupContainer, showLineups) {
         });
     });
 }
+
 
 // Automatically fetch and render lineups on lineup.html when the DOM is loaded.
 document.addEventListener("DOMContentLoaded", () => {
