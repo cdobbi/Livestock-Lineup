@@ -8,8 +8,13 @@ const router = express.Router();
  * POST /api/submissions
  * Save exhibitor submissions – each breed in the submission becomes its own row.
  *
- * Expected payload keys (all in snake_case):
- *   exhibitor_id, show_id, category_id, breed_ids (an array)
+ * Expected JSON payload:
+ * {
+ *   "exhibitor_id": <number>,
+ *   "show_id": <number>,
+ *   "category_id": <number>,
+ *   "breed_ids": [<number>, ...]
+ * }
  */
 router.post(
   "/",
@@ -33,15 +38,16 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
+    // Destructure payload using snake_case keys.
     const { exhibitor_id, show_id, category_id, breed_ids } = req.body;
     console.log("Received submission payload:", req.body);
 
-    // Get a client from the pool and start a transaction.
     const client = await pool.connect();
     try {
       await client.query("BEGIN");
-
       const savedSubmissions = [];
+      // Insert each breed ID as a separate row in the submissions table.
       for (const breed_id of breed_ids) {
         const result = await client.query(
           `INSERT INTO submissions 
@@ -51,7 +57,6 @@ router.post(
         );
         savedSubmissions.push(result.rows[0]);
       }
-
       await client.query("COMMIT");
       return res.status(201).json(savedSubmissions);
     } catch (error) {
@@ -69,9 +74,9 @@ router.post(
 
 /**
  * GET /api/submissions
- * Fetch all submissions, joining with related tables for human‑readable names.
+ * Fetch all submissions, joining with related tables for human-readable names.
  *
- * Note: Removed 's.submission_time' from the SELECT list since that column does not exist.
+ * Note: The submission_time column has been removed since it doesn't exist.
  */
 router.get("/", async (req, res) => {
   try {
