@@ -65,26 +65,32 @@ router.post(
  * Fetch all submissions, joining with related tables for human-readable names.
  */
 router.get("/", async (req, res) => {
-  try {
-    const result = await pool.query(`
-      SELECT 
-        s.id AS submission_id,
-        s.exhibitor_id,
-        e.name AS exhibitor_name,
-        s.show_id,
-        sh.name AS show_name,
-        s.category_id,
-        c.name AS category_name,
-        s.breed_id,
-        b.breed_name,
-        s.submission_time
-      FROM submissions s
-      LEFT JOIN exhibitors e ON s.exhibitor_id = e.id
-      LEFT JOIN shows sh ON s.show_id = sh.id
-      LEFT JOIN categories c ON s.category_id = c.id
-      LEFT JOIN breeds b ON s.breed_id = b.id
-      ORDER BY s.id
-    `);
+    try {
+      const result = await pool.query(`
+        SELECT 
+          s.id AS submission_id,
+          s.exhibitor_id,
+          e.name AS exhibitor_name,
+          s.show_id,
+          sh.name AS show_name,
+          s.category_id,
+          c.name AS category_name,
+          s.breed_id,
+          b.breed_name
+        FROM submissions s
+        LEFT JOIN exhibitors e ON s.exhibitor_id = e.id
+        LEFT JOIN shows sh ON s.show_id = sh.id
+        LEFT JOIN categories c ON s.category_id = c.id
+        LEFT JOIN breeds b ON s.breed_id = b.id
+        ORDER BY s.id
+      `);
+      res.status(200).json(result.rows);
+    } catch (error) {
+      console.error("Error fetching submissions:", error);
+      res.status(500).json({ message: "Failed to fetch submissions." });
+    }
+  });
+  
     return res.status(200).json(result.rows);
   } catch (error) {
     console.error("Error fetching submissions:", error.message);
