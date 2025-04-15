@@ -35,14 +35,29 @@ export function initStartApplication() {
       alert("Leave your phone's volume up. Waiting for notification...");
     }
 
+    // Validate and gather data from dropdowns
+    const show_select = document.getElementById("show-select");
+    const category_select = document.getElementById("category-select");
+
+    if (!show_select || !category_select) {
+      alert("Please select a show and category.");
+      return;
+    }
+
+    const show_id = show_select.value;
+    const category_id = category_select.value;
+
+    if (!show_id || !category_id) {
+      alert("Please ensure all fields are filled.");
+      return;
+    }
+
     // Gather dynamic data for the submission
     const exhibitor_id = document.getElementById("exhibitor-id").value; // Example: hidden input field
-    const show_id = document.getElementById("show-select").value;
-    const category_id = document.getElementById("category-select").value;
     const breed_ids = Array.from(document.querySelectorAll(".breed-button.active"))
       .map((button) => button.dataset.breed);
 
-    if (!exhibitor_id || !show_id || !category_id || breed_ids.length === 0) {
+    if (!exhibitor_id || breed_ids.length === 0) {
       alert("Please ensure all fields are filled and at least one breed is selected.");
       return;
     }
