@@ -1,4 +1,4 @@
-// exhibitor_save_lineup.js
+// exhibitorSaveLineup.js
 export function initSaveLineup() {
     const save_lineup_button = document.getElementById("save-lineup");
     const category_select = document.getElementById("category-select");
