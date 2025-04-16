@@ -26,6 +26,8 @@ export function displayLineups(lineupContainer, showLineups) {
                 checkbox.type = "checkbox";
                 checkbox.id = `checkbox-${breed}`;
                 checkbox.classList.add("breed-checkbox");
+                checkbox.style.transform = "scale(1.5)";
+                checkbox.style.marginRight = "10px";
 
                 const label = document.createElement("label");
                 label.htmlFor = `checkbox-${breed}`;
