@@ -11,7 +11,7 @@ export async function checkForNotifications() {
         }
 
         // Step 2: Fetch the exhibitor's submissions
-        const submissionsResponse = await fetch(`https://livestock-lineup.onrender.com/api/submissions?exhibitor_id=${exhibitor_id}`);
+        const submissionsResponse = await fetch(`https://livestock-lineup.onrender.com/api/submissions`);
         if (!submissionsResponse.ok) {
             throw new Error(`Failed to fetch exhibitor submissions: ${submissionsResponse.statusText}`);
         }
@@ -29,7 +29,7 @@ export async function checkForNotifications() {
         }
 
         // Step 3: Fetch active notifications
-        const notificationsResponse = await fetch("https://livestock-lineup.onrender.com/api/notifications");
+        const notificationsResponse = await fetch("https://livestock-lineup.onrender.com/api/lineups");
         if (!notificationsResponse.ok) {
             throw new Error(`Failed to fetch notifications: ${notificationsResponse.statusText}`);
         }
