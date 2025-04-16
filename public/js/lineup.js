@@ -71,13 +71,15 @@ function render_lineups(container, data) {
             breed_item.classList.add("lineup_item");
             breed_item.style.display = "flex";
             breed_item.style.alignItems = "center";
-            breed_item.style.padding = "5px 0";
+            breed_item.style.padding = "15px 0";
 
             // Create the checkbox element
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.classList.add("breed_checkbox");
-            checkbox.style.marginRight = "10px";
+            checkbox.style.marginRight = "20px";
+
+            checkbox.style.transform = "scale(1.5)";
 
             // When the checkbox is clicked, send a Pusher alert
             checkbox.addEventListener("change", function () {
