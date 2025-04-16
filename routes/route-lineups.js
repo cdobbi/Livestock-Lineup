@@ -1,5 +1,5 @@
 import express from "express";
-import pool from "../src/db.js";  // Adjust the path as needed
+import pool from "../src/db.js"; 
 import { body, validationResult } from "express-validator";
 
 const router = express.Router();
@@ -15,17 +15,14 @@ router.post(
       .withMessage("Category ID is required."),
     body("breed_ids")
       .isArray({ min: 1 })
-      .withMessage("breed_ids must be a non-empty array."),
+      .withMessage("Breed must be a non-empty array."),
   ],
   async (req, res) => {
-    // Validate the incoming request payload.
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      // This returns a 400 error with validation details.
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // Destructure the payload using snake_case keys.
     const { show_id, category_id, breed_ids } = req.body;
     console.log("Received lineup payload:", req.body);
 
@@ -34,11 +31,10 @@ router.post(
       await client.query("BEGIN");
 
       const savedLineups = [];
-      // Insert each breed ID as a separate row in the lineups table.
       for (const breed_id of breed_ids) {
         const result = await client.query(
           `INSERT INTO lineups 
-             (show_id, category_id, breed_id)
+             (show_id, category_id, breed_ids)
            VALUES ($1, $2, $3) RETURNING *`,
           [show_id, category_id, breed_id]
         );
@@ -65,12 +61,9 @@ router.get("/", async (req, res) => {
     const result = await pool.query(`
       SELECT 
         l.id AS lineup_id,
-        l.show_id,
-        sh.name AS show_name,
-        l.category_id,
-        c.name AS category_name,
-        l.breed_id,
-        b.breed_name
+        l.show_id AS show_name,
+        l.category_id AS category_name,
+        l.breed_id AS breed_name
       FROM lineups l
       LEFT JOIN shows sh ON l.show_id = sh.id
       LEFT JOIN categories c ON l.category_id = c.id

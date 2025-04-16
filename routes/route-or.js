@@ -1,65 +1,48 @@
-/**
- * This file handles all operations related to organizers.
- * It provides routes to validate organizer codes, save organizer lineups, retrieve lineups, 
- * and trigger notifications for specific breeds in the lineup.
- * The routes defined here are used to manage organizer-related data in the frontend.
- * It relies on the centralized database connection from db.js and integrates with Pusher for notifications.
- */
-
 import express from "express";
-import pool from "../src/db.js"; // Import the centralized database connection
+import pool from "../src/db.js";
 import Pusher from "pusher";
 
-const router = express.Router(); // Initialize the router
-
-// Configure Pusher
+const router = express.Router();
 const pusher = new Pusher({
-    appId: process.env.app_id,
-    key: process.env.key,
-    secret: process.env.secret,
-    cluster: process.env.cluster,
+    appId: process.env.APP_ID,
+    key: process.env.PUSHER_KEY,
+    secret: process.env.PUSHER_SECRET,
+    cluster: process.env.PUSHER_CLUSTER,
     useTLS: true,
 });
 
-// Validate organizer code
-router.post("/api/validate-code", (req, res) => {
-    const { code } = req.body;
+// router.post("/api/validate-code", (req, res) => {
+//     const { code } = req.body;
 
-    // Replace with your actual validation logic
-    if (code === "12345") {
-        res.status(200).json({ valid: true });
-    } else {
-        res.status(401).json({ valid: false, message: "Invalid code." });
-    }
-});
+//     if (code === "12345") {
+//         res.status(200).json({ valid: true });
+//     } else {
+//         res.status(401).json({ valid: false, message: "Invalid code." });
+//     }
+// });
 
-// Save organizer lineups
-router.post("/api/save-organizer-lineups", async (req, res) => {
-    const { show_name, lineup } = req.body;
+router.post("/api/save-organizers-lineups", async (req, res) => {
+    const { show_name, lineups } = req.body;
 
-    // Validate the input
-    if (!show_name || !lineup || !Array.isArray(lineup)) {
+    if (!show_name || !lineups || !Array.isArray(lineups)) {
         return res.status(400).json({ error: "Invalid organizer data." });
     }
 
     try {
-        // Check if the show already exists in the database
-        const existingShow = await pool.query(
-            "SELECT * FROM Organizers WHERE show_name = $1",
+        const lineups = await pool.query(
+            "SELECT * FROM organizers WHERE lineups = $1",
             [show_name]
         );
 
-        if (existingShow.rows.length > 0) {
-            // Update the existing lineup
+        if (lineups.rows.length > 0) {
             await pool.query(
-                "UPDATE Organizers SET lineup = $1 WHERE show_name = $2",
-                [JSON.stringify(lineup), show_name]
+                "UPDATE organizers SET lineups = $1 WHERE show_name = $2",
+                [JSON.stringify(lineups), show_name]
             );
         } else {
-            // Insert a new lineup
             await pool.query(
-                "INSERT INTO Organizers (show_name, lineup) VALUES ($1, $2)",
-                [show_name, JSON.stringify(lineup)]
+                "INSERT INTO rganizers (show_name, lineups) VALUES ($1, $2)",
+                [show_name, JSON.stringify(lineups)]
             );
         }
 
@@ -70,35 +53,31 @@ router.post("/api/save-organizer-lineups", async (req, res) => {
     }
 });
 
-// Retrieve organizer lineups
-router.get("/api/get-organizer-lineups", async (req, res) => {
+router.get("/api/get-organizesr-lineups", async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM Organizers");
-        res.status(200).json(result.rows); // Send the fetched data as JSON
+        res.status(200).json(result.rows);
     } catch (error) {
         console.error("Error fetching organizer lineups:", error);
         res.status(500).json({ error: "Failed to fetch organizer lineups." });
     }
 });
 
-// Trigger a notification for a specific breed in the lineup
 router.post("/api/notify", (req, res) => {
-    const { category, show, breed } = req.body;
+    const { category_name, show_name, breed_name } = req.body;
 
-    // Validate input
-    if (!category || !show || !breed) {
+    if (!category_name || !show_name || !breed_name) {
         return res.status(400).json({ error: "Missing fields" });
     }
 
-    // Trigger a notification using Pusher
-    pusher.trigger("Livestock-Lineup", "breed-notification", {
-        category,
-        show,
-        breed,
+    pusher.trigger("Livestock-lineups", "breed-notification", {
+        category_name,
+        show_name,
+        breed_name,
     });
 
-    console.log(`Notification sent for Category: ${category}, Show: ${show}, Breed: ${breed}`);
+    console.log(`Notification sent for Category: ${category_name}, Show: ${show_name}, Breed: ${breed_name}`);
     res.status(200).json({ message: "Notification sent successfully." });
 });
 
-export default router; // Export the router
+export default router;

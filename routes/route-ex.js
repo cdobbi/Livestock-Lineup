@@ -1,9 +1,8 @@
 import express from "express";
-import pool from "../src/db.js"; // Centralized database connection
+import pool from "../src/db.js";
 
 const router = express.Router();
 
-// Fetch all exhibitors submissions
 router.get("/exhibitors", async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM submissions ORDER BY exhibitor_id");
@@ -14,7 +13,6 @@ router.get("/exhibitors", async (req, res) => {
     }
 });
 
-// Save exhibitor submission data
 router.post("/save-exhibitor", async (req, res) => {
     try {
         const { exhibitor_id, category_id, show_id, breed_id } = req.body;

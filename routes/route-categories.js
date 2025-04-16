@@ -1,9 +1,8 @@
 import express from "express";
-import pool from "../src/db.js"; // Import the centralized database connection
+import pool from "../src/db.js"; 
 
 const router = express.Router();
 
-// Retrieve all categories
 router.get("/", async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM categories ORDER BY id");

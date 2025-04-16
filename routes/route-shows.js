@@ -1,15 +1,13 @@
 // route-shows.js
 import express from "express";
-import pool from "../src/db.js"; // Import the centralized database connection
+import pool from "../src/db.js"; 
 
 const router = express.Router();
 
-// Retrieve all shows with associated submissions
 router.get("/", async (req, res) => {
     try {
         const query = `
-          SELECT 
-            s.*,
+          SELECT s.*
             COALESCE(
               (
                 SELECT json_agg(
