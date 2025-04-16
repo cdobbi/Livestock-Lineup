@@ -11,3 +11,19 @@ on the organizers side .. the lineup.html is ONLY displaying the hard coded exam
 <h2>"Lineup" :<br> indent A (which is show: 1)<br> <h2>"Category":<br> indent Youth<br> <h2>"Breed":<br> indent REX<BR> MINI LOP<BR> RHINELANDER<BR> HARLEQUIN<BR> etc
 
 *and with a checkbox to the left of the breed but not touching the breed name. this box is the box the organizer will click to send the pusher notification to the exhibitor while in the lineup.html page. none of the type should be blue. all black. create all this using bootstrap in the js.
+
+Client:
+
+Sends breed_ids as an array (plural) in the JSON payload.
+
+Server:
+
+Validates that breed_ids is a non-empty array.
+
+Iterates over each element in breed_ids and inserts it into the lineups table under the breed_id column.
+
+Database:
+
+The lineups table uses a singular column, breed_id, to store one breed ID per row.
+
+The actual breed details (including breed_name) are stored in the breeds table, which can be joined later as needed.
