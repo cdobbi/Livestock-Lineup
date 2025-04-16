@@ -31,4 +31,4 @@ router.post("/verify", async (req, res) => {
     }
 });
 
-export default codeRoutes;
+export default router;
