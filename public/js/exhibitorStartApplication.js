@@ -13,8 +13,8 @@ export function initStartApplication() {
             notificationMessage.innerHTML = `
           <div class="notification-card">
             <p>
-              You will be notified when it's time to take your rabbit to the judges table.<br>
-              <br>Leave your volume up.<br><br>🐇🐇 - Hopping to it!...
+              An alert will sound when it's time.<br>
+              <br>Leave your volume up.<br>🐇🐇 - Hopping to it!...
             </p>
           </div>
         `;

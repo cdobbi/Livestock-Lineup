@@ -54,7 +54,6 @@ export function initPrintSubmissions() {
                 th, td { border: 1px solid #000; padding: 8px; text-align: left; vertical-align: top; }
                 th { background-color: #f2f2f2; }
                 .breed-cell { white-space: pre-wrap; }
-                /* Increase checkbox size if needed in other parts; this here is for printing breed names */
               </style>
             </head>
             <body>
