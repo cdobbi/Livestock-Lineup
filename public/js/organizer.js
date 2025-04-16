@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       breed_ids,
     });
 
-    // Validate that all required fields are provided.
     if (!category_id || !show_id || breed_ids.length === 0) {
       alert("Please select a category, show, and at least one breed.");
       console.error("Invalid payload:", { category_id, show_id, breed_ids });
@@ -73,9 +72,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         ", "
       )}\n\nSaved! Create another lineup or click finished to continue.`;
 
-      alert(message);
+        alert(message);
+        
 
-      // Optionally, you can remove the active state from the breed buttons here.
     } catch (error) {
       console.error("Error saving lineup:", error);
       alert("Failed to save lineup. Please try again.");
@@ -87,3 +86,32 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (clear_lineup_button) initClearLineupButton(clear_lineup_button);
   if (finished_button) initFinishedButton(finished_button);
 });
+
+// Function to trigger the flipping card animation
+function triggerFlippingCard() {
+    const card = document.getElementById("flipping-card");
+    if (!card) {
+      console.warn("Flipping card element not found.");
+      return;
+    }
+    
+    // Add the 'flipped' class to trigger the CSS transition
+    card.classList.add("flipped");
+    console.log("Flipping card activated.");
+  
+    // Optionally, remove the 'flipped' class after a delay (e.g., 3 seconds)
+    setTimeout(() => {
+      card.classList.remove("flipped");
+      console.log("Flipping card deactivated.");
+    }, 3000);
+  }
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    const testButton = document.getElementById("test-flip-button");
+    if (testButton) {
+      testButton.addEventListener("click", triggerFlippingCard);
+    } else {
+      setTimeout(triggerFlippingCard, 1000);
+    }
+  });
+  
