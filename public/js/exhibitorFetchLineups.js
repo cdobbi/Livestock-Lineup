@@ -80,12 +80,3 @@ export async function fetchAndRenderLineups(lineupContainer, filter = null) {
         lineupContainer.innerHTML = `<p class="error">Unable to load lineups at this time.</p>`;
     }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("lineup-container");
-    if (!container) {
-        console.error("lineup-container not found on lineup.html");
-        return;
-    }
-    fetchAndRenderLineups(container, null);
-});
