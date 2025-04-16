@@ -15,17 +15,19 @@ export function initSaveLineup() {
     save_lineup_button.addEventListener("click", async () => {
         const category_id = category_select.value;
         const show_id = show_select.value;
-        const selected_breeds = [];
+        const selected_breed = [];
         const selected_buttons = rabbit_list_container.querySelectorAll(".breed-button.active");
+
+        // IMPORTANT: use button.dataset.breed (singular) to match how the attribute was set.
         selected_buttons.forEach((button) => {
-            selected_breeds.push(button.dataset.breeds);
+            selected_breed.push(button.dataset.breed);
         });
 
         if (!category_id || !show_id) {
             alert("Please select both a category and a show.");
             return;
         }
-        if (selected_breeds.length === 0) {
+        if (selected_breed.length === 0) {
             alert("Please select at least one breed to start the application.");
             return;
         }
@@ -33,24 +35,13 @@ export function initSaveLineup() {
         const exhibitor_id = exhibitor_id_element ? exhibitor_id_element.value : "1";
 
         const submission = {
-            exhibitor_id: exhibitor_id, 
-            show_id: show_id,     
-            category_id: category_id,     
-            breed_ids: selected_breeds
+            exhibitor_id: exhibitor_id,
+            show_id: show_id,
+            category_id: category_id,
+            breed_ids: selected_breed
         };
 
-        fetch("/api/submissions", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(submission),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Submission saved:", data);
-            })
-            .catch((error) => {
-                console.error("Error saving submission:", error);
-            });
+        console.log("Payload being prepared:", submission);
 
         try {
             const response = await fetch("https://livestock-lineup.onrender.com/api/submissions", {
@@ -77,7 +68,7 @@ export function initSaveLineup() {
                 alert(
                     `Category: ${category_select.options[category_select.selectedIndex].text}\n` +
                     `Show: ${show_select.options[show_select.selectedIndex].text}\n` +
-                    `Breeds: ${selected_breeds.join(", ")}\n\nSubmission saved successfully! Save another or click on 'Start Application'.`
+                    `Breeds: ${selected_breed.join(", ")}\n\nSubmission saved successfully! Save another or click on 'Start Application'.`
                 );
             }, 2000);
         } catch (error) {
