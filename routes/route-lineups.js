@@ -57,30 +57,54 @@ router.post(
         }
     }
 );
-
-router.get("/", async (req, res) => {
-    try {
-        const result = await pool.query(`
-      SELECT 
-        l.id AS lineup_id,
-        l.show_id AS show_name,
-        l.category_id AS category_name,
-        l.breed_id AS breed_name
-      FROM lineups l
-      LEFT JOIN shows sh ON l.show_id = sh.id
-      LEFT JOIN categories c ON l.category_id = c.id
-      LEFT JOIN breeds b ON l.breed_id = b.id
-      ORDER BY l.id
-    `);
-        return res.status(200).json(result.rows);
-    } catch (error) {
-        console.error("Error fetching lineups:", error.message);
-        return res.status(500).json({
-            message: "Failed to fetch lineups.",
-            error: error.message,
-        });
-    }
-});
+function render_lineups(container, data) {
+    container.innerHTML = "";
+  
+    // Group lineups by composite key using the keys returned from your API.
+    // (They are named "show_name" and "category_name" even though they hold IDs.)
+    const grouped_lineups = {};
+    data.forEach((row) => {
+      // Use the actual keys returned: row.show_name and row.category_name.
+      const key = `${row.show_name}|${row.category_name}`;
+      if (!grouped_lineups[key]) {
+        grouped_lineups[key] = {
+          show_name: row.show_name,
+          category_name: row.category_name,
+          breed_names: []
+        };
+      }
+      grouped_lineups[key].breed_names.push(row.breed_name);
+    });
+  
+    // Continue with rendering grouped_lineups to the DOM...
+    Object.keys(grouped_lineups).forEach((key) => {
+      const group = grouped_lineups[key];
+  
+      const lineup_div = document.createElement("div");
+      lineup_div.classList.add("lineup", "mb-4");
+  
+      const show_title = document.createElement("h2");
+      // If you eventually want the actual show name, you may need to change your query.
+      show_title.textContent = `Show: ${group.show_name}`;
+      lineup_div.appendChild(show_title);
+  
+      const category_title = document.createElement("h3");
+      // Same for category—currently, it's an ID.
+      category_title.textContent = `Category: ${group.category_name}`;
+      lineup_div.appendChild(category_title);
+  
+      const breeds_list = document.createElement("ul");
+      group.breed_names.forEach((breed) => {
+        const li = document.createElement("li");
+        li.textContent = breed;
+        breeds_list.appendChild(li);
+      });
+      lineup_div.appendChild(breeds_list);
+  
+      container.appendChild(lineup_div);
+    });
+  }
+  
 
 router.delete("/", async (req, res) => {
     try {
