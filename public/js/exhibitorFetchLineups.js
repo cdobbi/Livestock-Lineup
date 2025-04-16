@@ -1,17 +1,6 @@
 // exhibitorFetchLineups.js
 
 import { validateAndSendNotification } from "./notifications.js";
-
-/**
- * Displays the lineups given a container element and the grouped data.
- * Expected structure of showLineups:
- * {
- *   "CategoryName": {
- *      "ShowName": { breeds: ["breed1", "breed2", ...] }
- *   },
- *   ...
- * }
- */
 export function displayLineups(lineupContainer, showLineups) {
     lineupContainer.innerHTML = ""; // Clear the container
 
@@ -59,13 +48,6 @@ export function displayLineups(lineupContainer, showLineups) {
     });
 }
 
-/**
- * Groups an array of lineup objects into a nested object structure.
- * Each lineup object is expected to have properties:
- *   - category_name (or category_id)
- *   - show_name (or show_id)
- *   - breed_name (or breed_id)
- */
 function groupLineups(lineups) {
     const grouped = {};
     lineups.forEach((lineup) => {
@@ -83,10 +65,6 @@ function groupLineups(lineups) {
     return grouped;
 }
 
-/**
- * Fetches the lineups from the API, groups them, and renders them
- * in the provided container. The optional filter parameter is available for future use.
- */
 export async function fetchAndRenderLineups(lineupContainer, filter = null) {
     try {
         const response = await fetch("https://livestock-lineup.onrender.com/api/lineups");
@@ -103,13 +81,11 @@ export async function fetchAndRenderLineups(lineupContainer, filter = null) {
     }
 }
 
-// Automatically fetch and render lineups on lineup.html when the DOM is loaded.
 document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("lineup-container");
     if (!container) {
         console.error("lineup-container not found on lineup.html");
         return;
     }
-    // If no specific filter is needed, pass null.
     fetchAndRenderLineups(container, null);
 });
