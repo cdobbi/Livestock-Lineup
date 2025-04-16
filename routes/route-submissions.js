@@ -10,7 +10,7 @@ router.post(
     body("exhibitor_id").exists().withMessage("Exhibitor_id is required."),
     body("show_id").exists().withMessage("Show_id is required."),
     body("category_id").exists().withMessage("Category_id is required."),
-    body("breed_ids").isArray({ min: 1 }).withMessage("breed_ids must be a non-empty array."),
+    body("breed_ids").isArray({ min: 1 }).withMessage("breed must be a non-empty array."),
   ],
   async (req, res) => {
     // Validate request payload.

@@ -38,7 +38,7 @@ export function initSaveLineup() {
             exhibitor_id: exhibitor_id,
             show_id: show_id,
             category_id: category_id,
-            breed_id: selected_breed
+            breed_ids: selected_breed
         };
 
         console.log("Payload being prepared:", submission);
