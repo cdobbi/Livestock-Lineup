@@ -31,8 +31,6 @@ router.post(
             await client.query("BEGIN");
 
             const savedLineups = [];
-            // Insert one row per breed into the lineups table.
-            // Use "breed_id" (singular) to match your table and your GET route.
             for (const breed_id of breed_ids) {
                 const result = await client.query(
                     `INSERT INTO lineups 
@@ -60,11 +58,8 @@ router.post(
 function render_lineups(container, data) {
     container.innerHTML = "";
   
-    // Group lineups by composite key using the keys returned from your API.
-    // (They are named "show_name" and "category_name" even though they hold IDs.)
     const grouped_lineups = {};
     data.forEach((row) => {
-      // Use the actual keys returned: row.show_name and row.category_name.
       const key = `${row.show_name}|${row.category_name}`;
       if (!grouped_lineups[key]) {
         grouped_lineups[key] = {
@@ -76,7 +71,6 @@ function render_lineups(container, data) {
       grouped_lineups[key].breed_names.push(row.breed_name);
     });
   
-    // Continue with rendering grouped_lineups to the DOM...
     Object.keys(grouped_lineups).forEach((key) => {
       const group = grouped_lineups[key];
   
@@ -84,12 +78,10 @@ function render_lineups(container, data) {
       lineup_div.classList.add("lineup", "mb-4");
   
       const show_title = document.createElement("h2");
-      // If you eventually want the actual show name, you may need to change your query.
       show_title.textContent = `Show: ${group.show_name}`;
       lineup_div.appendChild(show_title);
   
       const category_title = document.createElement("h3");
-      // Same for category—currently, it's an ID.
       category_title.textContent = `Category: ${group.category_name}`;
       lineup_div.appendChild(category_title);
   
