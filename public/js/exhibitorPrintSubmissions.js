@@ -18,7 +18,7 @@ export function initPrintSubmissions() {
             }
             const exhibitorId = exhibitorIdElem.value;
             const response = await fetch(
-                `https://livestock-lineup.onrender.com/api/submissions?exhibitor_id=${exhibitorId}`
+                `https://livestock-lineup.onrender.com/api/submissions/exhibitor_id=${exhibitorId}`
             );
             if (!response.ok) {
                 alert("Error fetching submissions.");
