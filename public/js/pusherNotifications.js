@@ -1,7 +1,7 @@
 import Pusher from "https://cdn.skypack.dev/pusher-js@8.4.0";
 
-const NOTIFICATION_SOUND_PATH = "/sounds/alert.mp3"; // Adjusted path to match convention
-const NOTIFICATION_ICON_PATH = "../images/notification-icon.png"; // Adjusted path to match convention
+const NOTIFICATION_SOUND_PATH = "https://livestock-lineup.onrender.com/sounds/alert.mp3";
+const NOTIFICATION_ICON_PATH = "https://livestock-lineup.onrender.com/images/notification-icon.png"; // Adjusted path to match convention
 const PUSHER_CHANNEL_NAME = "livestock-lineup";
 
 export async function initializePusher() {
@@ -48,7 +48,7 @@ function handleNotification(breed, category, show) {
   try {
     // Attempt to play the notification sound
     const notificationSound = new Audio(NOTIFICATION_SOUND_PATH);
-    console.log("https://Livestock-Lineup.onrender.com/public/api/sounds/alert.mp3", NOTIFICATION_SOUND_PATH);
+    console.log("https://livestock-lineup.onrender.com/sounds/alert.mp3", NOTIFICATION_SOUND_PATH);
     notificationSound.play()
       .then(() => console.log("Notification sound played successfully."))
       .catch((err) => console.error("Error playing notification sound:", err));
