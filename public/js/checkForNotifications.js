@@ -23,7 +23,7 @@ export async function checkForNotifications() {
         }
 
         // Step 3: Fetch active notifications
-        const notificationsResponse = await fetch("https://livestock-lineup.onrender.com/api/notifications");
+        const notificationsResponse = await fetch("https://livestock-lineup.onrender.com/api/lineups");
         if (!notificationsResponse.ok) {
             throw new Error("Failed to fetch notifications.");
         }
