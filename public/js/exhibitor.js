@@ -1,7 +1,7 @@
 // exhibitor.js
 import { initSaveLineup } from "./exhibitorSaveLineup.js";
 import { initStartApplication } from "./exhibitorStartApplication.js";
-import { initPrintSubmissions } from "./exhibitorPrintSubmissions.js";
+// import { initPrintSubmissions } from "./exhibitorPrintSubmissions.js";
 import { initClearSubmissions } from "./exhibitorClearSubmissions.js";
 import { initializePusher } from "./pusherNotifications.js";
 
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Initialize exhibitor functionalities.
   initSaveLineup();
   initStartApplication();
-  initPrintSubmissions();
+//   initPrintSubmissions();
   initClearSubmissions();
 
   // Real-time notifications (Pusher functionality).
