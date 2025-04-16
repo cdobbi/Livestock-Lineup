@@ -61,7 +61,7 @@ router.get("/", async (req, res) => {
             s.id AS submission_id,
             s.exhibitor_id,
             e.name AS exhibitor_name,
-            b.related_show::INTEGER AS show_id, -- Explicitly cast to INTEGER
+            b.show_id::INTEGER AS show_id, -- Explicitly cast to INTEGER
             sh.name AS show_name,
             b.category AS category_name,
             s.breed_id,
@@ -69,7 +69,7 @@ router.get("/", async (req, res) => {
         FROM submissions s
         LEFT JOIN exhibitors e ON s.exhibitor_id = e.id
         LEFT JOIN breeds b ON s.breed_id = b.id
-        LEFT JOIN shows sh ON CAST(b.related_show AS INTEGER) = sh.id -- explicitly cast to INTEGER
+        LEFT JOIN shows sh ON CAST(b.show_id AS INTEGER) = sh.id -- explicitly cast to INTEGER
         ORDER BY s.id;
       `);
       return res.status(200).json(result.rows);
