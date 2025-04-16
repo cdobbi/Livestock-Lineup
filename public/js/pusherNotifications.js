@@ -1,7 +1,7 @@
 import Pusher from "https://cdn.skypack.dev/pusher-js@8.4.0";
 
 const NOTIFICATION_SOUND_PATH = "https://livestock-lineup.onrender.com/sounds/alert.mp3";
-const NOTIFICATION_ICON_PATH = "https://livestock-lineup.onrender.com/images/notification-icon.png"; // Adjusted path to match convention
+const NOTIFICATION_ICON_PATH = "https://livestock-lineup.onrender.com/images/notification-icon.png";
 const PUSHER_CHANNEL_NAME = "livestock-lineup";
 
 export async function initializePusher() {
