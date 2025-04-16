@@ -18,79 +18,83 @@
     </header>
     <div id="lineup-container"></div>
     <form id="exhibitor-form">
-        <input type="hidden" id="exhibitor-id" value="1">
         <div class="form-group text-center">
             <label for="category-select" class="h5">Select Category</label>
             <select id="category-select" class="form-control w-50 mx-auto">
-                <option value="" disabled selected>Select category</option>
                 <option value="1">Youth</option>
                 <option value="2">Open</option>
             </select>
-        </div>    
+        </div>
 
-            <!-- Show Selection -->
-            <div class="form-group text-center my-4">
-                <label for="show-select" class="h5">Select Show</label>
-                <select id="show-select" class="form-control w-50 mx-auto">
-                    <option value="" disabled selected>Select show</option>
-                    <option value="1">A</option>
-                    <option value="2">B</option>
-                    <option value="3">C</option>
-                    <option value="4">D</option>
-                    <option value="5">Meat Pen</option>
-                    <option value="6">Fur</option>
-                </select>
-            </div>
+        <!-- Show Selection -->
+        <!-- Show Selection -->
+        <div class="form-group text-center my-4">
+            <label for="show-select" class="h5">Select Show</label>
+            <select id="show-select" class="form-control w-50 mx-auto">
+                <option value="" disabled selected>Select show</option>
+                <option value="1">A</option>
+                <option value="2">B</option>
+                <option value="3">C</option>
+                <option value="4">D</option>
+                <option value="5">Meat Pen</option>
+                <option value="6">Fur</option>
+            </select>
+        </div>
 
-            <div id="rabbit-list" class="row justify-content-center">
+        <div id="rabbit-list" class="row justify-content-center">
+            <!-- Breed options (or dropdown) will be dynamically populated by exhibitorBreeds.js -->
+        </div>
 
-                <!-- Breed options (or dropdown) will be dynamically populated by exhibitorBreeds.js -->
-            </div>
+        <!-- Action Buttons -->
+        <div class="text-center my-4">
+            <button type="button" id="save-lineup" class="btn btn-info btn-lg mx-2">Save</button>
+            <button type="button" id="start" class="btn btn-info btn-lg mx-2">Start Application</button>
+            <button type="button" id="print-submissions" class="btn btn-info btn-lg mx-2">Print Submissions</button>
+            <div id="print-preview-container" class="container my-4"></div>
 
-            <!-- Action Buttons -->
-            <div class="text-center my-4">
-                <button type="button" id="save-lineup" class="btn btn-info btn-lg mx-2">Save</button>
-                <button type="button" id="start" class="btn btn-info btn-lg mx-2">Start Application</button>
-                <button type="button" id="print-submissions" class="btn btn-info btn-lg mx-2">Print Submissions</button>
-                <div id="print-preview-container" class="container my-4"></div>
+            <button type="button" id="clear-lineup" class="btn btn-info btn-lg mx-2">Clear Submissions</button>
+            <button type="button" id="return" class="btn btn-info btn-lg mx-2" onclick="window.location.href='welcome.html'">
+                Return to Welcome Page
+            </button>
+        </div>
 
-                <button type="button" id="clear-lineup" class="btn btn-info btn-lg mx-2">Clear Submissions</button>
-                <button type="button" id="return" class="btn btn-info btn-lg mx-2" onclick="window.location.href='welcome.html'">Return to
-                    Welcome Page</button>
-            </div>
+        <!-- Notification Message -->
+        <div id="notification-message" class="text-center my-3"></div>
 
-            <!-- Notification Message -->
-            <div id="notification-message" class="text-center my-3"></div>
-
-            <!-- Flipping Card (for Save action) -->
-            <div id="flipping-card" class="flipping-card-container">
-                <div class="flipping-card">
-                    <div class="flipping-card-inner">
-                        <div class="flipping-card-back">
-                            <p>Saving...</p>
-                        </div>
-                        <div class="flipping-card-front">
-                            <p>Lineup saved successfully!</p>
-                        </div>
+        <!-- Flipping Card (for Save action) -->
+        <div id="flipping-card" class="flipping-card-container">
+            <div class="flipping-card">
+                <div class="flipping-card-inner">
+                    <div class="flipping-card-back">
+                        <p>Saving...</p>
+                    </div>
+                    <div class="flipping-card-front">
+                        <p>Lineup saved successfully!</p>
                     </div>
                 </div>
             </div>
-        </form>
-    <footer class="text-center my-4">
-        <hr>
-        </hr>
-        <div class="col-lg-4">
-            <p>&copy; Christina Dobbins 🐇🫐🥕🥬<br>
-                <a href="https://www.rhinelander-rabbitry.com" class="text-info">www.rhinelander-rabbitry.com</a>
-                <br>
-                <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
-            </p>
         </div>
+    </form>
+
+    <footer class="text-center my-4">
+        <!-- Your footer content goes here -->
+    </footer>
+
+    <hr>
+    </hr>
+    <div class="col-lg-4">
+        <p>&copy; Christina Dobbins 🐇🫐🥕🥬<br>
+            <a href="https://www.rhinelander-rabbitry.com" class="text-info">www.rhinelander-rabbitry.com</a>
+            <br>
+            <a href="mailto:rhinelanderselect@gmail.com" class="text-info">rhinelanderselect@gmail.com</a>
+        </p>
+    </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="./js/exhibitorBreeds.js" type="module"></script>
+    <script src="./js/notifications.js" type="module"></script>
     <script src="./js/checkForNotifications.js" type="module"></script>
     <script src="./js/exhibitorFetchLineups.js" type="module"></script>
     <script src="./js/uiHelpers.js" type="module"></script>
