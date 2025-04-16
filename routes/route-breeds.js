@@ -1,12 +1,11 @@
 import express from "express";
-import pool from "../src/db.js"; // Assuming you're using PostgreSQL with a pool
+import pool from "../src/db.js"; 
 
 const router = express.Router();
 
-// Change the GET route from "/breeds" to "/" so that the final URL is "/api/breeds"
 router.get("/", async (req, res) => {
   try {
-    const result = await pool.query("SELECT id, breed_name, category, related_show FROM breeds ORDER BY id");
+    const result = await pool.query("SELECT id, name, FROM breeds ORDER BY name");
     res.status(200).json(result.rows);
   } catch (error) {
     console.error("Error fetching breeds:", error);

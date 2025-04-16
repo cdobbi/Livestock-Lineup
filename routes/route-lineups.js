@@ -87,6 +87,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+
 router.delete("/", async (req, res) => {
   try {
     await pool.query("DELETE FROM lineups");

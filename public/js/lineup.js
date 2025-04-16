@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const api_endpoint = "/api/lineups";
         console.log("Fetching lineups from:", api_endpoint);
 
-        // Use GET, since the data is already saved and aggregated in the database.
         const response = await fetch(api_endpoint);
 
         if (!response.ok) {
@@ -20,7 +19,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const lineups = await response.json();
         console.log("Received lineups:", lineups);
 
-        // Render the fetched lineups with checkboxes and hover effects
         render_lineups(container, lineups);
     } catch (error) {
         console.error("Error fetching or rendering lineups:", error);
@@ -31,7 +29,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 function render_lineups(container, data) {
     container.innerHTML = "";
 
-    // Group the lineups using a composite key (show_id and category_id)
     const grouped_lineups = {};
     data.forEach((row) => {
         const key = `${row.show_id}|${row.category_id}`;
@@ -39,7 +36,7 @@ function render_lineups(container, data) {
             grouped_lineups[key] = {
                 show_name: row.show_name,
                 category_name: row.category_name,
-                breeds: [],
+                breed_name: [],
             };
         }
         grouped_lineups[key].breeds.push(row.breed_name);

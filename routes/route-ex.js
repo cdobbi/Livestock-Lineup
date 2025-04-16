@@ -4,9 +4,9 @@ import pool from "../src/db.js"; // Centralized database connection
 const router = express.Router();
 
 // Fetch all exhibitors submissions
-router.get("/all-exhibitors", async (req, res) => {
+router.get("/exhibitors", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM submissions ORDER BY id");
+        const result = await pool.query("SELECT * FROM submissions ORDER BY exhibitor_id");
         res.status(200).json(result.rows);
     } catch (error) {
         console.error("Error fetching exhibitor submissions:", error);
