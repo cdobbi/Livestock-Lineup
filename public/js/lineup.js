@@ -8,15 +8,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         const api_endpoint = "/api/lineups";
-        const response = await fetch(api_endpoint); // Using GET since the data is saved in the DB
+        console.log("Fetching lineups from:", api_endpoint);
+
+        // Use GET, since the data is already saved and aggregated in the database.
+        const response = await fetch(api_endpoint);
 
         if (!response.ok) {
             throw new Error(`Failed to fetch lineups: ${response.statusText}`);
         }
 
         const lineups = await response.json();
+        console.log("Received lineups:", lineups);
 
-        // Render the fetched lineups
+        // Render the fetched lineups with checkboxes and hover effects
         render_lineups(container, lineups);
     } catch (error) {
         console.error("Error fetching or rendering lineups:", error);
@@ -27,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 function render_lineups(container, data) {
     container.innerHTML = "";
 
-    // Group the lineups by a composite key (show_id and category_id)
+    // Group the lineups using a composite key (show_id and category_id)
     const grouped_lineups = {};
     data.forEach((row) => {
         const key = `${row.show_id}|${row.category_id}`;
@@ -41,11 +45,11 @@ function render_lineups(container, data) {
         grouped_lineups[key].breeds.push(row.breed_name);
     });
 
-    // Render each lineup group
+    // Render each grouped lineup
     Object.keys(grouped_lineups).forEach((key) => {
         const group = grouped_lineups[key];
 
-        // Create a container for each lineup
+        // Container for each lineup group
         const lineup_div = document.createElement("div");
         lineup_div.classList.add("lineup", "mb-4");
 
@@ -61,18 +65,66 @@ function render_lineups(container, data) {
         category_title.classList.add("mb-2");
         lineup_div.appendChild(category_title);
 
-        // Breeds list
+        // Create a list for the breeds
         const breeds_list = document.createElement("ul");
-        breeds_list.classList.add("list-group");
+        // This class can be styled in your CSS for a plain columnar layout if needed
+        breeds_list.classList.add("breed_list");
+
         group.breeds.forEach((breed) => {
             const breed_item = document.createElement("li");
-            breed_item.classList.add("list-group-item");
-            breed_item.textContent = breed;
+            breed_item.classList.add("lineup_item");
+            breed_item.style.display = "flex";
+            breed_item.style.alignItems = "center";
+            breed_item.style.padding = "5px 0";
+
+            // Create the checkbox element
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.classList.add("breed_checkbox");
+            checkbox.style.marginRight = "10px";
+
+            // When the checkbox is clicked, send a Pusher alert
+            checkbox.addEventListener("change", function () {
+                if (this.checked) {
+                    send_pusher_alert(breed);
+                }
+            });
+
+            // Create the label element for the breed name
+            const label = document.createElement("span");
+            label.textContent = breed;
+
+            // Append the checkbox and label to the list item
+            breed_item.appendChild(checkbox);
+            breed_item.appendChild(label);
+
+            // Add a simple hover effect on the list item
+            breed_item.style.transition = "background-color 0.3s ease";
+            breed_item.addEventListener("mouseover", function () {
+                breed_item.style.backgroundColor = "#f0f0f0"; // light grey on hover
+            });
+            breed_item.addEventListener("mouseout", function () {
+                breed_item.style.backgroundColor = "transparent";
+            });
+
             breeds_list.appendChild(breed_item);
         });
         lineup_div.appendChild(breeds_list);
-
-        // Append the complete lineup container to the main container
         container.appendChild(lineup_div);
     });
+}
+
+// Simulated function to send a pusher alert to the exhibitor.
+// Replace the body of this function with your actual Pusher API integration.
+function send_pusher_alert(breed) {
+    console.log(`Sending pusher alert for breed: ${breed}`);
+    // Example: You might send a fetch POST request to your backend that triggers Pusher:
+    // fetch('/api/send_alert', {
+    //   method: 'POST',
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ breed: breed })
+    // })
+    // .then(response => response.json())
+    // .then(result => console.log("Alert sent:", result))
+    // .catch(error => console.error("Alert error:", error));
 }
