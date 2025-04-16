@@ -1,44 +1,31 @@
-import { sendNotification } from "./sendNotification.js";
-
 /**
- * Validates the clicked breed against exhibitor submissions.
+ * Sends a notification to the relevant endpoint.
+ *
+ * @param {string} breed_name - The name or identifier for the breed.
+ * @param {string} category_name - The name or identifier for the category.
+ * @param {string} show_name - The name or identifier for the show.
  */
-export async function validateAndSendNotification(breed, category, show) {
+export async function sendNotification(breed_name, category_name, show_name) {
     try {
-        // Hard-coded exhibitor submissions for testing purposes.
-        const hardCodedExhibitorSubmissions = [
-            {
-                exhibitor_id: 1,
-                submissions: [
-                    { breeds: ["AMERICAN", "ANGORA", "CHINCHILLA"] },
-                ],
-            },
-            {
-                exhibitor_id: 2,
-                submissions: [
-                    { breeds: ["BRITISH GIANT", "CASTOR REX"] },
-                ],
-            },
-        ];
+        const payload = {
+            // Use the parameters directly. If your backend expects different keys (like IDs), update accordingly.
+            breed_name: breed_name,
+            category_name: category_name,
+            show_name: show_name
+        };
 
-        console.log("Hard-coded exhibitor submissions:", hardCodedExhibitorSubmissions);
+        const response = await fetch("https://livestock-lineup.onrender.com/api/notifications", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
 
-        // Check if at least one exhibitor's submissions include the clicked breed.
-        const isBreedSelectedByExhibitor = hardCodedExhibitorSubmissions.some((exhibitor) =>
-            (exhibitor.submissions || []).some((submission) =>
-                submission.breeds.includes(breed)
-            )
-        );
-
-        if (!isBreedSelectedByExhibitor) {
-            console.warn(`Breed ${breed} is not selected by any exhibitor.`);
-            return; // Exit if the breed is not selected by any exhibitor.
+        if (response.ok) {
+            console.log(`Notification sent for breed: ${breed_name}`);
+        } else {
+            console.error(`Failed to send notification: ${response.statusText}`);
         }
-
-        // If the breed is present in a submission, send the notification.
-        await sendNotification(breed, category, show);
     } catch (error) {
-        console.error(`Error validating or sending notification for breed: ${breed}`, error);
+        console.error(`Error sending notification for breed: ${breed_name}`, error);
     }
 }
-
