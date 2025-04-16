@@ -36,7 +36,7 @@ function render_lineups(container, data) {
             grouped_lineups[key] = {
                 show_name: row.show_name,
                 category_name: row.category_name,
-                breed_name: [],
+                breeds: [],
             };
         }
         grouped_lineups[key].breeds.push(row.breed_name);
@@ -64,7 +64,6 @@ function render_lineups(container, data) {
 
         // Create a list for the breeds
         const breeds_list = document.createElement("ul");
-        // This class can be styled in your CSS for a plain columnar layout if needed
         breeds_list.classList.add("breed_list");
 
         group.breeds.forEach((breed) => {
