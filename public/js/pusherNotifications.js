@@ -47,8 +47,8 @@ function handleNotification(breed, category, show) {
   console.log("Handling notification for breed:", breed);
   try {
     // Attempt to play the notification sound
-    const notificationSound = new Audio(NOTIFICATION_SOUND_PATH);
-    console.log("https://livestock-lineup.onrender.com/sounds/alert.mp3", NOTIFICATION_SOUND_PATH);
+    const notificationSound = new Audio("https://livestock-lineup.onrender.com/sounds/alert.mp3");
+    console.log("https://livestock-lineup.onrender.com/sounds/alert.mp3");
     notificationSound.play()
       .then(() => console.log("Notification sound played successfully."))
       .catch((err) => console.error("Error playing notification sound:", err));
