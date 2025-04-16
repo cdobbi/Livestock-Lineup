@@ -41,7 +41,7 @@ export function initSaveLineup() {
         // The payload is now: { exhibitor_id, show_id, category_id, breed_ids }
         const submission = {
             exhibitor_id: exhibitor_id, // Get this from the form or user session
-            show_id: related_show,      // Derived from the breeds table
+            show_id: show_id,      // Derived from the breeds table
             category_id: category_id,     // Derived from the breeds table
             breed_ids: selected_breeds  // Array of selected breed IDs
         };
