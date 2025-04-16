@@ -140,8 +140,6 @@ h1.bg-secondary {
     border: 2px solid rgb(228, 132, 48);
 }
 
-
-
 #flipping-card {
     display: none;
 }
@@ -328,7 +326,6 @@ html {
     margin-bottom: 100px;
 }
 
-
 body::before {
     display: flex;
     justify-content: center;
@@ -418,3 +415,13 @@ html {
     margin: 0 auto;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
+
+.notification-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+    border-radius: 4px;
+    display: inline-block;
+  }
+  
