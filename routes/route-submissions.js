@@ -61,17 +61,21 @@ router.get("/", async (req, res) => {
       SELECT 
         s.id AS submission_id,
         s.exhibitor_id,
-        e.name AS exhibitor_name,
-        b.show_id::INTEGER AS show_id, -- Explicitly cast to INTEGER
-        sh.name AS show_name,
-        b.category AS category_name,
+        s.show_id,
+        s.category_id,
         s.breed_id,
-        b.breed_name
-      FROM submissions s
-      LEFT JOIN exhibitors e ON s.exhibitor_id = e.id
-      LEFT JOIN breeds b ON s.breed_id = b.id
-      LEFT JOIN shows sh ON CAST(b.show_id AS INTEGER) = sh.id
-    `;
+        sh.name AS show_name,
+        CASE 
+        WHEN s.category_id::TEXT = '1' THEN 'Youth' 
+        WHEN s.category_id::TEXT = '2' THEN 'Open'
+        ELSE s.category_id::TEXT
+      END AS category_name,
+      b.breed_name
+    FROM submissions s
+    LEFT JOIN exhibitors e ON s.exhibitor_id = e.id
+    LEFT JOIN breeds b ON s.breed_id = b.id
+    LEFT JOIN shows sh ON s.show_id::INTEGER = sh.id
+  `;
     const params = [];
 
     if (exhibitorId) {
