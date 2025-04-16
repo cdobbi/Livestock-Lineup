@@ -3,7 +3,6 @@ import pool from "../src/db.js";
 import { body, validationResult } from "express-validator";
 
 const router = express.Router();
-
 router.post(
     "/",
     [
@@ -13,7 +12,7 @@ router.post(
         body("breed_ids").isArray({ min: 1 }).withMessage("breed must be a non-empty array."),
     ],
     async (req, res) => {
-        // Validate request payload.
+
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -21,13 +20,11 @@ router.post(
 
         const { exhibitor_id, show_id, category_id, breed_ids } = req.body;
         console.log("Received submission payload:", req.body);
-
         const client = await pool.connect();
         try {
             await client.query("BEGIN");
 
             const savedSubmissions = [];
-
             for (const breed_id of breed_ids) {
                 const result = await client.query(
                     `INSERT INTO submissions 
@@ -35,7 +32,6 @@ router.post(
              VALUES ($1, $2, $3, $4) RETURNING *`,
                     [exhibitor_id, show_id, category_id, breed_id]
                 );
-
                 savedSubmissions.push(result.rows[0]);
             }
 
@@ -77,14 +73,11 @@ router.get("/", async (req, res) => {
     LEFT JOIN shows sh ON s.show_id::INTEGER = sh.id
   `;
     const params = [];
-
     if (exhibitorId) {
         query += " WHERE s.exhibitor_id = $1";
         params.push(exhibitorId);
     }
-
     query += " ORDER BY s.id;";
-
     try {
         const result = await pool.query(query, params);
         return res.status(200).json(result.rows);
@@ -96,8 +89,6 @@ router.get("/", async (req, res) => {
         });
     }
 });
-
-
 
 router.delete("/", async (req, res) => {
     try {
