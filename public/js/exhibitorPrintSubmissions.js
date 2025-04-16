@@ -1,6 +1,8 @@
 // exhibitorPrintSubmissions.js
 
 export function initPrintSubmissions() {
+    const exhibitorId = document.getElementById("exhibitor-id").value;
+
     const printButton = document.getElementById("print-submissions");
     if (!printButton) {
         console.error("Print Submissions button not found!");

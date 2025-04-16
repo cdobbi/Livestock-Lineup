@@ -60,7 +60,7 @@ router.get("/", async (req, res) => {
         s.show_id,
         s.category_id,
         s.breed_id,
-        sh.name AS show_name,
+        sh.show_name AS show_name,
         CASE 
         WHEN s.category_id::TEXT = '1' THEN 'Youth' 
         WHEN s.category_id::TEXT = '2' THEN 'Open'
