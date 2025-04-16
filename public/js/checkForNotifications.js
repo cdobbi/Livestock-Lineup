@@ -13,13 +13,13 @@ export async function checkForNotifications() {
                 {
                     exhibitor_id: 1,
                     submissions: [
-                        { breeds: ["AMERICAN", "ANGORA", "CHINCHILLA"] },
+                        { breeds: ["RHINELANDER", "HARLEQUIN", "MINI LOP"] },
                     ],
                 },
                 {
                     exhibitor_id: 2,
                     submissions: [
-                        { breeds: ["BRITISH GIANT", "CASTOR REX"] },
+                        { breeds: ["SATIN", "CASTOR REX"] },
                     ],
                 },
             ];
