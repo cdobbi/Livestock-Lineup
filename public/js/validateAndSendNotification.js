@@ -1,31 +1,28 @@
-/**
- * Sends a notification to the relevant endpoint.
- *
- * @param {string} breed_name - The name or identifier for the breed.
- * @param {string} category_name - The name or identifier for the category.
- * @param {string} show_name - The name or identifier for the show.
- */
-export async function sendNotification(breed_name, category_name, show_name) {
+import { sendNotification } from "./sendNotification.js";
+
+export async function validateAndSendNotification(breed_name, category_name, show_name) {
     try {
-        const payload = {
-            // Use the parameters directly. If your backend expects different keys (like IDs), update accordingly.
-            breed_name: breed_name,
-            category_name: category_name,
-            show_name: show_name
-        };
-
-        const response = await fetch("https://livestock-lineup.onrender.com/api/notifications", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        });
-
-        if (response.ok) {
-            console.log(`Notification sent for breed: ${breed_name}`);
-        } else {
-            console.error(`Failed to send notification: ${response.statusText}`);
+        // Fetch the exhibitor submissions dynamically from your backend.
+        const response = await fetch("/api/submissions");
+        if (!response.ok) {
+            console.error("Failed to fetch submissions:", response.statusText);
+            return;
         }
+        const submissionsData = await response.json();
+
+        // Validate by checking if any submission has the clicked breed.
+        // We assume each submission object contains a field 'breed_name'.
+        const breedFound = submissionsData.some(submission => submission.breed_name === breed_name);
+
+        if (!breedFound) {
+            console.warn(`Breed ${breed_name} is not present in any exhibitor submissions. No notification will be sent.`);
+            return;
+        }
+
+        // If validation passes, send the notification.
+        await sendNotification(breed_name, category_name, show_name);
+        console.log(`Notification sent for breed: ${breed_name}`);
     } catch (error) {
-        console.error(`Error sending notification for breed: ${breed_name}`, error);
+        console.error(`Error in validateAndSendNotification for breed "${breed_name}":`, error);
     }
 }

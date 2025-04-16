@@ -1,6 +1,4 @@
-/**
- * Sends a notification to the relevant endpoint.
- */
+ 
 export async function sendNotification(breed_name, category_name, show_name) {
     try {
         const payload = {

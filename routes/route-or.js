@@ -70,14 +70,14 @@ router.post("/api/notify", (req, res) => {
         return res.status(400).json({ error: "Missing fields" });
     }
 
-    pusher.trigger("Livestock-lineups", "breed-notification", {
-        category_name,
-        show_name,
-        breed_name,
-    });
+    pusher.trigger("livestock-lineup", "breed-notification", {
+        category: category_name, 
+        show: show_name,   
+        breed: breed_name
+});
 
     console.log(`Notification sent for Category: ${category_name}, Show: ${show_name}, Breed: ${breed_name}`);
-    res.status(200).json({ message: "Notification sent successfully." });
+    res.status(200).json({ message: "Notification sent successfully!" });
 });
 
 export default router;
