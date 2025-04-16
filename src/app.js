@@ -7,7 +7,7 @@ import pusherConfigRouter from "../routes/pusher-config.js";
 import routeEx from "../routes/route-ex.js";
 import routeOr from "../routes/route-or.js";
 import authRoutes from "../routes/route-auth.js";
-import codeRoutes from "../routes/route-codes.js";
+import { codeRoutes } from "../routes/route-codes.js";
 import submissionsRoutes from "../routes/route-submissions.js";
 import showsRoutes from "../routes/route-shows.js";
 import lineupsRoutes from "../routes/route-lineups.js";
