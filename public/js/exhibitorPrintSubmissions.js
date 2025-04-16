@@ -11,14 +11,9 @@ export function initPrintSubmissions() {
 
     printButton.addEventListener("click", async () => {
         try {
-            const exhibitorIdElem = document.getElementById("exhibitor-id");
-            if (!exhibitorIdElem) {
-                alert("Exhibitor ID not found on the page.");
-                return;
-            }
             const exhibitorId = exhibitorIdElem.value;
             const response = await fetch(
-                `https://livestock-lineup.onrender.com/api/submissions/exhibitor_id=${exhibitorId}`
+                `https://livestock-lineup.onrender.com/api/submissions`
             );
             if (!response.ok) {
                 alert("Error fetching submissions.");
@@ -29,7 +24,6 @@ export function initPrintSubmissions() {
                 alert("There are no submissions to print.");
                 return;
             }
-
             const groupedSubmissions = {};
             submissionsData.forEach((sub) => {
                 const key = `${sub.category_name || sub.category_id}_${sub.show_name || sub.show_id}`;
